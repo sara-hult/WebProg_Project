@@ -6,7 +6,7 @@ import { DisplayAlternativesModule } from './display-alternatives/display-altern
 @NgModule({
    imports: [DisplayDishModule, DisplayAlternativesModule],
    exports: [FoodComponent],
-   declarations: [FoodComponent, ],
+   declarations: [FoodComponent],
    providers: [],
 })
 
