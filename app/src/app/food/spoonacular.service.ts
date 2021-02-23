@@ -10,7 +10,7 @@ import { map, catchError} from 'rxjs/operators';
 export class SpoonacularService {
 
   baseURL: string = "https://api.spoonacular.com/recipes";
-  preamble: string = "";//"?apiKey=492ae5b5a563451c8ace177e23a4770b";
+  preamble: string = "?apiKey=63a06bcd21694edaa60185edaa6bee0e";//"?apiKey=492ae5b5a563451c8ace177e23a4770b";
 
   constructor(private http: HttpClient) {
   }
