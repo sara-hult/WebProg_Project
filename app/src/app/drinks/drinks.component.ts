@@ -15,7 +15,7 @@ export class DrinksComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // Simple GET request with response type <any>
+    // Simple GET request with response type <any> hejjeheje
     this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=campari beer').subscribe(data => {
       console.log(data);
     })
