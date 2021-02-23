@@ -1,6 +1,6 @@
 export enum Countries{
-  Japan,
-  Italy,
-  Scotland
+  USA = "american",
+  Italy = "italian",
+  Scotland = "scottish"
 }
 

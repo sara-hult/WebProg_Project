@@ -31,7 +31,7 @@ DisplayAlternatives
 })
 export class FoodComponent implements OnInit {
   @Input() country!:Countries;
-  cuisine: string = "japanese";
+  cuisine: Countries = Countries.Japan;
   ids: number[] = [];
 
   dishes: Dish[] = [];
@@ -48,7 +48,7 @@ export class FoodComponent implements OnInit {
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
-    this.generateMenu();
+    this.generateDishes(this.cuisine);
   }
 
   ngOnInit(): void {
@@ -63,13 +63,13 @@ export class FoodComponent implements OnInit {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
-  public generateMenu(){
+  public generateDishes(cuisine:Countries){
     let ids = [];
     this.loading = true;
-    this.SpoonacularService.getFromCuisine(this.cuisine) // Hämtar all information baserat på land
+    this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
         (response) => {                           //next() callback
-          this.getDishes(this.extractIds(response.results));
+          this.saveDishes(this.extractIds(response.results));
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
@@ -80,7 +80,7 @@ export class FoodComponent implements OnInit {
         })
   }
 
-  public getDishes(ids:number[]){
+  public saveDishes(ids:number[]){
     let dishes = [];
     this.loading = true;
     this.SpoonacularService.getFromIds(ids.toString())
