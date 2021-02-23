@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Countries } from '../../util/countries';
 
 @Component({
   selector: 'app-drinks',
@@ -6,7 +7,7 @@ import { Component, OnInit, Input } from '@angular/core';
   styleUrls: ['./drinks.component.css']
 })
 export class DrinksComponent implements OnInit {
-  @Input() country: country;
+  @Input() country!: Countries;
   constructor() { }
 
   ngOnInit(): void {
