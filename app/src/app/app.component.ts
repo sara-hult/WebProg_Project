@@ -7,9 +7,10 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Isaks';
+  country: String;
 
   constructor() {
-    country: "Japan";
+    this.country = "Japan";
   }
 
   getFood() {
