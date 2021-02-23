@@ -23,3 +23,4 @@ export class DrinksComponent implements OnInit {
 }
 
 //document.getElementsByClassName("css-1wo4jfn")[0].outerText För att få dryckesinfo från systembolaget
+//Hejsan
