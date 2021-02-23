@@ -1,7 +1,11 @@
+import { Dish } from './../../util/dish';
+import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Countries } from '../../util/countries';
 import  exampleDish  from '../../util/exampleDish';
-import  { trim }  from '../../util/dishTrimmer';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 /*
 Denna komponenten morsvarar själva matsidan.
 Vi kommer att ha 2 subkomponenter: DiplayDish och DisplayAlternatives
@@ -27,13 +31,89 @@ DisplayAlternatives
 })
 export class FoodComponent implements OnInit {
   @Input() country!:Countries;
-  dishIds = [];
+  cuisine: string = "japanese";
+  ids: number[] = [];
+
+  dishes: Dish[] = [];
   chosenID!: number;
-  dish = exampleDish;
 
-  constructor() { }
+  loading: boolean = false;
 
-  ngOnInit(): void {
+  dish: Dish = {
+  title: "Randomizing",
+  readyInMinutes: 0,
+  spoonacularScore: 0,
+  pricePerServing: 0,
+  image: "string",
+};
+
+  constructor(private SpoonacularService: SpoonacularService) {
+    this.generateMenu();
   }
 
+  ngOnInit(): void {
+    this.chosenID = this.randomChoiceFromArray(this.ids);
+  }
+
+  randomChoiceFromArray(array:any[]):any {
+    return array[this.getRandomInt(array.length)]
+  }
+
+  getRandomInt(max:number) {
+   return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  public generateMenu(){
+    let ids = [];
+    this.loading = true;
+    this.SpoonacularService.getFromCuisine(this.cuisine) // Hämtar all information baserat på land
+      .subscribe(
+        (response) => {                           //next() callback
+          this.getDishes(this.extractIds(response.results));
+        },
+        (error) => {                              //error() callback
+          console.error('Request failed with error')
+          this.loading = false;
+        },
+        () => {                                   //complete() callback
+          this.loading = false;
+        })
+  }
+
+  public getDishes(ids:number[]){
+    let dishes = [];
+    this.loading = true;
+    this.SpoonacularService.getFromIds(ids.toString())
+      .subscribe(
+        (response) => {                           //next() callback
+          this.dishes = this.extractDishes(response);
+        },
+        (error) => {                              //error() callback
+          console.error('Request failed with error')
+          this.loading = false;
+
+        },
+        () => {                                   //complete() callback
+          this.loading = false;
+        })
+  }
+  extractDishes(response: Object): Dish[] {
+    let dishes: Dish[] = [];
+     Object.entries(response).forEach(
+      ([key, value]) => {
+        dishes.push(value);
+      }
+    );
+    return dishes;
+  }
+
+  extractIds(response:Object){
+    let ids:number[] = [];
+    Object.entries(response).forEach(
+      ([key, value]) => {
+        ids.push(value.id);
+      }
+    );
+    return ids;
+  }
 }

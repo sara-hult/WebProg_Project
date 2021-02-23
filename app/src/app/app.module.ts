@@ -1,3 +1,4 @@
+import { FoodComponentModule } from './food/food.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -12,11 +13,11 @@ import { FoodComponent } from './food/food.component';
     AppComponent,
     DrinksComponent,
     MoviesComponent,
-    FoodComponent,
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule
+    AppRoutingModule,
+    FoodComponentModule
   ],
   providers: [],
   bootstrap: [AppComponent]
