@@ -9,7 +9,7 @@ export class AppComponent {
   title = 'Isaks';
 
   constructor() {
-
+    country: "Japan";
   }
 
   getFood() {
