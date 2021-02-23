@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { DrinksComponent } from './drinks/drinks.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FoodComponent } from './food/food.component';
+import { FoodAlternativesComponent } from './food/food-alternatives/food-alternatives.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrinksComponent,
     MoviesComponent,
-    FoodComponent
+    FoodComponent,
+    FoodAlternativesComponent
   ],
   imports: [
     BrowserModule,
