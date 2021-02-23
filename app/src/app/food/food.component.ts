@@ -31,7 +31,7 @@ DisplayAlternatives
 })
 export class FoodComponent implements OnInit {
   @Input() country!:Countries;
-  cuisine: Countries = Countries.Japan;
+  cuisine: Countries = Countries.USA;
   ids: number[] = [];
 
   dishes: Dish[] = [];
