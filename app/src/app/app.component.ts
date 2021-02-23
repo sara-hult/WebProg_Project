@@ -7,4 +7,23 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'Isaks';
+  country: String;
+
+  constructor() {
+    this.country = "Japan";
+  }
+
+  getFood() {
+    console.log("Food");
+  }
+
+  getDrinks() {
+    console.log("Drinks");
+  }
+
+  getMovies() {
+    console.log("Movies");
+
+  }
+
 }
