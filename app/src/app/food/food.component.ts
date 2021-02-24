@@ -51,7 +51,8 @@ export class FoodComponent implements OnInit {
   spoonacularScore: 0,
   pricePerServing: 0,
   image: "string",
-  id: -1
+  id: -1,
+  sourceUrl: ""
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
@@ -98,7 +99,8 @@ export class FoodComponent implements OnInit {
       spoonacularScore: 0,
       pricePerServing: 0,
       image: "string",
-      id: -1
+      id: -1,
+      sourceUrl:""
     };
 
     return dishes.find((dish)=> dish.id === chosenID) || basic;  // Returnerar basic om find ger undefined

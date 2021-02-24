@@ -9,7 +9,7 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Isaks';
   country: String;
-  correctCountry:Countries = Countries.USA;
+  correctCountry:Countries;
 
   constructor() {
     this.country = "Japan";
