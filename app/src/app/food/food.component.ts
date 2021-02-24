@@ -36,6 +36,7 @@ export class FoodComponent implements OnInit {
 
   dishes: Dish[] = [];
   chosenID!: number;
+  alternatives: Dish[] = [];
 
   loading: boolean = false;
 
@@ -45,14 +46,19 @@ export class FoodComponent implements OnInit {
   spoonacularScore: 0,
   pricePerServing: 0,
   image: "string",
+
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
     this.generateDishes(this.cuisine);
+    this.dishes[0] = this.dish;
+    this.dishes.push(this.dish);
+    console.log(this.dishes);
   }
 
   ngOnInit(): void {
     this.chosenID = this.randomChoiceFromArray(this.ids);
+    this.randomiseAlternatives(3);
   }
 
   randomChoiceFromArray(array:any[]):any {
@@ -115,5 +121,32 @@ export class FoodComponent implements OnInit {
       }
     );
     return ids;
+  }
+
+  // hanterar ramdomiseringen av alternativa rätter
+  randomiseAlternativesOld(nbrAlternatives: number) {
+    this.alternatives = [];
+    for (let i = 0; i < Math.min(nbrAlternatives, this.dishes.length); i++) {
+      let dish: Dish = this.randomChoiceFromArray(this.dishes);
+      if (!(this.alternatives.some((value) => dish === value))) {
+        this.alternatives.push(dish);
+      } else {
+        i--;
+      }
+    }
+  }
+
+  // hanterar ramdomiseringen av alternativa rätter, fast bättre (egen lista istället för dishes. Behövs detta?)
+  randomiseAlternatives(nbrAlternatives: number) {
+    this.alternatives = [];
+    let candidates: Dish[] = [];
+    this.dishes.forEach(element => {
+      candidates.push(element)
+    });
+
+    for (let i = 0; i < Math.min(nbrAlternatives, candidates.length); i++) {
+      let dish: Dish = this.randomChoiceFromArray(candidates);
+      candidates.filter(obj => obj !== dish);
+    }
   }
 }
