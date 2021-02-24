@@ -44,7 +44,7 @@ export class FoodCacheReader{
         //info = scottishInfo;
         break;
       default:
-        throw new Error ("Food for country not implemented")
+        throw new Error ("Food for "+ cuisine +" not implemented")
     }
     this.generateIDs(info, (ids:number[]) =>{
           this.generateDishes(ids, ()=>{
