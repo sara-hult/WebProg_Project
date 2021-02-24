@@ -1,3 +1,4 @@
+import { runMode } from './../../util/runMode';
 import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -37,14 +38,16 @@ export class FoodComponent implements OnInit {
   dishes: Dish[] = [];
   chosenID!: number;
 
+  mode:runMode = runMode.Online; // Bestämmer om rätter ska hämtas från api eller chachad data för att inte använda upp API-nyckel.
   loading: boolean = false;
 
-  dish: Dish = {
+  chosenDish: Dish = {
   title: "Randomizing",
   readyInMinutes: 0,
   spoonacularScore: 0,
   pricePerServing: 0,
   image: "string",
+  id: -1
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
@@ -52,19 +55,34 @@ export class FoodComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.chosenID = this.randomChoiceFromArray(this.ids);
+
+  }
+  chooseDish(chosenID: number, dishes: Dish[]): Dish {
+    let basic: Dish = {
+      title: "basic dish",
+      readyInMinutes: 0,
+      spoonacularScore: 0,
+      pricePerServing: 0,
+      image: "string",
+      id: -1
+    };
+
+    console.log(dishes.map((dish)=> `Chosen:${chosenID} Dish:${dish.id}: ${dish.id === chosenID}`));
+
+    return dishes.find((dish)=> dish.id === chosenID) || basic;  // Returnerar basic om find ger undefined
+
   }
 
-  randomChoiceFromArray(array:any[]):any {
+  randomChoiceFromArray(array:number[]):number {
+    console.log(`array to choose from: ${array}`)
     return array[this.getRandomInt(array.length)]
   }
 
-  getRandomInt(max:number) {
+  getRandomInt(max:number):number {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
   public generateDishes(cuisine:Countries){
-    let ids = [];
     this.loading = true;
     this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
@@ -81,12 +99,15 @@ export class FoodComponent implements OnInit {
   }
 
   public saveDishes(ids:number[]){
-    let dishes = [];
+    let dishID:number = -1;
     this.loading = true;
     this.SpoonacularService.getFromIds(ids.toString())
       .subscribe(
         (response) => {                           //next() callback
           this.dishes = this.extractDishes(response);
+          dishID = this.randomChoiceFromArray(this.ids);
+          this.chosenID = dishID;
+          this.chosenDish = this.chooseDish(dishID, this.dishes);
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
@@ -114,6 +135,7 @@ export class FoodComponent implements OnInit {
         ids.push(value.id);
       }
     );
+    this.ids = ids;
     return ids;
   }
 }
