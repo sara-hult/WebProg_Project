@@ -32,8 +32,7 @@ DisplayAlternatives
   styleUrls: ['./food.component.css']
 })
 export class FoodComponent implements OnInit {
-  @Input() country!:Countries;
-  cuisine: Countries = Countries.USA;
+  @Input() cuisine!:Countries;
   ids: number[] = [];
 
   dishes: Dish[] = [];
@@ -56,12 +55,12 @@ export class FoodComponent implements OnInit {
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
-    this.generateDishes(this.mode, this.cuisine, ()=>{
-      this.randomizeDish();
-    });
   }
 
   ngOnInit(): void {
+    this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+    });
   }
 
   generateDishes(mode:runMode, cuisine:Countries, callback:Function = ()=>{}){

@@ -1,7 +1,6 @@
-<button (click) = 'getDrinks()'> Kör metoden getDrinks() </button>
-<button (click) = 'getFood()'> Kör metoden getFood() </button>
-<button (click) = 'getMovies()'> Kör metoden getMovies() </button>
+<button (click)='getDrinks()'> Kör metoden getDrinks() </button>
+<button (click)='getFood()'> Kör metoden getFood() </button>
+<button (click)='getMovies()'> Kör metoden getMovies() </button>
 
 <app-drinks> [country]= "country" </app-drinks>
-<FoodComponent></FoodComponent>
-
+<FoodComponent [cuisine]="correctCountry"></FoodComponent>
