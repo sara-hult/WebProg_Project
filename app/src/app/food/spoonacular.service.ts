@@ -22,5 +22,4 @@ export class SpoonacularService {
   getFromIds(ids: string): Observable<any> {
     return this.http.get(this.baseURL + "/informationBulk" + this.preamble + '&ids=' + ids)
   }
-
 }

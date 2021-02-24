@@ -3,5 +3,6 @@ export interface Dish{
   readyInMinutes: number,
   spoonacularScore: number,
   pricePerServing: number,
-  image: string
+  image: string,
+  id: number
 }
