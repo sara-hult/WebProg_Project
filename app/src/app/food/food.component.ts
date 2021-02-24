@@ -1,3 +1,4 @@
+import { FoodCacheReader } from './../../util/foodCacheReader';
 import { runMode } from './../../util/runMode';
 import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
@@ -36,11 +37,15 @@ export class FoodComponent implements OnInit {
   ids: number[] = [];
 
   dishes: Dish[] = [];
-  chosenID!: number;
+  chosenID: number = -1;
+  alternativeIDs: number[] = [];
 
-  mode:runMode = runMode.Online; // Bestämmer om rätter ska hämtas från api eller chachad data för att inte använda upp API-nyckel.
+  // [Online/Offline] Bestämmer om rätter ska hämtas från api eller chachad data för att inte använda upp API-nyckel.
+  mode:runMode = runMode.Offline;
   loading: boolean = false;
 
+
+  // En default dish som visas tills det att en ny har laddats in
   chosenDish: Dish = {
   title: "Randomizing",
   readyInMinutes: 0,
@@ -51,14 +56,34 @@ export class FoodComponent implements OnInit {
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
-    this.generateDishes(this.cuisine);
+    this.generateDishes(this.mode, this.cuisine);
   }
 
   ngOnInit(): void {
-
   }
-  chooseDish(chosenID: number, dishes: Dish[]): Dish {
-    let basic: Dish = {
+
+  generateDishes(mode:runMode, cuisine:Countries){
+    mode? this.generateDishesAPI(cuisine): this.generateDishesCache(cuisine); // Generar tillgängliga rätter baserat på läget applikationen körs i
+  }
+
+  generateDishesCache(cuisine:Countries) {
+    new FoodCacheReader(this.cuisine, (builtReader:FoodCacheReader)=>{
+      this.dishes = builtReader.getDishes();
+      this.ids = builtReader.getIds();
+
+      console.log("Dishes and IDs from cache:");
+      console.log(this.dishes);
+      console.log(this.ids);
+
+      this.chosenID = this.randomChoiceFromArray(this.ids);
+      this.chosenDish = this.getChosenDish(this.chosenID, this.dishes)
+    })
+  }
+  /*
+  Returnerar rätten som har det valda IDt
+  */
+ getChosenDish(chosenID: number, dishes: Dish[]): Dish {
+   let basic: Dish = {
       title: "basic dish",
       readyInMinutes: 0,
       spoonacularScore: 0,
@@ -67,13 +92,11 @@ export class FoodComponent implements OnInit {
       id: -1
     };
 
-    console.log(dishes.map((dish)=> `Chosen:${chosenID} Dish:${dish.id}: ${dish.id === chosenID}`));
-
     return dishes.find((dish)=> dish.id === chosenID) || basic;  // Returnerar basic om find ger undefined
 
   }
 
-  randomChoiceFromArray(array:number[]):number {
+  randomChoiceFromArray(array:any[]):any {
     console.log(`array to choose from: ${array}`)
     return array[this.getRandomInt(array.length)]
   }
@@ -82,7 +105,7 @@ export class FoodComponent implements OnInit {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
-  public generateDishes(cuisine:Countries){
+  public generateDishesAPI(cuisine:Countries):void{
     this.loading = true;
     this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
@@ -98,7 +121,7 @@ export class FoodComponent implements OnInit {
         })
   }
 
-  public saveDishes(ids:number[]){
+  public saveDishes(ids:number[]):void{
     let dishID:number = -1;
     this.loading = true;
     this.SpoonacularService.getFromIds(ids.toString())
@@ -107,7 +130,7 @@ export class FoodComponent implements OnInit {
           this.dishes = this.extractDishes(response);
           dishID = this.randomChoiceFromArray(this.ids);
           this.chosenID = dishID;
-          this.chosenDish = this.chooseDish(dishID, this.dishes);
+          this.chosenDish = this.getChosenDish(dishID, this.dishes);
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
@@ -128,7 +151,7 @@ export class FoodComponent implements OnInit {
     return dishes;
   }
 
-  extractIds(response:Object){
+  extractIds(response:Object):number[]{
     let ids:number[] = [];
     Object.entries(response).forEach(
       ([key, value]) => {

@@ -1,4 +1,4 @@
 export enum runMode{
-  Online,
-  Offline
+  Offline = 0,
+  Online = 1
 }
