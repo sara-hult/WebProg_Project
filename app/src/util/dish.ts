@@ -4,5 +4,6 @@ export interface Dish{
   spoonacularScore: number,
   pricePerServing: number,
   image: string,
-  id: number
+  id: number,
+  sourceUrl:string
 }
