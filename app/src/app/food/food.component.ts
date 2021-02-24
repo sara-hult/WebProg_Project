@@ -124,7 +124,7 @@ export class FoodComponent implements OnInit {
   }
 
   // hanterar ramdomiseringen av alternativa rätter
-  randomiseAlternativesOld(nbrAlternatives: number) {
+  /*randomiseAlternativesOld(nbrAlternatives: number) {
     this.alternatives = [];
     for (let i = 0; i < Math.min(nbrAlternatives, this.dishes.length); i++) {
       let dish: Dish = this.randomChoiceFromArray(this.dishes);
@@ -134,7 +134,7 @@ export class FoodComponent implements OnInit {
         i--;
       }
     }
-  }
+  }*/
 
   // hanterar ramdomiseringen av alternativa rätter, fast bättre (egen lista istället för dishes. Behövs detta?)
   randomiseAlternatives(nbrAlternatives: number) {
@@ -143,10 +143,11 @@ export class FoodComponent implements OnInit {
     this.dishes.forEach(element => {
       candidates.push(element)
     });
+    let k = Math.min(nbrAlternatives, candidates.length);
 
-    for (let i = 0; i < Math.min(nbrAlternatives, candidates.length); i++) {
+    for (let i = 0; i < k; i++) {
       let dish: Dish = this.randomChoiceFromArray(candidates);
-      candidates.filter(obj => obj !== dish);
+      candidates.filter(obj => obj !== dish); // funkar detta? ska det vara dish.något?
     }
   }
 }
