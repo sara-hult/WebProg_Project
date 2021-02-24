@@ -1,1 +1,3 @@
 <DisplayDish [dish]="chosenDish"></DisplayDish>
+<button (click)='randomizeDish()'> Slumpa om maträtt </button>
+<button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>
