@@ -56,29 +56,39 @@ export class FoodComponent implements OnInit {
 };
 
   constructor(private SpoonacularService: SpoonacularService) {
-    this.generateDishes(this.mode, this.cuisine);
+    this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+    });
   }
 
   ngOnInit(): void {
   }
 
-  generateDishes(mode:runMode, cuisine:Countries){
-    mode? this.generateDishesAPI(cuisine): this.generateDishesCache(cuisine); // Generar tillgängliga rätter baserat på läget applikationen körs i
+  generateDishes(mode:runMode, cuisine:Countries, callback:Function = ()=>{}){
+    //(Conditional (ternary)):  boolean?  <om true>:<om false>
+    mode? this.generateDishesAPI(cuisine, callback): this.generateDishesCache(cuisine, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
 
-  generateDishesCache(cuisine:Countries) {
+  randomizeDish() {
+    this.chosenID = this.randomChoiceFromArray(this.ids);
+    this.chosenDish = this.getChosenDish(this.chosenID, this.dishes)
+  }
+
+  generateDishesCache(cuisine:Countries, callback:Function = ()=>{}) {
     new FoodCacheReader(this.cuisine, (builtReader:FoodCacheReader)=>{
       this.dishes = builtReader.getDishes();
       this.ids = builtReader.getIds();
-
-      console.log("Dishes and IDs from cache:");
-      console.log(this.dishes);
-      console.log(this.ids);
-
-      this.chosenID = this.randomChoiceFromArray(this.ids);
-      this.chosenDish = this.getChosenDish(this.chosenID, this.dishes)
+      callback()
     })
   }
+
+  toggleFetchMode(){
+    this.mode? this.mode=runMode.Offline:this.mode=runMode.Online;
+     this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+    });
+  }
+
   /*
   Returnerar rätten som har det valda IDt
   */
@@ -105,12 +115,17 @@ export class FoodComponent implements OnInit {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
-  public generateDishesAPI(cuisine:Countries):void{
+  public generateDishesAPI(cuisine:Countries, callback:Function = ()=>{}):void{
     this.loading = true;
     this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
         (response) => {                           //next() callback
-          this.saveDishes(this.extractIds(response.results));
+          this.extractIds(response.results, (ids:number[])=>{
+            this.ids = ids;
+            this.saveDishes(ids, ()=>{
+              callback()
+            });
+          })
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
@@ -121,16 +136,19 @@ export class FoodComponent implements OnInit {
         })
   }
 
-  public saveDishes(ids:number[]):void{
+  public saveDishes(ids:number[], callback:Function = ()=>{}):void{
     let dishID:number = -1;
     this.loading = true;
     this.SpoonacularService.getFromIds(ids.toString())
       .subscribe(
         (response) => {                           //next() callback
-          this.dishes = this.extractDishes(response);
-          dishID = this.randomChoiceFromArray(this.ids);
+          this.extractDishes(response, (dishes:Dish[])=>{
+            this.dishes = dishes;
+            callback();
+          });
+          /* dishID = this.randomChoiceFromArray(this.ids);
           this.chosenID = dishID;
-          this.chosenDish = this.getChosenDish(dishID, this.dishes);
+          this.chosenDish = this.getChosenDish(dishID, this.dishes); */
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
@@ -141,24 +159,23 @@ export class FoodComponent implements OnInit {
           this.loading = false;
         })
   }
-  extractDishes(response: Object): Dish[] {
+  extractDishes(response: Object, callback:Function = ()=>{}): void {
     let dishes: Dish[] = [];
      Object.entries(response).forEach(
       ([key, value]) => {
         dishes.push(value);
       }
     );
-    return dishes;
+    callback(dishes);
   }
 
-  extractIds(response:Object):number[]{
+  extractIds(response:Object, callback:Function = ()=>{}):void{
     let ids:number[] = [];
     Object.entries(response).forEach(
       ([key, value]) => {
         ids.push(value.id);
       }
     );
-    this.ids = ids;
-    return ids;
+    callback(ids)
   }
 }
