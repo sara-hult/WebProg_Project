@@ -44,6 +44,7 @@ export class FoodComponent implements OnInit {
   loading: boolean = false;
 
 
+
   // En default dish som visas tills det att en ny har laddats in
   chosenDish: Dish = {
   title: "Randomizing",
