@@ -1,1 +1,7 @@
-<p>display-alternatives works!</p>
+<div>
+    <ul>
+        <li *ngFor="let item of alternatives">
+            <DisplayDish [dish]="item"></DisplayDish>
+        </li>
+    </ul>
+</div>

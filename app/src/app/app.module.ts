@@ -1,7 +1,7 @@
 import { FoodComponentModule } from './food/food.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
+import { CommonModule } from '@angular/common'
 import { HttpClientModule } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -20,7 +20,8 @@ import { FoodComponent } from './food/food.component';
     BrowserModule,
     AppRoutingModule,
     FoodComponentModule,
-    HttpClientModule
+    HttpClientModule,
+    CommonModule
   ],
   providers: [],
   bootstrap: [AppComponent]
