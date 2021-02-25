@@ -68,17 +68,30 @@ export class FoodComponent implements OnInit {
     });
   }
 
+  /*
+  Hämtar alla rätter som tillhör det givna landet.
+  Källan bestäms av mode som antingen är "online" eller "offline"
+  De inre metoderna ändrar objektets attribut
+  Callback gör så att vi kan slumpa maträtterna efter att alla rätter har laddats in
+  */
   generateDishes(mode:runMode, cuisine:Countries, callback:Function = ()=>{}){
     //(Conditional (ternary)):  boolean?  <om true>:<om false>
     mode? this.generateDishesAPI(cuisine, callback): this.generateDishesCache(cuisine, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
 
+  /*
+  Väljer en ny rätt från de inladdade rätterna
+  Anropas av knapp
+  */
   randomizeDish() {
     this.chosenID = this.randomChoiceFromArray(this.ids);
-
     this.chosenDish = this.getDishFromArray(this.chosenID, this.dishes)
   }
 
+  /*
+  Laddar in alla rätter som tillhär landet från cachen
+  anrop av callback gör så att slumpningen går igång
+   */
   generateDishesCache(cuisine:Countries, callback:Function = ()=>{}) {
     new FoodCacheReader(this.cuisine, (builtReader:FoodCacheReader)=>{
       this.dishes = builtReader.getDishes();
@@ -87,7 +100,10 @@ export class FoodComponent implements OnInit {
     })
   }
 
-  // Anropas vid switch knapptryckning
+  /*
+  Byter vilken källa datan hämtas ifrån
+  Slumpar därefter om vald rätt och valda alternativ
+   */
   toggleFetchMode(){
     this.mode? this.mode=runMode.Offline : this.mode=runMode.Online;
      this.generateDishes(this.mode, this.cuisine, ()=>{
@@ -98,22 +114,20 @@ export class FoodComponent implements OnInit {
 
   /*
   Returnerar rätten som har det valda IDt
+  Om det inte finns någon rätt med angivet så kastas ett fel.
   */
  getDishFromArray(id: number, dishes: Dish[]): Dish {
-   let basic: Dish = {
-      title: "basic dish",
-      readyInMinutes: 0,
-      spoonacularScore: 0,
-      pricePerServing: 0,
-      image: "string",
-      id: -1,
-      sourceUrl:""
-    };
-
-    return dishes.find((dish)=> dish.id === id) || basic;  // Returnerar basic om find ger undefined
-
+   let dish;
+   dish = dishes.find((dish)=> dish.id === id)
+   if(dish === undefined){
+    throw new Error("Dish not found in array");
+   }
+   return dish;
   }
 
+  /*
+  Returnerar ett objekt från den givna vektorn
+   */
   randomChoiceFromArray(array:any[]):any {
     return array[this.getRandomInt(array.length)]
   }
@@ -122,6 +136,9 @@ export class FoodComponent implements OnInit {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
+  /*
+  Hämtar in alla maträtter som tillhör landet från APIn.
+  */
   public generateDishesAPI(cuisine:Countries, callback:Function = ()=>{}):void{
     let placeHolderDish:Dish = {
       title: "Fetching from API...",
@@ -133,6 +150,8 @@ export class FoodComponent implements OnInit {
       sourceUrl: ""
     }
     this.chosenDish = placeHolderDish;
+    this.chosenAlternatives = [placeHolderDish, placeHolderDish, placeHolderDish]
+
     this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
         (response) => {                           //next() callback
@@ -146,10 +165,14 @@ export class FoodComponent implements OnInit {
         (error) => {                              //error() callback
           console.error('Request failed with error')
         },
-        () => {                                   //complete() callback
-        })
+        () => {})                                   //complete() callback
+
   }
 
+  /*
+  Sparar alla rätter vars id skickas in som argument.
+  Rätterna hämtas ifrån APIn
+  */
   public saveDishes(ids:number[], callback:Function = ()=>{}):void{
     let dishID:number = -1;
     this.SpoonacularService.getFromIds(ids.toString())
@@ -159,17 +182,17 @@ export class FoodComponent implements OnInit {
             this.dishes = dishes;
             callback();
           });
-          /* dishID = this.randomChoiceFromArray(this.ids);
-          this.chosenID = dishID;
-          this.chosenDish = this.getChosenDish(dishID, this.dishes); */
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
-
         },
-        () => {                                   //complete() callback
-        })
+        () => {})                                  //complete() callback
+
   }
+
+  /*
+  Anropar angiven callback med alla rätter som finns i en response
+  */
   extractDishes(response: Object, callback:Function = ()=>{}): void {
     let dishes: Dish[] = [];
      Object.entries(response).forEach(
@@ -180,6 +203,9 @@ export class FoodComponent implements OnInit {
     callback(dishes);
   }
 
+  /*
+  Anropar angiven callback med alla IDs som finns i en response
+  */
   extractIds(response:Object, callback:Function = ()=>{}):void{
     let ids:number[] = [];
     Object.entries(response).forEach(
@@ -190,7 +216,9 @@ export class FoodComponent implements OnInit {
     callback(ids)
   }
 
-  // hanterar ramdomiseringen av alternativa rätter, fast bättre (egen lista istället för dishes. Behövs detta?)
+  /*
+  Hanterar ramdomiseringen av alternativa rätter
+  */
   randomiseAlternatives(nbrAlternatives: number) {
     this.chosenAlternatives = [];
     let candidates: Dish[] = this.dishes.filter((dish)=>dish.id !== this.chosenDish.id);
@@ -204,8 +232,12 @@ export class FoodComponent implements OnInit {
     }
   }
 
+  /*
+  Byter ut den valda rätten mot den rätt som har angivet id
+  Anropas med hjälp av DisplayAlternatives output
+  */
   switchToAlternative(id:number){
-    this.chosenDish = this.chosenAlternatives.filter((alternative:Dish)=>alternative.id === id)[0] || this.chosenDish;
+    this.chosenDish = this.dishes.filter((alternative:Dish)=>alternative.id === id)[0] || this.chosenDish;
   }
 
 }

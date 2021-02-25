@@ -17,7 +17,7 @@ export class FoodCacheReader{
   private ids:number[];
   private dishes: Dish[];
 
-  constructor(cuisine:Countries, callback?: Function){ // Call back kan eventuellt tas bort senare eftersom import() inte används
+  constructor(cuisine:Countries, callback?: Function){ // Callback kan eventuellt tas bort senare eftersom import() inte används
     if(callback){
       this.callback = callback;
     }
@@ -25,43 +25,53 @@ export class FoodCacheReader{
     this.ids = [];
     this.dishes = [];
 
-    this.generateInfo(cuisine);
-    // Använder if för att förhindra datafel
-    /* if(this.generateInfoPath(cuisine) && this.generateBulkPath(cuisine)){
-      this.generateInfo(couisine);
-    } */
+    let info = this.generateInfo(cuisine);
+    this.generateIDs(info, (ids:number[]) =>{
+      this.ids = ids;
+      this.generateDishes(ids, (dishes:Dish[])=>{
+        this.dishes = dishes;
+        this.callback(this);
+      })
+    });
   }
-  generateInfo(cuisine: Countries) {
+
+  /*
+  Väljer vilken fil ids ska hämtas ifrån
+  */
+  generateInfo(cuisine: Countries):cuisineResult[] {
     let info:cuisineResult[] = [];
     switch(cuisine){
       case Countries.USA:
         info = americanInfo;
         break;
       case Countries.Italy:
+        throw new Error ("Food for "+ cuisine +" not implemented")
         //info = italianInfo;
         break;
       case Countries.Scotland:
+        throw new Error ("Food for "+ cuisine +" not implemented")
         //info = scottishInfo;
         break;
       default:
         throw new Error ("Food for "+ cuisine +" not implemented")
     }
-    this.generateIDs(info, (ids:number[]) =>{
-          this.generateDishes(ids, ()=>{
-            this.callback(this);
-          })
-        });
+    return info;
   }
 
-  generateDishes(ids: number[], callback: Function = () => {}) {
-    this.dishes = recipeBulk.filter((recipe) => ids.includes(recipe.id));
-    callback()
-  }
+  /*
+  Hämtar ut alla ids i från en vektor med grundläggande information om de rätter som tillhör landet
+  */
   generateIDs(info: cuisineResult[], callback:Function = ()=>{}) {
     let ids:number[] = []
     info.map((result) => ids.push(result.id))
-    this.ids = ids;
     callback(ids);
+  }
+
+  /*
+  Hämtar alla rätter vars id finns i den angivna listan
+   */
+  generateDishes(ids: number[], callback: Function = () => {}) {
+    callback(recipeBulk.filter((recipe) => ids.includes(recipe.id)))
   }
 
 
