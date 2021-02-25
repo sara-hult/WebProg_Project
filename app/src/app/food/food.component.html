@@ -1,2 +1,14 @@
-<DisplayDish [dish] = "dish"></DisplayDish>
-<DisplayAlternatives [dishes] = "dishes"></DisplayAlternatives>
+
+<div style="background-color: gray;">
+    <p>Food Component</p>
+    <div>
+        <p>Vald maträtt: </p>
+        <DisplayDish [dish]="chosenDish"></DisplayDish>
+        <button (click)='randomizeDish()'> Slumpa om maträtt </button>
+        <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>
+    </div>
+    <div>
+        <p>Alternativ</p>
+        <DisplayAlternatives [alternatives]="chosenAlternatives"></DisplayAlternatives>
+    </div>
+</div>

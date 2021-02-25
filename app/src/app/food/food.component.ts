@@ -1,3 +1,5 @@
+import { FoodCacheReader } from './../../util/foodCacheReader';
+import { runMode } from './../../util/runMode';
 import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
@@ -30,97 +32,163 @@ DisplayAlternatives
   styleUrls: ['./food.component.css']
 })
 export class FoodComponent implements OnInit {
-  @Input() country!:Countries;
-  cuisine: Countries = Countries.USA;
+  @Input() cuisine!:Countries;
   ids: number[] = [];
 
+  initDish: Dish = {
+    title: "Randomizing",
+    readyInMinutes: 0,
+    spoonacularScore: 0,
+    pricePerServing: 0,
+    image: "string",
+    id: -1,
+    sourceUrl: ""
+  };
+
   dishes: Dish[] = [];
+
   chosenID!: number;
   alternatives: Dish[] = [];
+  alternativeIDs: number[] = [];
 
-  loading: boolean = false;
+  // [Online/Offline] Bestämmer om rätter ska hämtas från api eller chachad data för att inte använda upp API-nyckel.
+  mode:runMode = runMode.Offline;
 
-  dish: Dish = {
-  title: "Randomizing",
-  readyInMinutes: 0,
-  spoonacularScore: 0,
-  pricePerServing: 0,
-  image: "string",
 
-};
+  // En default dish som visas tills det att en ny har laddats in
+  chosenDish: Dish;
+
+  chosenAlternatives:Dish[];
 
   constructor(private SpoonacularService: SpoonacularService) {
-    this.generateDishes(this.cuisine);
-    this.dishes[0] = this.dish;
-    this.dishes.push(this.dish);
-    console.log(this.dishes);
+    this.chosenDish = this.initDish;
+    this.chosenAlternatives = [this.initDish, this.initDish, this.initDish]
   }
 
   ngOnInit(): void {
+    this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+    });
+  }
+
+  generateDishes(mode:runMode, cuisine:Countries, callback:Function = ()=>{}){
+    //(Conditional (ternary)):  boolean?  <om true>:<om false>
+    mode? this.generateDishesAPI(cuisine, callback): this.generateDishesCache(cuisine, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
+  }
+
+  randomizeDish() {
     this.chosenID = this.randomChoiceFromArray(this.ids);
-    this.randomiseAlternatives(3);
+
+    this.chosenDish = this.getDishFromArray(this.chosenID, this.dishes)
+  }
+
+  generateDishesCache(cuisine:Countries, callback:Function = ()=>{}) {
+    new FoodCacheReader(this.cuisine, (builtReader:FoodCacheReader)=>{
+      this.dishes = builtReader.getDishes();
+      this.ids = builtReader.getIds();
+      callback()
+    })
+  }
+
+  toggleFetchMode(){
+    this.mode? this.mode=runMode.Offline:this.mode=runMode.Online;
+     this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+    });
+  }
+
+  /*
+  Returnerar rätten som har det valda IDt
+  */
+ getDishFromArray(id: number, dishes: Dish[]): Dish {
+   let basic: Dish = {
+      title: "basic dish",
+      readyInMinutes: 0,
+      spoonacularScore: 0,
+      pricePerServing: 0,
+      image: "string",
+      id: -1,
+      sourceUrl:""
+    };
+
+    return dishes.find((dish)=> dish.id === id) || basic;  // Returnerar basic om find ger undefined
+
   }
 
   randomChoiceFromArray(array:any[]):any {
     return array[this.getRandomInt(array.length)]
   }
 
-  getRandomInt(max:number) {
+  getRandomInt(max:number):number {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
-  public generateDishes(cuisine:Countries){
-    let ids = [];
-    this.loading = true;
+  public generateDishesAPI(cuisine:Countries, callback:Function = ()=>{}):void{
+    let placeHolderDish:Dish = {
+      title: "Fetching from API...",
+      readyInMinutes: 0,
+      spoonacularScore: 0,
+      pricePerServing: 0,
+      image: "",
+      id: -1,
+      sourceUrl: ""
+    }
+    this.chosenDish = placeHolderDish;
     this.SpoonacularService.getCuisineDetails(cuisine) // Hämtar all information baserat på land
       .subscribe(
         (response) => {                           //next() callback
-          this.saveDishes(this.extractIds(response.results));
+          this.extractIds(response.results, (ids:number[])=>{
+            this.ids = ids;
+            this.saveDishes(ids, ()=>{
+              callback()
+            });
+          })
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
-          this.loading = false;
         },
         () => {                                   //complete() callback
-          this.loading = false;
         })
   }
 
-  public saveDishes(ids:number[]){
-    let dishes = [];
-    this.loading = true;
+  public saveDishes(ids:number[], callback:Function = ()=>{}):void{
+    let dishID:number = -1;
     this.SpoonacularService.getFromIds(ids.toString())
       .subscribe(
         (response) => {                           //next() callback
-          this.dishes = this.extractDishes(response);
+          this.extractDishes(response, (dishes:Dish[])=>{
+            this.dishes = dishes;
+            callback();
+          });
+          /* dishID = this.randomChoiceFromArray(this.ids);
+          this.chosenID = dishID;
+          this.chosenDish = this.getChosenDish(dishID, this.dishes); */
         },
         (error) => {                              //error() callback
           console.error('Request failed with error')
-          this.loading = false;
 
         },
         () => {                                   //complete() callback
-          this.loading = false;
         })
   }
-  extractDishes(response: Object): Dish[] {
+  extractDishes(response: Object, callback:Function = ()=>{}): void {
     let dishes: Dish[] = [];
      Object.entries(response).forEach(
       ([key, value]) => {
         dishes.push(value);
       }
     );
-    return dishes;
+    callback(dishes);
   }
 
-  extractIds(response:Object){
+  extractIds(response:Object, callback:Function = ()=>{}):void{
     let ids:number[] = [];
     Object.entries(response).forEach(
       ([key, value]) => {
         ids.push(value.id);
       }
     );
-    return ids;
+    callback(ids)
   }
 
   // hanterar ramdomiseringen av alternativa rätter, fast bättre (egen lista istället för dishes. Behövs detta?)

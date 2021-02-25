@@ -1,5 +1,6 @@
-import { Component, OnInit, Input } from '@angular/core';
 import { Dish } from './../../../util/dish';
+import { Component, Input, OnInit } from '@angular/core';
+
 
 @Component({
   selector: 'DisplayAlternatives',
@@ -7,7 +8,11 @@ import { Dish } from './../../../util/dish';
   styleUrls: ['./display-alternatives.component.css']
 })
 export class DisplayAlternativesComponent implements OnInit {
-  @Input() dishes!: Dish[];
+
+  @Input() alternatives!:Dish[];
+
+  constructor() { }
+
 
   ngOnInit(): void {
     

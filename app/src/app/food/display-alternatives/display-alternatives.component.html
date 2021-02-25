@@ -1,3 +1,8 @@
-<p>display-alternatives works!</p>
+<div>
+    <ul>
+        <li *ngFor="let item of alternatives">
+            <DisplayDish [dish]="item"></DisplayDish>
+        </li>
+    </ul>
+</div>
 
-<DisplayDish [dish] = dishes[0]></DisplayDish>  <!-- *ngfor googla -->

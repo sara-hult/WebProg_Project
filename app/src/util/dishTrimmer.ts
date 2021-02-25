@@ -6,7 +6,8 @@ export function trim(dish:Object){
     readyInMinutes: -1,
     spoonacularScore: -1,
     pricePerServing: -1,
-    image: ""
+    image: "",
+    id: -1
   }
   Object.entries(dish).forEach(
   ([key, value]) => {
@@ -26,7 +27,7 @@ export function trim(dish:Object){
       case "image":
         finished.image = value;
         break;
-    } 
+    }
   }
 );
 return finished

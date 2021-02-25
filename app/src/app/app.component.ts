@@ -1,3 +1,4 @@
+import { Countries } from './../util/countries';
 import { Component } from '@angular/core';
 
 @Component({
@@ -8,9 +9,11 @@ import { Component } from '@angular/core';
 export class AppComponent {
   title = 'Isaks';
   country: String;
+  correctCountry:Countries;
 
   constructor() {
     this.country = "Japan";
+    this.correctCountry = Countries.USA;
   }
 
   getFood() {
