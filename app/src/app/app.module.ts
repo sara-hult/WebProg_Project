@@ -11,6 +11,7 @@ import { DrinksComponent } from './drinks/drinks.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FoodComponent } from './food/food.component';
 import { LandingComponent } from './landing/landing.component';
+import { OverviewComponent } from './overview/overview.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { LandingComponent } from './landing/landing.component';
     DrinksComponent,
     MoviesComponent,
     LandingComponent,
+    OverviewComponent,
   ],
   imports: [
     BrowserModule,
@@ -26,6 +28,7 @@ import { LandingComponent } from './landing/landing.component';
     HttpClientModule,
     CommonModule,
     RouterModule.forRoot([
+      {path: '', component: LandingComponent},
       {path: 'food/:cuisine', component: FoodComponent}
     ])
   ],
