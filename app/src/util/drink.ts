@@ -1,4 +1,4 @@
-export interface Cocktail {
+export interface Drink {
     name: string,
     ingredients: string[],
     measurements: string[],
