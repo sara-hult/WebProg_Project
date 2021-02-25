@@ -3,4 +3,6 @@
 <button (click)='getMovies()'> Kör metoden getMovies() </button>
 
 <app-drinks> [country]= "country" </app-drinks>
-<FoodComponent [cuisine]="correctCountry"></FoodComponent>
+<a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
+<router-outlet></router-outlet>
+<!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->

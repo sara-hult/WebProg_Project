@@ -1,3 +1,4 @@
+import { RouterModule } from '@angular/router';
 import { FoodComponentModule } from './food/food.module';
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
@@ -21,7 +22,10 @@ import { FoodComponent } from './food/food.component';
     AppRoutingModule,
     FoodComponentModule,
     HttpClientModule,
-    CommonModule
+    CommonModule,
+    RouterModule.forRoot([
+      {path: 'food/:cuisine', component: FoodComponent}
+    ])
   ],
   providers: [],
   bootstrap: [AppComponent]
