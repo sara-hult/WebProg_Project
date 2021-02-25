@@ -17,7 +17,7 @@ export class FoodCacheReader{
   private ids:number[];
   private dishes: Dish[];
 
-  constructor(cuisine:Countries, callback?: Function){
+  constructor(cuisine:Countries, callback?: Function){ // Call back kan eventuellt tas bort senare eftersom import() inte används
     if(callback){
       this.callback = callback;
     }

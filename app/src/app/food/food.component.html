@@ -9,9 +9,6 @@
     <div>
         <p>Alternativ</p>
         <button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
-        <button (click)='switchToAlternative(0)'> Byt till alternativ 1 </button>
-        <button (click)='switchToAlternative(1)'> Byt till alternativ 2 </button>
-        <button (click)='switchToAlternative(2)'> Byt till alternativ 3 </button>
-        <DisplayAlternatives [alternatives]="chosenAlternatives"></DisplayAlternatives>
+        <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
     </div>
 </div>

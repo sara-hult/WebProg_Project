@@ -1,5 +1,5 @@
 import { Dish } from './../../../util/dish';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 
 
 @Component({
@@ -10,11 +10,16 @@ import { Component, Input, OnInit } from '@angular/core';
 export class DisplayAlternativesComponent implements OnInit {
 
   @Input() alternatives!:Dish[];
+  @Output() switchDishEvent = new EventEmitter<number>();
+
+  switchChosenDish(id : number){
+    this.switchDishEvent.emit(id);
+  }
 
   constructor() { }
 
 
   ngOnInit(): void {
-    
+
   }
 }
