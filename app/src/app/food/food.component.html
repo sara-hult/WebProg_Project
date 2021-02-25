@@ -6,4 +6,8 @@
         <button (click)='randomizeDish()'> Slumpa om maträtt </button>
         <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>
     </div>
+    <div>
+        <p>Alternativ</p>
+        <DisplayAlternatives [alternatives]="chosenAlternatives"></DisplayAlternatives>
+    </div>
 </div>
