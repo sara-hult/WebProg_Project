@@ -91,6 +91,7 @@ export class FoodComponent implements OnInit {
     this.mode? this.mode=runMode.Offline:this.mode=runMode.Online;
      this.generateDishes(this.mode, this.cuisine, ()=>{
       this.randomizeDish();
+      this.randomiseAlternatives(3);
     });
   }
 
