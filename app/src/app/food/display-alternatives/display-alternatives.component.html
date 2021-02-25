@@ -1,7 +1,11 @@
 <div>
     <ul>
-        <li *ngFor="let item of alternatives">
-            <DisplayDish [dish]="item"></DisplayDish>
+        <li *ngFor="let item of alternatives" style="display: inline-block;">
+            <div style="margin: 10px;">
+                <DisplayDish [dish]="item"></DisplayDish>
+                <button (click)='switchChosenDish(item.id)'>Byt till alternativ</button>
+            </div>
+
         </li>
     </ul>
 </div>
