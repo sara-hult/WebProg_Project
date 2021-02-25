@@ -1,9 +1,11 @@
+import { Countries } from './../../util/countries';
 import { FoodCacheReader } from './../../util/foodCacheReader';
 import { runMode } from './../../util/runMode';
 import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
-import { Countries } from '../../util/countries';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+import { switchMap } from 'rxjs/operators';
 import  exampleDish  from '../../util/exampleDish';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
@@ -56,16 +58,35 @@ export class FoodComponent implements OnInit {
   chosenDish: Dish;
   chosenAlternatives: Dish[] = [];
 
-  constructor(private SpoonacularService: SpoonacularService) {
+  constructor(private SpoonacularService: SpoonacularService, private route: ActivatedRoute) {
     this.chosenDish = this.initDish;
     this.chosenAlternatives = [this.initDish, this.initDish, this.initDish]
   }
 
   ngOnInit(): void {
-    this.generateDishes(this.mode, this.cuisine, ()=>{
-      this.randomizeDish();
-      this.randomiseAlternatives(3);
+   this.route.paramMap.subscribe((params: ParamMap) => {
+        this.cuisine = this.getCuisine(params.get('cuisine'));
+        console.log(this.cuisine);
+        this.generateDishes(this.mode, this.cuisine, ()=>{
+        this.randomizeDish();
+        this.randomiseAlternatives(3);
     });
+  });
+
+  }
+
+  getCuisine(cuisine: string | null): Countries {
+      if(cuisine !== null){
+        switch(cuisine){
+          case "american":
+            return Countries.USA;
+          default:
+            throw new Error('404 Country not implemented')
+
+        }
+      }else{
+        throw new Error('404 Ett land måste anges ex: american');
+      }
   }
 
   /*
