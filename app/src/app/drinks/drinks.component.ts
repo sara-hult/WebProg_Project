@@ -1,11 +1,8 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Countries } from '../../util/countries';
-import { Cocktail } from './../../util/cocktail';
+import { Drink } from '../../util/drink';
 
 import { HttpClient } from '@angular/common/http';
-
-import {forkJoin} from "rxjs";
-import {tap} from "rxjs/operators";
 
 @Component({
   selector: 'app-drinks',
@@ -16,68 +13,68 @@ import {tap} from "rxjs/operators";
 export class DrinksComponent implements OnInit {
   @Input() country!: Countries;
   
-  cocktail: Cocktail = {
+  drink: Drink = {
     name: "",
     ingredients: [],
     measurements: [],
     instruction: ""
   };
-  tempList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer'];
-  cocktailList: Cocktail[] = [];
-  cocktailJSONList: any[] = [];
+  italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'Gagliardo', 'Garibaldi Negroni', 'Paloma', 'Spritz Veneziano'];
+  americaList = [];
+  scottishList = [];
+
+  drinkList: Drink[] = [];
+  drinkJSONList: any[] = [];
 
   constructor(private http: HttpClient) { }
 
   ngOnInit() {
-    // Simple GET request with response type <any> hejjeheje
-    
-    let cocktailName = "campari beer";
-    this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + cocktailName).subscribe(data => {
-      this.cocktail.name = data.drinks[0].strDrink;
-      this.cocktail.ingredients[0] = data.drinks[0].strIngredient1;
-      this.cocktail.measurements[0] = data.drinks[0].strMeasure1;
-      this.cocktail.instruction = data.drinks[0].strInstructions;
+    // Simple GET request with response type <any> som används som temporärt test.
+    let drinkName = "campari beer";
+    this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drinkName).subscribe(data => {
+      this.drink.name = data.drinks[0].strDrink;
+      this.drink.ingredients[0] = data.drinks[0].strIngredient1;
+      this.drink.measurements[0] = data.drinks[0].strMeasure1;
+      this.drink.instruction = data.drinks[0].strInstructions;
     })
-    
-/*
-    this.tempList.map(element => {
-      this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + element)
-      .subscribe(data => {
-        this.cocktail.name = data.drinks[0].strDrink;
-        this.cocktail.ingredients[0] = data.drinks[0].strIngredient1;
-        this.cocktail.measurements[0] = data.drinks[0].strMeasure1;
-        this.cocktail.instruction = data.drinks[0].strInstructions;
-        //console.log("-------Skriver ut cocktailobjektet i ngOninit------");
-        //console.log(this.cocktail);
-       // console.log("------------------------------");
-        this.cocktailList.push(this.cocktail);
-        }
-      );
-    })
-    */
-   this.fetchCocktailJSONs();
+
+
+   this.fetchDrinkJSONs(this.italyList);
   }
 
-  fetchCocktailJSONs() {
-    this.tempList.map(element => {
+  fetchDrinkJSONs(fetchList: String[]) {
+    fetchList.map(element => {
       this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + element)
       .subscribe(data => {
-        this.cocktailJSONList.push(data);
+        this.drinkJSONList.push(data);
       })
     })
     //console.log(this.cocktailJSONList);
-    this.addCocktails();
+    this.addDrinks();
   }
 
-  addCocktails() {
-    let tempCocktail: Cocktail;
-    this.cocktailJSONList.forEach(element => {
-      tempCocktail.name = element[0].strDrink;
-      tempCocktail.ingredients[0] = element.drinks[0].strIngredient1;
-      tempCocktail.measurements[0] = element.drinks[0].strMeasure1;
-      tempCocktail.instruction = element.drinks[0].strInstructions;
-      this.cocktailList.push(tempCocktail);
+  addDrinks() {
+    let tempDrink: Drink;
+    this.drinkJSONList.forEach(element => {
+      tempDrink.name = element[0].strDrink;
+      tempDrink.ingredients[0] = element.drinks[0].strIngredient1;
+      tempDrink.measurements[0] = element.drinks[0].strMeasure1;
+      tempDrink.instruction = element.drinks[0].strInstructions;
+      this.drinkList.push(tempDrink);
     })
+  }
+
+  getCountyList(country: string) {
+    switch(country) {
+      case 'american':
+        return this.americaList;
+      case 'italian':
+        return this.italyList;
+      case 'scottish':
+        return  this.scottishList;
+      default:
+        return [];
+    }
   }
 }
 

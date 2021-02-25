@@ -9,12 +9,16 @@ import { AppComponent } from './app.component';
 import { DrinksComponent } from './drinks/drinks.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FoodComponent } from './food/food.component';
+import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
+import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DrinksComponent,
     MoviesComponent,
+    DisplayDrinkComponent,
+    DisplayDrinkAlternativesComponent,
   ],
   imports: [
     BrowserModule,
