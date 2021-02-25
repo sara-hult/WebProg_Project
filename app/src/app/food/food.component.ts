@@ -47,18 +47,14 @@ export class FoodComponent implements OnInit {
 
   dishes: Dish[] = [];
 
-  chosenID!: number;
-  alternatives: Dish[] = [];
-  alternativeIDs: number[] = [];
 
   // [Online/Offline] Bestämmer om rätter ska hämtas från api eller chachad data för att inte använda upp API-nyckel.
   mode:runMode = runMode.Offline;
 
-
-  // En default dish som visas tills det att en ny har laddats in
+  chosenID!: number;
+  alternativeIDs: number[] = [];
   chosenDish: Dish;
-
-  chosenAlternatives:Dish[];
+  chosenAlternatives: Dish[] = [];
 
   constructor(private SpoonacularService: SpoonacularService) {
     this.chosenDish = this.initDish;
@@ -68,6 +64,7 @@ export class FoodComponent implements OnInit {
   ngOnInit(): void {
     this.generateDishes(this.mode, this.cuisine, ()=>{
       this.randomizeDish();
+      this.randomiseAlternatives(3);
     });
   }
 
@@ -94,6 +91,7 @@ export class FoodComponent implements OnInit {
     this.mode? this.mode=runMode.Offline:this.mode=runMode.Online;
      this.generateDishes(this.mode, this.cuisine, ()=>{
       this.randomizeDish();
+      this.randomiseAlternatives(3);
     });
   }
 
@@ -193,7 +191,7 @@ export class FoodComponent implements OnInit {
 
   // hanterar ramdomiseringen av alternativa rätter, fast bättre (egen lista istället för dishes. Behövs detta?)
   randomiseAlternatives(nbrAlternatives: number) {
-    this.alternatives = [];
+    this.chosenAlternatives = [];
     let candidates: Dish[] = [];
     this.dishes.forEach(element => {
       candidates.push(element)
@@ -204,7 +202,12 @@ export class FoodComponent implements OnInit {
     for (let i = 0; i < k; i++) {
       dish = this.randomChoiceFromArray(candidates);
       candidates = candidates.filter(obj => obj !== dish); // funkar detta? ska det vara dish.något?
-      this.alternatives.push(dish);
+      this.chosenAlternatives.push(dish);
     }
   }
+
+  switchToAlternative(index:number){
+    this.chosenDish = this.chosenAlternatives[index];
+  }
+
 }
