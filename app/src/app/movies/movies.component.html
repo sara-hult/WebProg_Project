@@ -1,5 +1,21 @@
-<img src={{this.poster}}>
-<h4>{{this.movieTitle}} ({{this.year}})</h4>
+<!--<img src={{this.poster}}>
+<h4>{{this.primaryMovie.title}} ({{this.year}})</h4>
 <p>Director: {{this.director}}</p>
 <p>Plot: "{{this.plot}}"</p>
-<p>IMDB rating: {{this.rating}}</p>
+<p>IMDB rating: {{this.rating}}</p>-->
+<div style="background-color: gray;">
+    <p>Movies Component</p>
+    <div>
+        <p>Vald film: </p>
+        <DisplaySelectedMovie [movie]="chosenMovie"></DisplaySelectedMovie>
+        <!--<button (click)='randomizeDish()'> Slumpa om maträtt </button>
+        <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>-->
+    </div>
+    <!--
+    <div>
+        <p>Alternativ</p>
+        <button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
+        <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
+    </div>
+    -->
+</div>

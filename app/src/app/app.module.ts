@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { DrinksComponent } from './drinks/drinks.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FoodComponent } from './food/food.component';
+import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component'
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 
@@ -19,6 +20,7 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     MoviesComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
+    DisplaySelectedMovieComponent,
   ],
   imports: [
     BrowserModule,
