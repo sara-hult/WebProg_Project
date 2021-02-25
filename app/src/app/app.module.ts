@@ -10,14 +10,20 @@ import { AppComponent } from './app.component';
 import { DrinksComponent } from './drinks/drinks.component';
 import { MoviesComponent } from './movies/movies.component';
 import { FoodComponent } from './food/food.component';
+
+import { LandingComponent } from './landing/landing.component';
+import { OverviewComponent } from './overview/overview.component';
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
+
 
 @NgModule({
   declarations: [
     AppComponent,
     DrinksComponent,
     MoviesComponent,
+    LandingComponent,
+    OverviewComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
   ],
@@ -28,6 +34,7 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     HttpClientModule,
     CommonModule,
     RouterModule.forRoot([
+      {path: '', component: LandingComponent},
       {path: 'food/:cuisine', component: FoodComponent}
     ])
   ],

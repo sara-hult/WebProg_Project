@@ -66,7 +66,6 @@ export class FoodComponent implements OnInit {
   ngOnInit(): void {
    this.route.paramMap.subscribe((params: ParamMap) => {
         this.cuisine = this.getCuisine(params.get('cuisine'));
-        console.log(this.cuisine);
         this.generateDishes(this.mode, this.cuisine, ()=>{
         this.randomizeDish();
         this.randomiseAlternatives(3);
