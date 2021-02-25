@@ -3,6 +3,17 @@
 <button (click)='getMovies()'> Kör metoden getMovies() </button>
 
 <app-drinks> [country]= "country" </app-drinks>
-<a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
+<nav>
+    <ul>
+        <li>
+            <a [routerLink]="['']">Länk till Landing</a>
+        </li>
+        <li>
+            <a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
+        </li>
+    </ul>
+</nav>
+
+
 <router-outlet></router-outlet>
 <!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
