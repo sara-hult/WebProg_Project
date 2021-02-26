@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { Countries } from '../../util/countries';
 import { Drink } from '../../util/drink';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
@@ -18,13 +19,11 @@ export class DrinksComponent implements OnInit {
   @Input() country!: Countries;
   tempCountry = 'italian';
 
-  selectedDrinkName!: String; 
-
   italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
   americaList = [];
   scottishList = [];
 
-  drink: Drink = {
+  unspecifiedDrink: Drink = {
     name: "",
     ingredients: [],
     measurements: [],
@@ -32,14 +31,16 @@ export class DrinksComponent implements OnInit {
   };
   drinkList: Drink[] = [];
 
+  drinkNames: string[] = [];
+
   mainDrink: Drink;
   dispDrinkAlt: Drink[] = [];
   
   //drinkJSONList: any[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {
-    this.mainDrink = this.drink;
-    this.dispDrinkAlt = [this.drink, this.drink, this.drink];
+    this.mainDrink = this.unspecifiedDrink;
+    this.dispDrinkAlt = [this.unspecifiedDrink, this.unspecifiedDrink, this.unspecifiedDrink];
     /*
     this.setDummyDrinks();
     this.setMainDrink();
@@ -51,12 +52,15 @@ export class DrinksComponent implements OnInit {
     //this.fetchDrinkJSONs(this.getCountryList(this.tempCountry));
     //this.setMainDrink();
     //this.addDrinks();
+    //      this.getFromFetch();
+    //this.setMainDrink();
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.country = this.getCountry(params.get('country'));
-      this.getFromFetch();
-      this.setMainDrink();
+      this.generateDrinks(this.country, () => {
+        this.getRandomDrink(this.drinkList);
+        this.getRandomAlternativies(3);
+      });
     });
-
   }
 
   getCountry(country: string | null): Countries {
@@ -71,21 +75,124 @@ export class DrinksComponent implements OnInit {
     }else{
       throw new Error('404 Ett land måste anges ex: american');
     }
-}
+  }
+
 
   getCountryList(country: string) {
     switch(country) {
       case 'american':
-        return this.americaList;
+        return this.italyList;
       case 'italian':
         return this.italyList;
       case 'scottish':
-        return  this.scottishList;
+        return  this.italyList;
       default:
         return [];
     }
   }
 
+  generateDrinks(country: Countries, callback:Function = () => {}) {
+    this.drinkNames = this.getCountryList(country);
+    this.fetchDrinksFromNames(this.drinkNames, (drinks:Drink[]) => {
+      this.drinkList = drinks;
+      callback();
+    });
+  }
+
+  fetchDrinksFromNames(drinkNames: string[], callback: Function = () => {}){
+    let drinkArray: Drink[] = [];
+    drinkNames.forEach(drink => {
+      this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink)
+        .pipe(map(res => JSON.parse(JSON.stringify(res))))
+        .subscribe(
+          (data) => {
+            this.extractDrink(data, (extractedDrink:Drink) => {
+              //console.log(extractedDrink);
+              drinkArray.push(extractedDrink);
+            })
+            
+            /*
+            let tempDrink: Drink = {
+              name: data.drinks[0].strDrink,
+              ingredients: [data.drinks[0].strIngredient1],
+              measurements: [data.drinks[0].strMeasure1],
+              instruction: data.drinks[0].strInstructions
+            }
+            */
+            
+          },
+          (error) => {
+            console.error("Request failed with error")
+          },
+          () => {
+            if(drinkArray.length === drinkNames.length){
+              callback(drinkArray)
+            }
+          }
+        );
+    })
+  }
+
+  extractDrink(response: Object, callback: Function = () => {}){
+    let drink = {
+      name: '',
+      ingredients: [],
+      measurements: [],
+      instruction: '',
+    }
+    Object.entries(response).forEach(
+      ([key, value]) => {
+        drink.name = value[0].strDrink;
+        drink.ingredients = value[0].strIngredient1,
+        drink.measurements = value[0].strMeasure1,
+        drink.instruction = value[0].strInstructions
+      }
+    );
+    callback(drink);
+  }
+
+  getRandomDrink(drinks: Drink[]){
+    this.mainDrink = this.randomChoiceFromArray<Drink>(drinks)
+  }
+
+  getRandomAlternativies(quantity: number){
+    this.dispDrinkAlt = [];
+    let candidates: Drink[] = this.drinkList.filter((drink) => drink.name !== this.mainDrink.name);
+    let i = 0;
+    let drink: Drink;
+    while(i < quantity && i < candidates.length){
+      drink = this.randomChoiceFromArray(candidates);
+      candidates = candidates.filter((tempDrink) => tempDrink.name !== drink.name);
+      console.log(i);
+      console.log(drink);
+      this.dispDrinkAlt.push(drink);
+      i++;
+    }
+  }
+
+  getDrinkFromArray(drinkName: string, drinks: Drink[]): Drink{
+    let drink: Drink;
+    drink = drinks.filter((tempDrink) => tempDrink.name === drinkName)[0];
+    if(drink === undefined) {
+      throw new Error("Drink not found in array");
+    }
+    return drink;
+  }
+
+  randomChoiceFromArray<T>(array:T[]):T {
+    //console.log(array);
+    //console.log(this.drinkList[0]);
+    return array[this.getRandomInt(array.length)];
+  }
+
+  getRandomInt(max:number): number {
+   return Math.floor(Math.random() * Math.floor(max));
+  }
+
+
+}
+
+  /*
   fetchDrinks(drink: string): Observable<any>{
     //console.log("fetchDrinks")
     //console.log(drink);
@@ -113,16 +220,17 @@ export class DrinksComponent implements OnInit {
       );
     })
   }
-
   addDrinks() {
     this.getFromFetch();
     //console.log(this.drinkList);
+
+*/
 /*
     console.log(tempList[0]);
     tempList.map(element => {
       console.log(JSON.stringify(element));
     })
-    */
+  
   }
 
 
@@ -139,7 +247,7 @@ export class DrinksComponent implements OnInit {
     }else{
       return this.getNewRandomDrink();
     }
-    */
+    
    return drink;
   }
   randomChoiceFromArray(array:Drink[]):Drink {
@@ -167,9 +275,8 @@ export class DrinksComponent implements OnInit {
     this.dispDrinkAlt = [dummyDrink, dummyDrink, dummyDrink];
   }
 }
-
-
-  /*
+*/
+/*
   fetchDrinkJSONs(fetchList: String[]) {
     let JSONList:any[] = [];
     let tempDrink: Drink;
