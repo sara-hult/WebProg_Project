@@ -36,7 +36,7 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     LandingModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
-      {path: 'overview', component: OverviewComponent},
+      {path: 'overview/:country', component: OverviewComponent},
       {path: 'food/:cuisine', component: FoodComponent}
     ])
   ],

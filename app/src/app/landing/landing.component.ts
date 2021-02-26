@@ -12,7 +12,6 @@ export class LandingComponent implements OnInit {
   availableCountries: string[];
   chosenCountry:string = "USA";
 
-
   constructor() {
     this.availableCountries = this.getAvailableCountries();
   }
@@ -20,16 +19,13 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
   }
 
-
   getAvailableCountries():string[] {
     return Object.keys(Countries);
   }
-
 
   selectChangeHandler(event: any){
     if(event !== null){
       alert("Valt land: " + event.target.value)
     }
   }
-
 }
