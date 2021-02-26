@@ -21,6 +21,7 @@ import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.comp
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import {MatSidenavModule} from '@angular/material/sidenav';
     LandingModule,
     MatSidenavModule,
     MatButtonModule,
+    MatToolbarModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
       {path: 'overview/:country', component: OverviewComponent},

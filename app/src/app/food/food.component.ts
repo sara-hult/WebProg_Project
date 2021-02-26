@@ -60,27 +60,23 @@ export class FoodComponent implements OnInit {
 
   ngOnInit(): void {
    this.route.paramMap.subscribe((params: ParamMap) => {
-        this.cuisine = this.getCuisine(params.get('cuisine'));
-        this.generateDishes(this.mode, this.cuisine, ()=>{
-        this.randomizeDish();
-        this.randomiseAlternatives(3);
+      this.cuisine = this.getCuisine(params.get('cuisine'));
+      this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+      this.randomiseAlternatives(3);
     });
   });
 
   }
 
   getCuisine(cuisine: string | null): Countries {
-      if(cuisine !== null){
-        switch(cuisine){
-          case "american":
-            return Countries.USA;
-          default:
-            throw new Error('404 Country not implemented')
 
-        }
-      }else{
-        throw new Error('404 Ett land måste anges ex: american');
-      }
+    if(cuisine !== null){
+        return Object.values(Countries).filter((val) => val === cuisine)[0];
+
+    }else{
+      throw new Error('404 Ett land måste anges ex: american');
+    }
   }
 
   /*
