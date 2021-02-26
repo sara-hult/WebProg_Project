@@ -1,3 +1,4 @@
+import { ChooseCountryService } from './choose-country.service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { LandingModule } from './landing/landing.module';
@@ -46,7 +47,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ChooseCountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

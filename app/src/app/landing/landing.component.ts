@@ -1,6 +1,7 @@
+import { ChooseCountryService } from './../choose-country.service';
 import { map } from 'rxjs/operators';
 import { Countries } from './../../util/countries';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Output, EventEmitter } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Component({
@@ -10,12 +11,10 @@ import { Router } from '@angular/router';
 
 })
 export class LandingComponent implements OnInit {
-
   availableCountries: string[];
   chosenCountryString:string;
-  chosenCountry:Countries = Countries.USA;
 
-  constructor(private _router: Router) {
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService) {
     this.availableCountries = this.getAvailableCountries();
     this.chosenCountryString = this.availableCountries[0];
   }
@@ -23,18 +22,22 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  submitCountry(){
+    this.chooseCountryService.changeCountry(this.getCountryFromName(this.chosenCountryString) || Countries.USA);
+  }
+
   getAvailableCountries():string[] {
     return Object.keys(Countries);
   }
 
-  submit(){
+  /* submit(){
     let country:Countries | undefined = this.getCountryFromName(this.chosenCountryString);
     if(country !== undefined){
       this._router.navigate(["overview/", country]);
     }else{
       throw new Error("Country Undefined!");
     }
-  }
+  } */
 
   getCountryFromName(countryName: string): Countries | undefined {
     let country: Countries | undefined = undefined;
@@ -48,9 +51,4 @@ export class LandingComponent implements OnInit {
     return country;
   }
 
-  selectChangeHandler(event: any){
-    if(event !== null){
-      alert("Valt land: " + event.target.value)
-    }
-  }
 }

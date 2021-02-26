@@ -1,3 +1,4 @@
+import { ChooseCountryService } from './../choose-country.service';
 import { FoodComponent } from './../food/food.component';
 import { OverviewComponent } from './../overview/overview.component';
 import { RouterModule } from '@angular/router';
@@ -15,6 +16,7 @@ import {MatSelectModule} from '@angular/material/select';
   declarations: [LandingComponent],
   imports: [CommonModule, FormsModule, BrowserModule, AppRoutingModule, MatButtonModule, MatSelectModule],
   exports: [LandingComponent],
+  providers:[ChooseCountryService],
   bootstrap: []
 })
 export class LandingModule { }

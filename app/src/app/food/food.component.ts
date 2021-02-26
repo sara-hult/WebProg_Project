@@ -5,11 +5,6 @@ import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import  exampleDish  from '../../util/exampleDish';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 /*
 Denna komponenten morsvarar själva matsidan.
 Vi kommer att ha 2 subkomponenter: DiplayDish och DisplayAlternatives
