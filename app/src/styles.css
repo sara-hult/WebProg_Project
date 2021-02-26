@@ -1,1 +1,35 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import '@angular/material/prebuilt-themes/purple-green.css';
+html,
+body {
+    height: 100%;
+    background: #303030;
+    color: white;
+}
+
+nav {
+    background: #656565;
+}
+
+nav ul li {
+    display: inline;
+    margin-right: 2em;
+}
+
+ul li {
+    display: inline;
+    margin-right: 2em;
+}
+
+.dish-card {
+    max-width: 400px;
+    max-height: 400px;
+    min-width: 400px;
+    min-height: 400px;
+}
+
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}

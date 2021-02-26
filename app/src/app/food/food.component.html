@@ -1,14 +1,18 @@
-<div style="background-color: gray;">
-    <p>Food Component</p>
+<div>
     <div>
-        <p>Vald maträtt: </p>
-        <DisplayDish [dish]="chosenDish"></DisplayDish>
-        <button (click)='randomizeDish()'> Slumpa om maträtt </button>
-        <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>
+        <div>
+            <DisplayDish [dish]="chosenDish"></DisplayDish>
+        </div>
+
+        <div style="padding-top:20px">
+            <button mat-stroked-button (click)='randomizeDish()'> Slumpa om maträtt </button>
+            <button mat-stroked-button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>
+        </div>
+
     </div>
     <div>
         <p>Alternativ</p>
-        <button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
+        <button mat-stroked-button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
         <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
     </div>
 </div>

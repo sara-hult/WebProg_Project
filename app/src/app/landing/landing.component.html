@@ -1,1 +1,15 @@
-<p>landing works!</p>
+<div>
+    <p>Välj ett land:</p>
+    <mat-form-field appearance="fill">
+        <mat-label>Land</mat-label>
+        <mat-select [(ngModel)]="chosenCountryString" name="country">
+            <mat-option *ngFor="let country of availableCountries" [value]="country">
+                {{country}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
+    <div>
+        <button mat-raised-button color="primary" (click)="submit()">Bekräfta val</button>
+    </div>
+</div>

@@ -1,9 +1,9 @@
-<div style="background-color: lightgray; min-width: 300; min-height: 300px; width: 300px; height: 300px;">
-    <p>{{dish.title}}</p>
-    <p>Betyg: {{dish.spoonacularScore}}/100</p>
-    <p>Tid: {{dish.readyInMinutes}} minuter</p>
-    <a href={{dish.sourceUrl}} target="'_blank'">Länk till recept</a>
-    <br>
-    <img src={{dish.image}} style="max-width: 150px;">
-    <br>
-</div>
+<mat-card class="dish-card">
+    <mat-card-title>{{dish.title}}</mat-card-title>
+    <mat-card-content>
+        <p>Betyg: {{dish.spoonacularScore}}/100</p>
+        <p>Tid: {{dish.readyInMinutes}} minuter</p>
+        <a mat-stroked-button href={{dish.sourceUrl}} target=" '_blank' ">Gå till recept</a>
+    </mat-card-content>
+    <img mat-card-image src={{dish.image}}>
+</mat-card>
