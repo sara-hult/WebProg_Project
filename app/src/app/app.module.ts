@@ -1,3 +1,4 @@
+import { LandingModule } from './landing/landing.module';
 import { RouterModule } from '@angular/router';
 import { FoodComponentModule } from './food/food.module';
 import { NgModule } from '@angular/core';
@@ -22,7 +23,6 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     AppComponent,
     DrinksComponent,
     MoviesComponent,
-    LandingComponent,
     OverviewComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
@@ -33,8 +33,10 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     FoodComponentModule,
     HttpClientModule,
     CommonModule,
+    LandingModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
+      {path: 'overview', component: OverviewComponent},
       {path: 'food/:cuisine', component: FoodComponent}
     ])
   ],

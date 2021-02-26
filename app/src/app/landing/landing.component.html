@@ -1,1 +1,11 @@
-<p>landing works!</p>
+<div>
+    <p>Välj ett land:</p>
+    <select [(ngModel)]="chosenCountry">
+      <option *ngFor="let country of availableCountries">
+        {{country}}
+      </option>
+    </select>
+    <div>
+        <p>Valt land: {{chosenCountry}}</p>
+    </div>
+</div>
