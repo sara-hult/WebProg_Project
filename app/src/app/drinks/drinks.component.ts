@@ -27,7 +27,8 @@ export class DrinksComponent implements OnInit {
     name: "",
     ingredients: [],
     measurements: [],
-    instruction: ""
+    instruction: "",
+    img_url: ""
   };
   drinkList: Drink[] = [];
 
@@ -102,7 +103,7 @@ export class DrinksComponent implements OnInit {
   fetchDrinksFromNames(drinkNames: string[], callback: Function = () => {}){
     let drinkArray: Drink[] = [];
     drinkNames.forEach(drink => {
-      this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink)
+      this.http.get<Object>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink)
         .pipe(map(res => JSON.parse(JSON.stringify(res))))
         .subscribe(
           (data) => {
@@ -134,22 +135,44 @@ export class DrinksComponent implements OnInit {
   }
 
   extractDrink(response: Object, callback: Function = () => {}){
-    let drink = {
+    let drink:Drink = {
       name: '',
       ingredients: [],
       measurements: [],
       instruction: '',
+      img_url: ''
     }
+    let ingredientList : string[] = [];
     Object.entries(response).forEach(
       ([key, value]) => {
+        drink.ingredients = value[0].strIngredient1;
         drink.name = value[0].strDrink;
-        drink.ingredients = value[0].strIngredient1,
-        drink.measurements = value[0].strMeasure1,
-        drink.instruction = value[0].strInstructions
+        drink.measurements = value[0].strMeasure1;
+        drink.instruction = value[0].strInstructions;
+        drink.img_url = value[0].strDrinkThumb;
       }
+      //value[0].strIngredient1,
+
     );
     callback(drink);
   }
+
+  /*
+Funkar inte just nu, verkar hänga sig kan bero på loopen eller hur den kallades
+
+  extractIngredients(response: Object): string[] {
+    let ingredientList: string[] = [];
+    let ing: string;
+    let i: number = 0;
+    let isNull: boolean = false;
+    while(!isNull || i < 15){
+      ing = "strInstruction"+i;
+
+      i++;
+    }
+    return ingredientList;
+  }
+  */
 
   getRandomDrink(drinks: Drink[]){
     this.mainDrink = this.randomChoiceFromArray<Drink>(drinks)
@@ -163,8 +186,6 @@ export class DrinksComponent implements OnInit {
     while(i < quantity && i < candidates.length){
       drink = this.randomChoiceFromArray(candidates);
       candidates = candidates.filter((tempDrink) => tempDrink.name !== drink.name);
-      console.log(i);
-      console.log(drink);
       this.dispDrinkAlt.push(drink);
       i++;
     }
@@ -180,8 +201,6 @@ export class DrinksComponent implements OnInit {
   }
 
   randomChoiceFromArray<T>(array:T[]):T {
-    //console.log(array);
-    //console.log(this.drinkList[0]);
     return array[this.getRandomInt(array.length)];
   }
 

@@ -3,5 +3,5 @@ export interface Drink {
     ingredients: string[],
     measurements: string[],
     instruction: string,
-    //img: string, 
+    img_url: string, 
 }
