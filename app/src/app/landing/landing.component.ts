@@ -10,7 +10,7 @@ import { Component, OnInit } from '@angular/core';
 export class LandingComponent implements OnInit {
 
   availableCountries: string[];
-  chosenCountry:string = "USA";
+  chosenCountry:Countries = Countries.USA;
 
   constructor() {
     this.availableCountries = this.getAvailableCountries();
@@ -21,6 +21,10 @@ export class LandingComponent implements OnInit {
 
   getAvailableCountries():string[] {
     return Object.keys(Countries);
+  }
+
+  submit(){
+
   }
 
   selectChangeHandler(event: any){

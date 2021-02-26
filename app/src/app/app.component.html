@@ -1,18 +1,13 @@
-<button (click)='getDrinks()'> Kör metoden getDrinks() </button>
-<button (click)='getFood()'> Kör metoden getFood() </button>
-<button (click)='getMovies()'> Kör metoden getMovies() </button>
-
-<app-drinks> [country]= "country" </app-drinks>
 <nav>
     <ul>
         <li>
-            <a [routerLink]="['']">Länk till Landing</a>
+            <a mat-stroked-button [routerLink]="['']">Länk till Landing</a>
         </li>
         <li>
-            <a [routerLink]="['/overview', correctCountry]">Länk till Overview</a>
+            <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Länk till Overview</a>
         </li>
         <li>
-            <a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
+            <a mat-stroked-button [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
         </li>
     </ul>
 </nav>

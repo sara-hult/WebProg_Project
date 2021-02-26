@@ -1,11 +1,16 @@
 <div>
     <p>Välj ett land:</p>
-    <select [(ngModel)]="chosenCountry">
-      <option *ngFor="let country of availableCountries">
-        {{country}}
-      </option>
-    </select>
+    <mat-form-field appearance="fill">
+        <mat-label>Land</mat-label>
+        <mat-select [(ngModel)]="chosenCountry" name="country">
+            <mat-option *ngFor="let country of availableCountries" [value]="country">
+                {{country}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+
     <div>
-        <button [routerLink]="['/overview', chosenCountry]">Bekräfta val</button>
+        <a mat-raised-button color="primary" [routerLink]="['/overview', chosenCountry]">Bekräfta val</a>
+        <button mat-raised-button color="primary" (click)="submit()"></button>
     </div>
 </div>

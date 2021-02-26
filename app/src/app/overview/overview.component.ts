@@ -35,17 +35,16 @@ export class OverviewComponent implements OnInit {
       case Countries.Scotland:
         return "Skottland";
     }
-    return ""
   }
 
   getCountryFromParams(country: string | null): Countries {
     if(country !== null){
-        switch(country){
-          case "USA":
+        switch(country.toLowerCase()){
+          case "american":
             return Countries.USA;
-          case "Italy":
+          case "italian":
             return Countries.Italy;
-          case "Scotland":
+          case "scottish":
             return Countries.Scotland;
           default:
             throw new Error('404 Country not implemented')

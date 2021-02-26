@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { SpoonacularService } from './spoonacular.service';
 import { AppRoutingModule } from './../app-routing.module';
 import { BrowserModule } from '@angular/platform-browser';
@@ -9,12 +10,12 @@ import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
    imports: [
-     DisplayDishModule, 
+     DisplayDishModule,
       DisplayAlternativesModule,
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-
+      MatButtonModule
       ],
    exports: [FoodComponent],
    declarations: [FoodComponent],
