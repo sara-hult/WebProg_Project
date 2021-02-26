@@ -1,8 +1,8 @@
+import { Movie } from './../../util/movie';
 import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Countries } from '../../util/countries';
 import { map } from 'rxjs/operators';
-import { Movie } from '../../util/movie'
 // import movieIds
 
 @Component({
@@ -13,16 +13,7 @@ import { Movie } from '../../util/movie'
 export class MoviesComponent implements OnInit {
   @Input() country!: Countries;
   ids: string[] = [];
-  initMovie: Movie = {
-    poster: '',
-    title: '',
-    year:'',
-    rating:'',
-    director:'',
-    plot:'',
-    id: ''
-  }
-  
+
   // Hårdkodade
   // Fargo, Mandomsprovet, Deer Hunter, Wall Street, Get Out, Mulholland Drive
   americanMovieIds = ["tt0116282", "tt0061722", "tt0077416", "tt0094291","tt5052448","tt0166924"] //återkomsten, stalker, diamond hands, krig o fred, italienaren
@@ -31,79 +22,68 @@ export class MoviesComponent implements OnInit {
   alternativeIDs: string[] = [];
   chosenMovie: Movie;
   chosenAlternatives: Movie[] = [];
-  
 
-  constructor(private http: HttpClient) { 
-    this.chosenMovie = this.initMovie;
-    this.chosenAlternatives = [this.initMovie, this.initMovie, this.initMovie]
+  placeholderMovie:Movie = {
+    Poster:"Placeholder",
+    Title:"Placeholder",
+    Year:"Placeholder",
+    Rating:"Placeholder",
+    Director:"Placeholder",
+    Plot:"Placeholder",
+    imdbID:"Placeholder"
+  };
+
+
+  constructor(private http: HttpClient) {
+    this.chosenMovie = this.placeholderMovie;
+    this.chosenAlternatives = [this.placeholderMovie, this.placeholderMovie, this.placeholderMovie]
   }
 
   ngOnInit(): void{
       this.generateMovies(this.country, ()=>{
-        this.randomiseMovie();
+        this.randomiseMovie(this.movies);
+        console.log("Chosen i init");
+        console.log(this.chosenMovie)
         this.randomiseAlternatives(3);
       });
     }
-  
+
     /*
   Laddar in alla filmer som tillhär landet från cachen
   anrop av callback gör så att slumpningen går igång
   */
  // motsvarar generateDishesCache obs
-  async generateMovies(country:Countries, callback:Function = ()=>{}) {
-    // switch-case
+  generateMovies(country:Countries, callback:Function = ()=>{}) {
     this.ids = this.generateIds(country);
-    var tempMovie: Movie;
-    /**for(var i = 0; i < this.ids.length; i++){
-      var requestUrl = 'http://www.omdbapi.com/?apikey=c9d44329&i=' + this.ids[i]
-      this.http.get(requestUrl)
-        .pipe(map(res => JSON.parse(JSON.stringify(res))))
-        .subscribe(data => {
-          // Lägg in i ett Movie-objekt
-          tempMovie = {
-            poster: data.Poster,
-            title: data.Title,
-            year: data.Year,
-            rating: data.imdbRating,
-            director: data.Director,
-            plot: data.Plot,
-            id: data.imdbID
-          }
-          this.movies.push(tempMovie)
-        });
-      }
-      **/
-    this.chosenMovie = this.initMovie;
-    this.chosenAlternatives = [this.initMovie, this.initMovie, this.initMovie]
-    let promiseArray = []
-    for(var i = 0; i < this.ids.length; i++){
-      var requestURL = 'http://www.omdbapi.com/?apikey=c9d44329&i=' + this.ids[i]
+    this.getMoviesFromIDs(this.ids, (movies:Movie[])=>{
+      this.movies = movies;
+      callback()
+    })
+  }
+
+  getMoviesFromIDs(ids:string[], callback:Function = ()=>{}){
+    let movieArr: Movie[] = [];
+    for(let i = 0; i < this.ids.length; i++){
+      let requestURL = 'http://www.omdbapi.com/?apikey=c9d44329&i=' + ids[i]
       this.http.get(requestURL)
         .pipe(map(res => JSON.parse(JSON.stringify(res))))
         .subscribe(
           (data) => {
-            // Lägg in i ett Movie-objekt
-            tempMovie = {
-              poster: data.Poster,
-              title: data.Title,
-              year: data.Year,
-              rating: data.imdbRating,
-              director: data.Director,
-              plot: data.Plot,
-              id: data.imdbID
-            }
+            movieArr.push(data);
           },
-          (error) => { 
+          (error) => {
             console.error("Request failed with error")
           },
-          () => {}
+          () => {
+            if(movieArr.length === ids.length){
+              callback(movieArr);
+            }
+          }
         )
     }
-
-    console.log("Inuti GenerateMovies")
-    console.log(this.movies)
-    callback(this.movies)
   }
+
+
 
   extractMovie(response: Object, callback:Function = ()=>{}): void {
     // let movie: Movie = this.initMovie;
@@ -116,8 +96,6 @@ export class MoviesComponent implements OnInit {
       plot:'',
       poster: ''
     }
-    console.log("RESPONSE")
-    console.log(response)
     Object.entries(response).forEach(
       ([key, value]) => {
         //console.log( key + value)
@@ -152,9 +130,8 @@ export class MoviesComponent implements OnInit {
   Väljer en ny film från de inladdade filmerna
   Anropas av knapp
   */
-  randomiseMovie() {
-    this.chosenID = this.randomChoiceFromArray(this.ids);
-    this.chosenMovie = this.getMovieFromArray(this.chosenID, this.movies)
+  randomiseMovie(movies:Movie[]) {
+    this.chosenMovie = this.randomChoiceFromArray<Movie>(this.movies);
   }
 
   /*
@@ -162,7 +139,7 @@ export class MoviesComponent implements OnInit {
   */
   randomiseAlternatives(nbrAlternatives: number) {
     this.chosenAlternatives = [];
-    let candidates: Movie[] = this.movies.filter((movie)=>movie.id !== this.chosenMovie.id);
+    let candidates: Movie[] = this.movies.filter((movie)=>movie.imdbID !== this.chosenMovie.imdbID);
     let k = Math.min(nbrAlternatives, candidates.length);
     let movie: Movie;
 
@@ -180,7 +157,7 @@ export class MoviesComponent implements OnInit {
   getMovieFromArray(id: string, movies: Movie[]): Movie {
     let movie: Movie;
     //console.log("Inuti getMovieFromArray: ")
-    movie = movies.filter((m) => m.id === id)[0]
+    movie = movies.filter((m) => m.imdbID === id)[0]
     //movie = movies.find((m)=> m.id === id)
     if(movie === undefined){
     throw new Error("Movie not found in array");
@@ -191,7 +168,7 @@ export class MoviesComponent implements OnInit {
   /*
   Returnerar ett objekt från den givna vektorn
   */
-  randomChoiceFromArray(array:any[]):any {
+  randomChoiceFromArray<T>(array:T[]):T {
     return array[this.getRandomInt(array.length)]
   }
 
@@ -200,4 +177,4 @@ export class MoviesComponent implements OnInit {
   }
 }
 
-// this.http.get('/api').subscribe(j => console.log(j)); 
+// this.http.get('/api').subscribe(j => console.log(j));
