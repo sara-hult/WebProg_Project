@@ -1,20 +1,48 @@
-<nav>
-    <ul>
-        <li>
-            <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
-        </li>
-    </ul>
-</nav>
+<mat-sidenav-container>
+
+    <div *ngIf="atLanding(); else elseBlock">
+        <nav>
+            <ul>
+                <li>
+                    <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Overview</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Food</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Drinks</a>
+                </li>
+            </ul>
+        </nav>
+    </div>
 
 
-<router-outlet></router-outlet>
-<!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+    <ng-template #elseBlock>
+        <nav>
+            <ul>
+                <li>
+                    <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
+                </li>
+            </ul>
+        </nav>
+    </ng-template>
+
+
+
+
+
+    <router-outlet></router-outlet>
+    <!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+</mat-sidenav-container>

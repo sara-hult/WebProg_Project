@@ -1,3 +1,4 @@
+import { ChooseCountryService } from './choose-country.service';
 
 import { MatButtonModule } from '@angular/material/button';
 import { LandingModule } from './landing/landing.module';
@@ -19,6 +20,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
 
 
 @NgModule({
@@ -37,6 +39,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     HttpClientModule,
     CommonModule,
     LandingModule,
+    MatSidenavModule,
     MatButtonModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
@@ -46,7 +49,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     ]),
     BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ChooseCountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

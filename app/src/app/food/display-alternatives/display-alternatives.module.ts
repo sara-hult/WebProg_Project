@@ -1,3 +1,4 @@
+import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { DisplayDishModule } from './../display-dish/display-dish.module';
 import { DisplayAlternativesComponent } from './display-alternatives.component';
@@ -6,7 +7,7 @@ import { Input, NgModule } from '@angular/core';
 
 @NgModule({
 
-   imports: [DisplayDishModule, CommonModule],
+   imports: [DisplayDishModule, CommonModule, MatButtonModule],
    exports: [DisplayAlternativesComponent],
    declarations: [DisplayAlternativesComponent],
    providers: [],

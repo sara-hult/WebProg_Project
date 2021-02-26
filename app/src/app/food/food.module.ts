@@ -1,12 +1,14 @@
 import { MatButtonModule } from '@angular/material/button';
+import { BrowserModule } from '@angular/platform-browser';
+import { Input, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
+
 import { SpoonacularService } from './spoonacular.service';
 import { AppRoutingModule } from './../app-routing.module';
-import { BrowserModule } from '@angular/platform-browser';
 import { DisplayDishModule } from './display-dish/display-dish.module';
 import { FoodComponent } from './food.component';
-import { Input, NgModule } from '@angular/core';
 import { DisplayAlternativesModule } from './display-alternatives/display-alternatives.module';
-import { HttpClientModule } from '@angular/common/http';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
    imports: [
@@ -15,7 +17,8 @@ import { HttpClientModule } from '@angular/common/http';
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-      MatButtonModule
+      MatButtonModule,
+      MatGridListModule
       ],
    exports: [FoodComponent],
    declarations: [FoodComponent],
