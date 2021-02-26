@@ -8,6 +8,7 @@ import { AppRoutingModule } from './../app-routing.module';
 import { DisplayDishModule } from './display-dish/display-dish.module';
 import { FoodComponent } from './food.component';
 import { DisplayAlternativesModule } from './display-alternatives/display-alternatives.module';
+import {MatGridListModule} from '@angular/material/grid-list';
 
 @NgModule({
    imports: [
@@ -16,7 +17,8 @@ import { DisplayAlternativesModule } from './display-alternatives/display-altern
       BrowserModule,
       AppRoutingModule,
       HttpClientModule,
-      MatButtonModule
+      MatButtonModule,
+      MatGridListModule
       ],
    exports: [FoodComponent],
    declarations: [FoodComponent],

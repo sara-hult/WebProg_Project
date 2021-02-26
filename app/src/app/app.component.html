@@ -1,20 +1,22 @@
-<nav>
-    <ul>
-        <li>
-            <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
-        </li>
-        <li>
-            <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
-        </li>
-    </ul>
-</nav>
+<mat-sidenav-container>
+    <nav>
+        <ul>
+            <li>
+                <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
+            </li>
+            <li>
+                <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
+            </li>
+            <li>
+                <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
+            </li>
+            <li>
+                <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
+            </li>
+        </ul>
+    </nav>
 
 
-<router-outlet></router-outlet>
-<!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+    <router-outlet></router-outlet>
+    <!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+</mat-sidenav-container>
