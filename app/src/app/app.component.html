@@ -1,7 +1,7 @@
 <mat-sidenav-container>
+    <mat-toolbar color="primary">
+        <div *ngIf="atLanding(); else elseBlock">
 
-    <div *ngIf="atLanding(); else elseBlock">
-        <nav>
             <ul>
                 <li>
                     <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
@@ -16,12 +16,12 @@
                     <a mat-stroked-button disabled>Drinks</a>
                 </li>
             </ul>
-        </nav>
-    </div>
+
+        </div>
 
 
-    <ng-template #elseBlock>
-        <nav>
+        <ng-template #elseBlock>
+
             <ul>
                 <li>
                     <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
@@ -36,10 +36,10 @@
                     <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
                 </li>
             </ul>
-        </nav>
-    </ng-template>
 
+        </ng-template>
 
+    </mat-toolbar>
 
 
 
