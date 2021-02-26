@@ -1,4 +1,3 @@
-import { CountryListener } from './../util/countryListener';
 import { Countries } from './../util/countries';
 import { Injectable } from '@angular/core';
 import { inject } from '@angular/core/testing';
