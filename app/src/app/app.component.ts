@@ -1,5 +1,4 @@
 import { ChooseCountryService } from './choose-country.service';
-import { CountryListener } from './../util/countryListener';
 import { Router } from '@angular/router';
 import { Countries } from './../util/countries';
 import { Component } from '@angular/core';
