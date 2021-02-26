@@ -41,7 +41,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
       {path: 'overview/:country', component: OverviewComponent},
-      {path: 'food/:cuisine', component: FoodComponent}
+      {path: 'food/:cuisine', component: FoodComponent},
+      {path: 'drinks/:country', component: DrinksComponent}
     ]),
     BrowserAnimationsModule
   ],
