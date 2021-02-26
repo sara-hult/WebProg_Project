@@ -3,11 +3,13 @@ import { Countries } from '../../util/countries';
 import { Drink } from '../../util/drink';
 import { Observable } from 'rxjs';
 
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
+
 import { HttpClient } from '@angular/common/http';
 import { ThrowStmt } from '@angular/compiler';
 
 @Component({
-  selector: 'app-drinks',
+  selector: 'DrinksComponent',
   templateUrl: './drinks.component.html',
   styleUrls: ['./drinks.component.css'],
 
@@ -15,6 +17,8 @@ import { ThrowStmt } from '@angular/compiler';
 export class DrinksComponent implements OnInit {
   @Input() country!: Countries;
   tempCountry = 'italian';
+
+  selectedDrinkName!: String; 
 
   italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
   americaList = [];
@@ -33,7 +37,7 @@ export class DrinksComponent implements OnInit {
   
   //drinkJSONList: any[] = [];
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.mainDrink = this.drink;
     this.dispDrinkAlt = [this.drink, this.drink, this.drink];
     /*
@@ -46,9 +50,28 @@ export class DrinksComponent implements OnInit {
   ngOnInit() {
     //this.fetchDrinkJSONs(this.getCountryList(this.tempCountry));
     //this.setMainDrink();
-    this.addDrinks();
-    this.setMainDrink();
+    //this.addDrinks();
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.country = this.getCountry(params.get('country'));
+      this.getFromFetch();
+      this.setMainDrink();
+    });
+
   }
+
+  getCountry(country: string | null): Countries {
+    if(country !== null){
+      switch(country){
+        case "american":
+          return Countries.USA;
+        default:
+          throw new Error('404 Country not implemented')
+
+      }
+    }else{
+      throw new Error('404 Ett land måste anges ex: american');
+    }
+}
 
   getCountryList(country: string) {
     switch(country) {
@@ -120,8 +143,8 @@ export class DrinksComponent implements OnInit {
    return drink;
   }
   randomChoiceFromArray(array:Drink[]):Drink {
-    console.log(array);
-    console.log(this.drinkList[0]);
+    //console.log(array);
+    //console.log(this.drinkList[0]);
     return array[this.getRandomInt(array.length)];
   }
 

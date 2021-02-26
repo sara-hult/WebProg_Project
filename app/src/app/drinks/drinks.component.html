@@ -1,2 +1,11 @@
-<p>Drinks:</p>
-<p> {{ mainDrink.name }} – {{mainDrink.instruction}} </p>
+<div style="background-color: gray;">
+    <p>Drink Component</p>
+    <div>
+        <p>Vald Dryck: </p>
+        <DisplayDrinkComponent [drink]="mainDrink"></DisplayDrinkComponent>
+    </div>
+    <div>
+        <p>Alternativ</p>
+        <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt"></DisplayDrinkAlternatives>
+    </div>
+</div>
