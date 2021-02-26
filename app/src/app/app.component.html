@@ -2,6 +2,21 @@
 <button (click)='getFood()'> Kör metoden getFood() </button>
 <button (click)='getMovies()'> Kör metoden getMovies() </button>
 
-<app-drinks> [country]= "country" </app-drinks>
-<app-movies></app-movies>
-<FoodComponent [cuisine]="correctCountry"></FoodComponent>
+
+<nav>
+    <ul>
+        <li>
+            <a [routerLink]="['']">Länk till Landing</a>
+        </li>
+        <li>
+            <a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
+        </li>
+        <li>
+            <a [routerLink]="['/drinks', correctCountry]">Länk till Drinks</a>
+        </li>
+    </ul>
+</nav>
+
+
+<router-outlet></router-outlet>
+<!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
