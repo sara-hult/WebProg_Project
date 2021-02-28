@@ -5,11 +5,6 @@ import { Dish } from './../../util/dish';
 import { SpoonacularService } from './spoonacular.service';
 import { Component, Input, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
-import { switchMap } from 'rxjs/operators';
-import  exampleDish  from '../../util/exampleDish';
-import { Observable, throwError } from 'rxjs';
-import { catchError, retry } from 'rxjs/operators';
-import { HttpClient } from '@angular/common/http';
 /*
 Denna komponenten morsvarar själva matsidan.
 Vi kommer att ha 2 subkomponenter: DiplayDish och DisplayAlternatives
@@ -65,27 +60,23 @@ export class FoodComponent implements OnInit {
 
   ngOnInit(): void {
    this.route.paramMap.subscribe((params: ParamMap) => {
-        this.cuisine = this.getCuisine(params.get('cuisine'));
-        this.generateDishes(this.mode, this.cuisine, ()=>{
-        this.randomizeDish();
-        this.randomiseAlternatives(3);
+      this.cuisine = this.getCuisine(params.get('cuisine'));
+      this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+      this.randomiseAlternatives(3);
     });
   });
 
   }
 
   getCuisine(cuisine: string | null): Countries {
-      if(cuisine !== null){
-        switch(cuisine){
-          case "american":
-            return Countries.USA;
-          default:
-            throw new Error('404 Country not implemented')
 
-        }
-      }else{
-        throw new Error('404 Ett land måste anges ex: american');
-      }
+    if(cuisine !== null){
+        return Object.values(Countries).filter((val) => val === cuisine)[0];
+
+    }else{
+      throw new Error('404 Ett land måste anges ex: american');
+    }
   }
 
   /*

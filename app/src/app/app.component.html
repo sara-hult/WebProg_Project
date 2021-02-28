@@ -1,22 +1,48 @@
-<button (click)='getDrinks()'> Kör metoden getDrinks() </button>
-<button (click)='getFood()'> Kör metoden getFood() </button>
-<button (click)='getMovies()'> Kör metoden getMovies() </button>
+<mat-sidenav-container>
+    <mat-toolbar color="primary">
+        <div *ngIf="atLanding(); else elseBlock">
+
+            <ul>
+                <li>
+                    <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Overview</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Food</a>
+                </li>
+                <li>
+                    <a mat-stroked-button disabled>Drinks</a>
+                </li>
+            </ul>
+
+        </div>
 
 
-<nav>
-    <ul>
-        <li>
-            <a [routerLink]="['']">Länk till Landing</a>
-        </li>
-        <li>
-            <a [routerLink]="['/food', correctCountry]">Länk till FoodComponent</a>
-        </li>
-        <li>
-            <a [routerLink]="['/drinks', correctCountry]">Länk till Drinks</a>
-        </li>
-    </ul>
-</nav>
+        <ng-template #elseBlock>
+
+            <ul>
+                <li>
+                    <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
+                </li>
+                <li>
+                    <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
+                </li>
+            </ul>
+
+        </ng-template>
+
+    </mat-toolbar>
 
 
-<router-outlet></router-outlet>
-<!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+
+    <router-outlet></router-outlet>
+    <!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
+</mat-sidenav-container>

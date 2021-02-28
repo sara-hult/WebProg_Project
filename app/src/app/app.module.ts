@@ -1,3 +1,7 @@
+import { ChooseCountryService } from './choose-country.service';
+
+import { MatButtonModule } from '@angular/material/button';
+import { LandingModule } from './landing/landing.module';
 import { RouterModule } from '@angular/router';
 import { FoodComponentModule } from './food/food.module';
 import { NgModule } from '@angular/core';
@@ -15,6 +19,9 @@ import { LandingComponent } from './landing/landing.component';
 import { OverviewComponent } from './overview/overview.component';
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import {MatSidenavModule} from '@angular/material/sidenav';
+import {MatToolbarModule} from '@angular/material/toolbar';
 
 
 @NgModule({
@@ -22,7 +29,6 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     AppComponent,
     DrinksComponent,
     MoviesComponent,
-    LandingComponent,
     OverviewComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
@@ -33,13 +39,19 @@ import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-altern
     FoodComponentModule,
     HttpClientModule,
     CommonModule,
+    LandingModule,
+    MatSidenavModule,
+    MatButtonModule,
+    MatToolbarModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
+      {path: 'overview/:country', component: OverviewComponent},
       {path: 'food/:cuisine', component: FoodComponent},
       {path: 'drinks/:country', component: DrinksComponent}
-    ])
+    ]),
+    BrowserAnimationsModule
   ],
-  providers: [],
+  providers: [ChooseCountryService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
