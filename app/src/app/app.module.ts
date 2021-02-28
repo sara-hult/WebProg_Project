@@ -20,6 +20,7 @@ import { OverviewComponent } from './overview/overview.component';
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 
@@ -32,6 +33,7 @@ import {MatToolbarModule} from '@angular/material/toolbar';
     OverviewComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
+    DisplaySelectedMovieComponent
   ],
   imports: [
     BrowserModule,
@@ -47,7 +49,8 @@ import {MatToolbarModule} from '@angular/material/toolbar';
       {path: '', component: LandingComponent},
       {path: 'overview/:country', component: OverviewComponent},
       {path: 'food/:cuisine', component: FoodComponent},
-      {path: 'drinks/:country', component: DrinksComponent}
+      {path: 'drinks/:country', component: DrinksComponent},
+      {path: 'movies/:country', component: MoviesComponent}
     ]),
     BrowserAnimationsModule
   ],
