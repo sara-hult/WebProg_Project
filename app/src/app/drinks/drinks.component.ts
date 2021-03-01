@@ -20,8 +20,8 @@ export class DrinksComponent implements OnInit {
   tempCountry = 'italian';
 
   italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
-  americaList = ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots'];
-  scottishList = ['afternoon','baby guiness', 'balmoral', 'baileys dream shake', 'black & tan','black and brown','egg nogg - Healthy','egg nogg - classic cooked','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite'];
+  americaList = ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots', 'kentucky b and b', 'kentucky colonel'];
+  scottishList = ['afternoon','baby guinness', 'balmoral', 'black and brown','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite'];
 
   unspecifiedDrink: Drink = {
     name: "",
@@ -69,6 +69,10 @@ export class DrinksComponent implements OnInit {
       switch(country){
         case "american":
           return Countries.USA;
+        case "italian":
+          return Countries.Italy;
+        case "scottish":
+          return Countries.Scotland ;
         default:
           throw new Error('404 Country not implemented')
 
@@ -82,11 +86,11 @@ export class DrinksComponent implements OnInit {
   getCountryList(country: string) {
     switch(country) {
       case 'american':
-        return this.italyList;
+        return this.americaList;
       case 'italian':
         return this.italyList;
       case 'scottish':
-        return  this.italyList;
+        return  this.scottishList;
       default:
         return [];
     }
@@ -123,6 +127,7 @@ export class DrinksComponent implements OnInit {
             
           },
           (error) => {
+            alert("nope");
             console.error("Request failed with error")
           },
           () => {
@@ -143,11 +148,12 @@ export class DrinksComponent implements OnInit {
       img_url: ''
     }
     let ingredientList : string[] = [];
+  
     Object.entries(response).forEach(
       ([key, value]) => {
-        drink.ingredients = value[0].strIngredient1;
+        drink.ingredients = this.extractIngredients(response);
         drink.name = value[0].strDrink;
-        drink.measurements = value[0].strMeasure1;
+        drink.measurements = this.extractMeasurement(response);
         drink.instruction = value[0].strInstructions;
         drink.img_url = value[0].strDrinkThumb;
       }
@@ -157,22 +163,49 @@ export class DrinksComponent implements OnInit {
     callback(drink);
   }
 
-  /*
-Funkar inte just nu, verkar hänga sig kan bero på loopen eller hur den kallades
 
-  extractIngredients(response: Object): string[] {
+  extractIngredients(response: Object): string[] {   
     let ingredientList: string[] = [];
-    let ing: string;
-    let i: number = 0;
-    let isNull: boolean = false;
-    while(!isNull || i < 15){
-      ing = "strInstruction"+i;
-
-      i++;
-    }
+    Object.entries(response).forEach(
+      ([key, value]) => {
+        ingredientList.push((value[0].strIngredient1));
+        ingredientList.push((value[0].strIngredient2));
+        ingredientList.push((value[0].strIngredient3));
+        ingredientList.push((value[0].strIngredient4));
+        ingredientList.push((value[0].strIngredient5));
+        ingredientList.push((value[0].strIngredient6));
+        ingredientList.push((value[0].strIngredient7));
+        ingredientList.push((value[0].strIngredient8));
+        ingredientList.push((value[0].strIngredient9));
+        ingredientList.push((value[0].strIngredient10));
+      }
+    )
+    ingredientList = ingredientList.filter(v => v !== null);
+    console.log(ingredientList);
     return ingredientList;
   }
-  */
+
+  extractMeasurement(response: Object): string[] {
+    let measurementList : string[] = [];
+     
+    Object.entries(response).forEach(
+      ([key, value]) => {
+        measurementList.push((value[0].strMeasure1));
+        measurementList.push((value[0].strMeasure2));
+        measurementList.push((value[0].strMeasure3));
+        measurementList.push((value[0].strMeasure4));
+        measurementList.push((value[0].strMeasure5));
+        measurementList.push((value[0].strMeasure6));
+        measurementList.push((value[0].strMeasure7));
+        measurementList.push((value[0].strMeasure8));
+        measurementList.push((value[0].strMeasure9));
+        measurementList.push((value[0].strMeasure10));
+      }
+    )
+    measurementList = measurementList.filter(v => v !== null);
+    return measurementList;
+  }
+  
 
   getRandomDrink(drinks: Drink[]){
     this.mainDrink = this.randomChoiceFromArray<Drink>(drinks)
@@ -350,4 +383,25 @@ Funkar inte just nu, verkar hänga sig kan bero på loopen eller hur den kallade
       this.drink.measurements[0] = data.drinks[0].strMeasure1;
       this.drink.instruction = data.drinks[0].strInstructions;
     })
+    */
+
+      /*
+
+        let ingredientList: string[] = [];
+    let ing: string;
+    let i: number = 1;
+    let isNull: boolean = false;
+    while(!isNull && i < 16){
+      ing = "strIngredient" +i;
+      Object.entries(response).forEach(
+        ([key, value]) => {
+        
+          // if(value[0].ing) {
+           console.log(JSON.parse(ing)); 
+        //  }
+        }
+      )      
+
+      i++;
+    }
     */
