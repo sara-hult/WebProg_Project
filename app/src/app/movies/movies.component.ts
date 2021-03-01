@@ -3,6 +3,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Countries } from '../../util/countries';
 import { map } from 'rxjs/operators';
+import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 // import movieIds
 
 @Component({
@@ -16,7 +17,7 @@ export class MoviesComponent implements OnInit {
 
   // Hårdkodade
   // Fargo, Mandomsprovet, Deer Hunter, Wall Street, Get Out, Mulholland Drive
-  americanMovieIds = ["tt0116282", "tt0061722", "tt0077416", "tt0094291","tt5052448","tt0166924"] //återkomsten, stalker, diamond hands, krig o fred, italienaren
+  americanMovieIds = ["tt0116282", "tt0061722", "tt0077416", "tt0094291","tt5052448","tt0166924"]
   movies: Movie[] = [];
   chosenID!: string;
   alternativeIDs: string[] = [];
@@ -27,26 +28,40 @@ export class MoviesComponent implements OnInit {
     Poster:"Placeholder",
     Title:"Placeholder",
     Year:"Placeholder",
-    Rating:"Placeholder",
+    imdbRating:"Placeholder",
     Director:"Placeholder",
     Plot:"Placeholder",
     imdbID:"Placeholder"
   };
 
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.chosenMovie = this.placeholderMovie;
     this.chosenAlternatives = [this.placeholderMovie, this.placeholderMovie, this.placeholderMovie]
   }
 
   ngOnInit(): void{
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.country = this.getCountry(params.get('country'));
       this.generateMovies(this.country, ()=>{
         this.randomiseMovie(this.movies);
-        console.log("Chosen i init");
-        console.log(this.chosenMovie)
         this.randomiseAlternatives(3);
       });
+    });
     }
+
+  getCountry(country: string | null): Countries {
+    if(country !== null){
+      switch(country){
+        case "american":
+          return Countries.USA;
+        default:
+          throw new Error('404 Country not implemented') 
+      }
+    }else{
+        throw new Error('404 Ett land måste anges ex: american');
+      }
+    }  
 
     /*
   Laddar in alla filmer som tillhär landet från cachen
@@ -83,27 +98,6 @@ export class MoviesComponent implements OnInit {
     }
   }
 
-
-
-  extractMovie(response: Object, callback:Function = ()=>{}): void {
-    // let movie: Movie = this.initMovie;
-    let movie = {
-      title: '',
-      id: '',
-      year:'',
-      rating:'',
-      director:'',
-      plot:'',
-      poster: ''
-    }
-    Object.entries(response).forEach(
-      ([key, value]) => {
-        //console.log( key + value)
-      }
-    );
-    callback(movie);
-  }
-
   generateIds(country:Countries){
     let ids: string[] = [];
     switch(country){
@@ -119,9 +113,7 @@ export class MoviesComponent implements OnInit {
         //info = scottishInfo;
         break;
       default:
-        ids = this.americanMovieIds;
-        break;
-        //throw new Error ("Movies for "+ country +" not implemented")
+        throw new Error ("Movies for "+ country +" not implemented")
     }
     return ids;
   }
@@ -145,24 +137,9 @@ export class MoviesComponent implements OnInit {
 
     for (let i = 0; i < k; i++) {
       movie = this.randomChoiceFromArray(candidates);
-      candidates = candidates.filter(obj => obj !== movie); // funkar detta? ska det vara dish.något?
+      candidates = candidates.filter(obj => obj !== movie); 
       this.chosenAlternatives.push(movie);
     }
-  }
-
-  /*
-  Returnerar filmen som har det valda IDt
-  Om det inte finns någon film med angivet så kastas ett fel.
-  */
-  getMovieFromArray(id: string, movies: Movie[]): Movie {
-    let movie: Movie;
-    //console.log("Inuti getMovieFromArray: ")
-    movie = movies.filter((m) => m.imdbID === id)[0]
-    //movie = movies.find((m)=> m.id === id)
-    if(movie === undefined){
-    throw new Error("Movie not found in array");
-    }
-    return movie;
   }
 
   /*

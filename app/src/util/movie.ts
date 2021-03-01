@@ -2,7 +2,7 @@ export interface Movie{
     Poster:string,
     Title:string,
     Year:string,
-    Rating:string,
+    imdbRating:string,
     Director:string,
     Plot:string,
     imdbID:string
