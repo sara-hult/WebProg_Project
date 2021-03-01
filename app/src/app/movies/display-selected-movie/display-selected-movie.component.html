@@ -1,21 +1,10 @@
-
-<div style="background-color: lightgray; min-width: 300; min-height: 300px; width: 300px; height: 300px;">
-    <img src={{movie.Poster}} style="max-height: 150px;">
-    <p>{{movie.Title}} ({{movie.Year}})</p>
-    <p>Regissör: {{movie.Director}}</p>
-    <p>Speltid: x minuter</p>
-    <p>Betyg: {{movie.imdbRating}}/10</p>
-</div> 
-
-
-<!-- 
-<mat-card class="movie-card">
-    <mat-card-title>{{movie.Title}}, ({{movie.Year}})</mat-card-title>
+<mat-card class="movie-card" style="max-width: '500px';">
+    <img mat-card-image src={{movie.Poster}} style="max-width: '300px';">
+    <mat-card-title style="margin-left: auto;margin-right: auto;">{{movie.Title}}, ({{movie.Year}})</mat-card-title>
     <mat-card-content>
         <p>Regissör: {{movie.Director}}</p>
-        <p>Speltid: 0 minuter</p>
+        <p>Speltid: {{movie.Runtime}}</p>
         <p>Betyg: {{movie.imdbRating}}/10</p>
+        <p>Handling: "{{movie.Plot}}"</p>
     </mat-card-content>
-    <img mat-card-image src={{movie.Poster}}>
 </mat-card>
--->

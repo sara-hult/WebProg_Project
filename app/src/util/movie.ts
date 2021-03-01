@@ -5,5 +5,6 @@ export interface Movie{
     imdbRating:string,
     Director:string,
     Plot:string,
-    imdbID:string
+    imdbID:string,
+    Runtime:string
 }

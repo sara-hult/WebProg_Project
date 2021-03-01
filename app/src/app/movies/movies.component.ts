@@ -31,7 +31,8 @@ export class MoviesComponent implements OnInit {
     imdbRating:"Placeholder",
     Director:"Placeholder",
     Plot:"Placeholder",
-    imdbID:"Placeholder"
+    imdbID:"Placeholder",
+    Runtime:"Placeholder"
   };
 
 

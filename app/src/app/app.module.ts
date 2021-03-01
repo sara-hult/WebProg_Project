@@ -23,6 +23,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
+import {MatCardModule} from '@angular/material/card';
 
 import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component';
 import { DisplayMovieAlternativesComponent } from './movies/display-movie-alternatives/display-movie-alternatives.component';
@@ -50,6 +51,7 @@ import { DisplayMovieAlternativesComponent } from './movies/display-movie-altern
     MatSidenavModule,
     MatButtonModule,
     MatToolbarModule,
+    MatCardModule,
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
       {path: 'overview/:country', component: OverviewComponent},
