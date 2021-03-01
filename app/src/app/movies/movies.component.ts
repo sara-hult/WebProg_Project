@@ -17,7 +17,11 @@ export class MoviesComponent implements OnInit {
 
   // Hårdkodade
   // Fargo, Mandomsprovet, Deer Hunter, Wall Street, Get Out, Mulholland Drive
-  americanMovieIds = ["tt0116282", "tt0061722", "tt0077416", "tt0094291","tt5052448","tt0166924"]
+  americanMovieIds = ["tt0116282", "tt0061722", "tt0077416", "tt0094291","tt5052448","tt0166924","tt0062622", "tt0072684", "tt0368794"]
+  // nostalgia, roma, gudfadern 2, livetär underbart
+  italianMovieIds = ["tt0086022", "tt0069191", "tt0071562", "tt0118799"]
+  // Braveheart, Trainspotting, last king of scotland, highlander
+  scottishMovieIds = ["tt0112573", "tt0117951", "tt0455590", "tt0091203"] 
   movies: Movie[] = [];
   chosenID!: string;
   alternativeIDs: string[] = [];
@@ -56,6 +60,10 @@ export class MoviesComponent implements OnInit {
       switch(country){
         case "american":
           return Countries.USA;
+        case "italian":
+          return Countries.Italy;
+        case "scottish":
+          return Countries.Scotland
         default:
           throw new Error('404 Country not implemented') 
       }
@@ -106,12 +114,10 @@ export class MoviesComponent implements OnInit {
         ids = this.americanMovieIds;
         break;
       case Countries.Italy:
-        throw new Error ("Movies for "+ country +" not implemented")
-        //info = italianInfo;
+        ids = this.italianMovieIds;
         break;
       case Countries.Scotland:
-        throw new Error ("Movies for "+ country +" not implemented")
-        //info = scottishInfo;
+        ids = this.scottishMovieIds;
         break;
       default:
         throw new Error ("Movies for "+ country +" not implemented")
