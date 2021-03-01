@@ -11,11 +11,9 @@
         <!--<button (click)='randomizeDish()'> Slumpa om maträtt </button>
         <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>-->
     </div>
-    <!--
+    
     <div>
         <p>Alternativ</p>
-        <button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
-        <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
+        <DisplayMovieAlternatives [alternatives]="chosenAlternatives"></DisplayMovieAlternatives>
     </div>
-    -->
 </div>

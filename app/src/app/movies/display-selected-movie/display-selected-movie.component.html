@@ -1,7 +1,21 @@
+
 <div style="background-color: lightgray; min-width: 300; min-height: 300px; width: 300px; height: 300px;">
     <img src={{movie.Poster}} style="max-height: 150px;">
     <p>{{movie.Title}} ({{movie.Year}})</p>
     <p>Regissör: {{movie.Director}}</p>
+    <p>Speltid: x minuter</p>
     <p>Betyg: {{movie.imdbRating}}/10</p>
-    <!--<a href="https://www.imdb.com/title/$({{movie.id}})" target="'_blank"> Kolla in på IMDB</a>-->
-</div>
+</div> 
+
+
+<!-- 
+<mat-card class="movie-card">
+    <mat-card-title>{{movie.Title}}, ({{movie.Year}})</mat-card-title>
+    <mat-card-content>
+        <p>Regissör: {{movie.Director}}</p>
+        <p>Speltid: 0 minuter</p>
+        <p>Betyg: {{movie.imdbRating}}/10</p>
+    </mat-card-content>
+    <img mat-card-image src={{movie.Poster}}>
+</mat-card>
+-->
