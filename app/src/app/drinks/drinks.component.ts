@@ -20,8 +20,8 @@ export class DrinksComponent implements OnInit {
   tempCountry = 'italian';
 
   italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
-  americaList = [];
-  scottishList = [];
+  americaList = ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots'];
+  scottishList = ['afternoon','baby guiness', 'balmoral', 'baileys dream shake', 'black & tan','black and brown','egg nogg - Healthy','egg nogg - classic cooked','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite'];
 
   unspecifiedDrink: Drink = {
     name: "",
