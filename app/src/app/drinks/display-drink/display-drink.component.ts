@@ -7,7 +7,7 @@ import { Drink } from './../../../util/drink';
   styleUrls: ['./display-drink.component.css']
 })
 export class DisplayDrinkComponent implements OnInit {
-  @Input() drink!: Drink
+  @Input() drink!: Drink;
   constructor() { }
 
   ngOnInit(): void {

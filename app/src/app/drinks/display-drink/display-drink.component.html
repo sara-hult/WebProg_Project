@@ -1,7 +1,9 @@
-<div style="background-color: lightgray; min-width: 300; min-height: 300px; width: 300px; height: 300px;">
-    <p>{{drink.name}}</p>
-    <p>Ingredienser: {{drink.ingredients}} {{ drink.measurements }}</p>
-    <!--<p>Gör såhär: {{drink.instruction}}</p>-->
-    <img src={{drink.img_url}} style="padding: 10px 75px; min-width: 100; max-width: 150px;">
-    <br>
-</div>
+<mat-card class="dish-card">
+    <mat-card-title>{{drink.name}}</mat-card-title>
+    <mat-card-content>
+        <!--<li *ngfor></li>--->
+        <p>Ingredienser: {{drink.ingredients}}</p>
+        <p>{{drink.measurements}}</p>
+    </mat-card-content>
+    <img mat-card-image src={{drink.img_url}}>
+</mat-card>

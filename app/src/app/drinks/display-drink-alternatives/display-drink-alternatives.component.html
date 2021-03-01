@@ -1,9 +1,21 @@
-<div>
+<mat-grid-list cols="3" rowHeight="3:4">
+    <mat-grid-tile>
+        <DisplayDrinkComponent [drink]="alternatives[0]"></DisplayDrinkComponent>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <DisplayDrinkComponent [drink]="alternatives[1]"></DisplayDrinkComponent>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <DisplayDrinkComponent [drink]="alternatives[2]"></DisplayDrinkComponent>
+    </mat-grid-tile>
+</mat-grid-list>
+  
+<!--<div>
     <ul>
         <li *ngFor="let item of alternatives" style="display: inline-block;">
-            <div style="margin: 10px;">
+            <mat-grid-list cols="4" rowHeight="100px">
                 <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
-            </div>
+            
         </li>
     </ul>
-</div>
+</div> --->
