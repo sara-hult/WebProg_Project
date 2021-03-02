@@ -34,6 +34,8 @@ export class DrinksComponent implements OnInit {
 
   drinkNames: string[] = [];
 
+  mainStringDrink: string = "";
+
   mainDrink: Drink;
   dispDrinkAlt: Drink[] = [];
   
@@ -241,6 +243,9 @@ export class DrinksComponent implements OnInit {
    return Math.floor(Math.random() * Math.floor(max));
   }
 
+  randomizeDrink() {
+    this.getRandomDrink(this.drinkList);
+  }
 
 }
 

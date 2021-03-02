@@ -24,6 +24,8 @@ import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatListModule } from '@angular/material/list';
 
 
 @NgModule({
@@ -47,6 +49,8 @@ import {MatGridListModule} from '@angular/material/grid-list';
     MatToolbarModule,
     MatCardModule,
     MatGridListModule,
+    MatListModule,
+    MatDividerModule,
     
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
