@@ -31,6 +31,7 @@ import { MatListModule } from '@angular/material/list';
 import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component';
 import { DisplayMovieAlternativesComponent } from './movies/display-movie-alternatives/display-movie-alternatives.component';
 import { FoodCreationService } from './food-creation.service';
+import { DisplayDishModule } from './food/display-dish/display-dish.module';
 
 
 @NgModule({
@@ -46,7 +47,7 @@ import { FoodCreationService } from './food-creation.service';
     DisplaySelectedMovieComponent
   ],
   imports: [
-    BrowserModule,
+  BrowserModule,
     AppRoutingModule,
     FoodComponentModule,
     HttpClientModule,
@@ -59,6 +60,7 @@ import { FoodCreationService } from './food-creation.service';
     MatGridListModule,
     MatListModule,
     MatDividerModule,
+    DisplayDishModule,
 
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
