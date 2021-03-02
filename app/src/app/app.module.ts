@@ -56,7 +56,6 @@ import { DisplayMovieAlternativesComponent } from './movies/display-movie-altern
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
-    drinkdrinks
     MatGridListModule,
     MatListModule,
     MatDividerModule,

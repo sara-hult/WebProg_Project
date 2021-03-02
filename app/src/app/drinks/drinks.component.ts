@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Countries } from '../../util/countries';
 import { Drink } from '../../util/drink';
-import { Observable } from 'rxjs';
+import { iif, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { Router, ActivatedRoute, ParamMap } from '@angular/router';
@@ -165,11 +165,39 @@ export class DrinksComponent implements OnInit {
     callback(drink);
   }
 
+  extractSpec(value:Object, spec:string): string[]{
+    let specList: string[];
+    let index: number = 1;
+    let specName: string;
+    if(spec === "strIngredient") {
+      specName = spec + index;
+      //while()
+      
+    }
+    return [];
+  }
+
 
   extractIngredients(response: Object): string[] {   
     let ingredientList: string[] = [];
+    let ing: string = "strIngredient";
+    let i: number = 1;
+    let ingName:string="";
     Object.entries(response).forEach(
       ([key, value]) => {
+        ingName=value[0][ing+i];
+        while(ingName !== null){
+          console.log(ingName);
+          i++;
+          ingName=value[0][ing+i];
+        }
+      }
+    )
+    ingredientList = ingredientList.filter(v => v !== null);
+    //console.log(ingredientList);
+    return ingredientList;
+  }
+          /*
         ingredientList.push((value[0].strIngredient1));
         ingredientList.push((value[0].strIngredient2));
         ingredientList.push((value[0].strIngredient3));
@@ -180,12 +208,7 @@ export class DrinksComponent implements OnInit {
         ingredientList.push((value[0].strIngredient8));
         ingredientList.push((value[0].strIngredient9));
         ingredientList.push((value[0].strIngredient10));
-      }
-    )
-    ingredientList = ingredientList.filter(v => v !== null);
-    console.log(ingredientList);
-    return ingredientList;
-  }
+        */
 
   extractMeasurement(response: Object): string[] {
     let measurementList : string[] = [];
