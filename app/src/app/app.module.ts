@@ -30,7 +30,7 @@ import { MatListModule } from '@angular/material/list';
 
 import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component';
 import { DisplayMovieAlternativesComponent } from './movies/display-movie-alternatives/display-movie-alternatives.component';
-
+import { FoodCreationService } from './food-creation.service';
 
 
 @NgModule({
@@ -69,7 +69,7 @@ import { DisplayMovieAlternativesComponent } from './movies/display-movie-altern
     ]),
     BrowserAnimationsModule
   ],
-  providers: [ChooseCountryService],
+  providers: [ChooseCountryService, FoodCreationService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

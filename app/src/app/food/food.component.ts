@@ -56,17 +56,29 @@ export class FoodComponent implements OnInit {
   constructor(private SpoonacularService: SpoonacularService, private route: ActivatedRoute) {
     this.chosenDish = this.initDish;
     this.chosenAlternatives = [this.initDish, this.initDish, this.initDish]
+    this.getDishesFromStorage();
+    this.getChosenFromStorage();
   }
 
   ngOnInit(): void {
-   this.route.paramMap.subscribe((params: ParamMap) => {
+    this.randomiseAlternatives(3);
+
+  /*  this.route.paramMap.subscribe((params: ParamMap) => {
       this.cuisine = this.getCuisine(params.get('cuisine'));
       this.generateDishes(this.mode, this.cuisine, ()=>{
       this.randomizeDish();
       this.randomiseAlternatives(3);
     });
-  });
+  }); */
+  }
 
+  getChosenFromStorage() {
+    let dish: string|null = localStorage.getItem("chosenDish");
+    dish? this.chosenDish = JSON.parse(dish): '';
+  }
+  getDishesFromStorage() {
+    let dishes: string|null = localStorage.getItem("dishes");
+    dishes? this.dishes = JSON.parse(dishes): '';
   }
 
   getCuisine(cuisine: string | null): Countries {
@@ -90,13 +102,26 @@ export class FoodComponent implements OnInit {
     mode? this.generateDishesAPI(cuisine, callback): this.generateDishesCache(cuisine, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
 
+   /*
+  Byter vilken källa datan hämtas ifrån
+  Slumpar därefter om vald rätt och valda alternativ
+   */
+  toggleFetchMode(){
+    this.mode? this.mode=runMode.Offline : this.mode=runMode.Online;
+     this.generateDishes(this.mode, this.cuisine, ()=>{
+      this.randomizeDish();
+      this.randomiseAlternatives(3);
+    });
+  }
+
   /*
   Väljer en ny rätt från de inladdade rätterna
   Anropas av knapp
   */
   randomizeDish() {
-    this.chosenID = this.randomChoiceFromArray(this.ids);
-    this.chosenDish = this.getDishFromArray(this.chosenID, this.dishes)
+    let dish: Dish = this.randomChoiceFromArray(this.dishes);
+    this.chosenDish = dish;
+    localStorage.setItem("chosenDish", JSON.stringify(dish))
   }
 
   /*
@@ -111,17 +136,7 @@ export class FoodComponent implements OnInit {
     })
   }
 
-  /*
-  Byter vilken källa datan hämtas ifrån
-  Slumpar därefter om vald rätt och valda alternativ
-   */
-  toggleFetchMode(){
-    this.mode? this.mode=runMode.Offline : this.mode=runMode.Online;
-     this.generateDishes(this.mode, this.cuisine, ()=>{
-      this.randomizeDish();
-      this.randomiseAlternatives(3);
-    });
-  }
+
 
   /*
   Returnerar rätten som har det valda IDt
@@ -248,7 +263,9 @@ export class FoodComponent implements OnInit {
   Anropas med hjälp av DisplayAlternatives output
   */
   switchToAlternative(id:number){
-    this.chosenDish = this.dishes.filter((alternative:Dish)=>alternative.id === id)[0] || this.chosenDish;
+    let dish: Dish = this.dishes.filter((alternative:Dish)=>alternative.id === id)[0] || this.chosenDish;
+    this.chosenDish = dish;
+    localStorage.setItem("chosenDish", JSON.stringify(dish))
   }
 
 }
