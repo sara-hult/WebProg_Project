@@ -11,9 +11,15 @@
         <!--<button (click)='randomizeDish()'> Slumpa om maträtt </button>
         <button (click)='toggleFetchMode()'> Hämtar data från: {{mode? "API":"Cache"}} </button>-->
     </div>
+    <div style="padding-top:20px">
+       <button mat-stroked-button (click)='getRandomMovie()'> Slumpa om film </button>
+    </div>
     
     <div>
         <p>Alternativ</p>
         <DisplayMovieAlternatives [alternatives]="chosenAlternatives"></DisplayMovieAlternatives>
+    </div>
+    <div style="padding-top:20px;">
+        <button mat-stroked-button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
     </div>
 </div>
