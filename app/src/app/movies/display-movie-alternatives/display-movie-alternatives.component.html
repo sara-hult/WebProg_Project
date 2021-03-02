@@ -1,0 +1,10 @@
+<div>
+    <ul>
+        <li *ngFor="let item of alternatives" style="display: inline-block;">
+            <div style="margin: 10px;">
+                <DisplaySelectedMovie [movie]="item"></DisplaySelectedMovie>
+            </div>
+
+        </li>
+    </ul>
+</div>

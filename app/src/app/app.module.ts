@@ -20,12 +20,17 @@ import { OverviewComponent } from './overview/overview.component';
 import { DisplayDrinkComponent } from './drinks/display-drink/display-drink.component';
 import { DisplayDrinkAlternativesComponent } from './drinks/display-drink-alternatives/display-drink-alternatives.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+
 import {MatSidenavModule} from '@angular/material/sidenav';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatCardModule} from '@angular/material/card';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatListModule } from '@angular/material/list';
+
+import { DisplaySelectedMovieComponent } from './movies/display-selected-movie/display-selected-movie.component';
+import { DisplayMovieAlternativesComponent } from './movies/display-movie-alternatives/display-movie-alternatives.component';
+
 
 
 @NgModule({
@@ -36,6 +41,9 @@ import { MatListModule } from '@angular/material/list';
     OverviewComponent,
     DisplayDrinkComponent,
     DisplayDrinkAlternativesComponent,
+
+    DisplayMovieAlternativesComponent,
+    DisplaySelectedMovieComponent
   ],
   imports: [
     BrowserModule,
@@ -48,15 +56,17 @@ import { MatListModule } from '@angular/material/list';
     MatButtonModule,
     MatToolbarModule,
     MatCardModule,
+    drinkdrinks
     MatGridListModule,
     MatListModule,
     MatDividerModule,
-    
+
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
       {path: 'overview/:country', component: OverviewComponent},
       {path: 'food/:cuisine', component: FoodComponent},
-      {path: 'drinks/:country', component: DrinksComponent}
+      {path: 'drinks/:country', component: DrinksComponent},
+      {path: 'movies/:country', component: MoviesComponent}
     ]),
     BrowserAnimationsModule
   ],
