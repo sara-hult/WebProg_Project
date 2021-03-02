@@ -1,7 +1,29 @@
-<div style="background-color: lightgray; min-width: 300; min-height: 300px; width: 300px; height: 300px;">
-    <p>{{drink.name}}</p>
-    <p>Ingredienser: {{drink.ingredients}} {{ drink.measurements }}</p>
-    <!--<p>Gör såhär: {{drink.instruction}}</p>-->
-    <img src={{drink.img_url}} style="padding: 10px 75px; min-width: 100; max-width: 150px;">
-    <br>
-</div>
+<mat-card class="example-card">
+    <mat-card-title>{{drink.name}}</mat-card-title>
+    <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="20px" >
+            <div *ngFor="let ing of drink.ingredients; let i = index;">
+                <mat-grid-tile style="text-align:left">{{ drink.measurements[i] }} {{ ing }}</mat-grid-tile>
+            </div>
+        </mat-grid-list>       
+    </mat-card-content>
+    <img class="image" mat-card-image src={{drink.img_url}}>
+</mat-card>
+
+
+        <!--
+        <mat-list *ngFor="let ing of drink.ingredients; let i = index;" >
+            <mat-list-item>{{ drink.measurements[i] }} {{ ing }}</mat-list-item>
+            <mat-divider></mat-divider>
+        </mat-list>
+        -->   
+        <!--
+        <ul>
+            <li *ngFor="let ing of drink.ingredients; let i = index;" >
+                {{ drink.measurements[i] }} {{ ing }}
+            </li>
+        </ul>
+
+        <p>Ingredienser: {{drink.ingredients}}</p>
+        <p>{{drink.measurements}}</p>
+        -->

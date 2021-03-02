@@ -1,11 +1,13 @@
 <div style="background-color: gray;">
     <p>Drink Component</p>
-    <div>
-        <p>Vald Dryck: </p>
+    <div align="center">
+        <p>Kvällens Dryckförslag: </p>
+        <button mat-stroked-button (click)='randomizeDrink()'> Slumpa om dryck </button>
         <DisplayDrinkComponent [drink]="mainDrink"></DisplayDrinkComponent>
     </div>
     <div>
         <p>Alternativ</p>
+        <button mat-stroked-button (click)='getRandomAlternativies(3)'> Slumpa nya alternativ </button>
         <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt"></DisplayDrinkAlternatives>
     </div>
 </div>
