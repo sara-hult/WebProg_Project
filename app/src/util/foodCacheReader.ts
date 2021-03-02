@@ -3,6 +3,8 @@ import { Dish } from './dish';
 import { Countries } from './countries';
 import recipeBulk from '../app/APICache/recipebulk';
 import americanInfo from '../app/APICache/americanInfo';
+import italianInfo from 'src/app/APICache/italianInfo';
+import scottishInfo from 'src/app/APICache/scottishInfo';
 
 //import info from '../app/APICache/americanInfo'
 
@@ -45,12 +47,11 @@ export class FoodCacheReader{
         info = americanInfo;
         break;
       case Countries.Italy:
-        throw new Error ("Food for "+ cuisine +" not implemented")
-        //info = italianInfo;
+        info = italianInfo;
+
         break;
       case Countries.Scotland:
-        throw new Error ("Food for "+ cuisine +" not implemented")
-        //info = scottishInfo;
+        info = scottishInfo;
         break;
       default:
         throw new Error ("Food for "+ cuisine +" not implemented")
