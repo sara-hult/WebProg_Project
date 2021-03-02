@@ -16,13 +16,13 @@ import { ThrowStmt } from '@angular/compiler';
 
 })
 export class DrinksComponent implements OnInit {
-  @Input() country!: Countries;
-  tempCountry = 'italian';
+  //@Input() country!: Countries;
+  @Input() inputDrinks!: Drink[];
 
-  italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
+  /*italyList = ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'];
   americaList = ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots', 'kentucky b and b', 'kentucky colonel'];
   scottishList = ['afternoon','baby guinness', 'balmoral', 'black and brown','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite'];
-
+*/
   unspecifiedDrink: Drink = {
     name: "",
     ingredients: [],
@@ -30,33 +30,67 @@ export class DrinksComponent implements OnInit {
     instruction: "",
     img_url: ""
   };
+
   drinkList: Drink[] = [];
 
-  drinkNames: string[] = [];
+  //drinkNames: string[] = [];
 
   mainStringDrink: string = "";
 
   mainDrink: Drink;
   dispDrinkAlt: Drink[] = [];
-  
-  //drinkJSONList: any[] = [];
 
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.mainDrink = this.unspecifiedDrink;
     this.dispDrinkAlt = [this.unspecifiedDrink, this.unspecifiedDrink, this.unspecifiedDrink];
-    /*
-    this.setDummyDrinks();
-    this.setMainDrink();
-    this.setDispDrinkAlt();
-    */
   }
 
+  ngOnInit(){
+    this.route.paramMap.subscribe((params: ParamMap) => {
+      this.getDrink(params.get('country'), (drinks:Drink[]) => {
+        console.log(drinks);
+      });
+      //this.inputDrinks = params.get('drink');
+      //this.getDrink(params.get('drink'));
+    });
+  }
+  getDrink(inputDrinks:any, callback:Function = () => {}){
+    let temp: Drink[] = JSON.parse(inputDrinks);
+    let drinkArray: Drink[] = [];
+    let drink:Drink = this.unspecifiedDrink;
+
+    temp.forEach(element => {
+      console.log("hejsan");
+      drink.ingredients = element.ingredients;
+      drink.name = element.name;
+      drink.measurements = element.measurements;
+      drink.instruction = element.instruction;
+      drink.img_url = element.img_url;
+      drinkArray.push(drink);
+    })
+    console.log("hej");
+    callback(drinkArray);
+  }
+
+  /*
+      
+    console.log(this.drinkList);
+    inputDrinks.pipe(map(res => JSON.parse(JSON.stringify(res))))
+        .subscribe(
+          (element:any) =>{
+            console.log(element);
+            drink.ingredients = element.ingredients;
+            drink.name = element.name;
+            drink.measurements = element.measurements;
+            drink.instruction = element.instruction;
+            drink.img_url = element.img_url;
+            drinkArray.push(drink);
+          }
+        );
+        console.log(drinkArray);
+
+
   ngOnInit() {
-    //this.fetchDrinkJSONs(this.getCountryList(this.tempCountry));
-    //this.setMainDrink();
-    //this.addDrinks();
-    //      this.getFromFetch();
-    //this.setMainDrink();
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.country = this.getCountry(params.get('country'));
       this.generateDrinks(this.country, () => {
@@ -118,15 +152,6 @@ export class DrinksComponent implements OnInit {
               drinkArray.push(extractedDrink);
             })
             
-            /*
-            let tempDrink: Drink = {
-              name: data.drinks[0].strDrink,
-              ingredients: [data.drinks[0].strIngredient1],
-              measurements: [data.drinks[0].strMeasure1],
-              instruction: data.drinks[0].strInstructions
-            }
-            */
-            
           },
           (error) => {
             alert("nope");
@@ -180,6 +205,7 @@ export class DrinksComponent implements OnInit {
     })
     return specList;
   }
+  */
 
   getRandomDrink(drinks: Drink[]){
     this.mainDrink = this.randomChoiceFromArray<Drink>(drinks)

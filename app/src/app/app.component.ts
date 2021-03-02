@@ -3,6 +3,9 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Countries } from './../util/countries';
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Drink } from '../util/drink';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +19,16 @@ export class AppComponent{
   newCountrySubscription: Subscription;
   url:string = "/";
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService) {
+  drink_url: string = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  drinkNames = {
+    italian: ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'],
+    american: ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots', 'kentucky b and b', 'kentucky colonel'],
+    scottish: ['afternoon','baby guinness', 'balmoral', 'black and brown','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite']
+  };
+ 
+  allDrinks: Drink[] = [];
+
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private http: HttpClient) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -31,12 +43,85 @@ export class AppComponent{
   }
   setCountry(country: Countries): void {
     this.correctCountry = country;
-    //this.getHttpDrink();
-    this._router.navigate(["overview/", country]);
+    this.generateDrinks(() =>{
+      this._router.navigate(["drinks/", JSON.stringify(this.allDrinks)]);
+    })
+    //this._router.navigate(["overview/", country]);
   }
 
   atLanding():boolean{
     return this.url==="/"
   }
 
+  generateDrinks(callback:Function = () => {}) {
+  //  this.drinkNames = this.getCountryList(country);
+    this.fetchDrinksFromNames(this.drinkNames[this.correctCountry], (drinks:Drink[]) => {
+      this.allDrinks = drinks;
+      callback();
+    });
+  }
+
+  fetchDrinksFromNames(drinkNames: string[], callback: Function = () => {}){
+    let drinkArray: Drink[] = [];
+    drinkNames.forEach(drink => {
+      this.http.get<Object>(this.drink_url + drink)
+        .pipe(map(res => JSON.parse(JSON.stringify(res))))
+        .subscribe(
+          (data) => {
+            this.extractDrink(data, (extractedDrink:Drink) => {
+              //console.log(extractedDrink);
+              drinkArray.push(extractedDrink);
+              //Här kan fler exctractmetoder läggas till
+            })
+            
+          },
+          (error) => {
+            alert("nope");
+            console.error("Request failed with error")
+          },
+          () => {
+            if(drinkArray.length === drinkNames.length){
+              callback(drinkArray)
+            }
+          }
+        );
+    })
+  }
+
+  extractDrink(response: Object, callback: Function = () => {}){
+    let drink:Drink = {
+      name: '',
+      ingredients: [],
+      measurements: [],
+      instruction: '',
+      img_url: ''
+    }
+  
+    Object.entries(response).forEach(
+      ([key, value]) => {
+        drink.ingredients = this.extractSpec(response, "strIngredient");
+        drink.name = value[0].strDrink;
+        drink.measurements = this.extractSpec(response, "strMeasure");
+        drink.instruction = value[0].strInstructions;
+        drink.img_url = value[0].strDrinkThumb;
+      }
+    );
+    callback(drink);
+  }
+
+  extractSpec(response:Object, spec:string): string[]{
+    let specList: string[] = [];
+    let index: number = 1;
+    let specName: string;
+    Object.entries(response).forEach(
+      ([key, value]) =>{
+        specName = value[0][spec + index];
+        while(specName !== null) {
+        specList.push(specName);
+          index++;
+          specName = value[0][spec + index];
+        }
+    })
+    return specList;
+  }
 }
