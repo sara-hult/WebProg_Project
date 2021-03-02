@@ -21,7 +21,7 @@ export class MoviesComponent implements OnInit {
   // nostalgia, roma, gudfadern 2, livetär underbart
   italianMovieIds = ["tt0086022", "tt0069191", "tt0071562", "tt0118799"]
   // Braveheart, Trainspotting, last king of scotland, highlander
-  scottishMovieIds = ["tt0112573", "tt0117951", "tt0455590", "tt0091203"] 
+  scottishMovieIds = ["tt0112573", "tt0117951", "tt0455590", "tt0091203"]
   movies: Movie[] = [];
   chosenID!: string;
   alternativeIDs: string[] = [];
@@ -71,12 +71,12 @@ export class MoviesComponent implements OnInit {
         case "scottish":
           return Countries.Scotland
         default:
-          throw new Error('404 Country not implemented') 
+          throw new Error('404 Country not implemented')
       }
     }else{
         throw new Error('404 Ett land måste anges ex: american');
       }
-    }  
+    }
 
     /*
   Laddar in alla filmer som tillhär landet från cachen
@@ -151,7 +151,7 @@ export class MoviesComponent implements OnInit {
 
     for (let i = 0; i < k; i++) {
       movie = this.randomChoiceFromArray(candidates);
-      candidates = candidates.filter(obj => obj !== movie); 
+      candidates = candidates.filter(obj => obj !== movie);
       this.chosenAlternatives.push(movie);
     }
   }
