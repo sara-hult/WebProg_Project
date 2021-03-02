@@ -1,0 +1,10 @@
+<mat-card class="movie-card" style="max-width: '500px';">
+    <img mat-card-image src={{movie.Poster}} style="max-width: '300px';">
+    <mat-card-title style="margin-left: auto;margin-right: auto;">{{movie.Title}}, ({{movie.Year}})</mat-card-title>
+    <mat-card-content>
+        <p>Regissör: {{movie.Director}}</p>
+        <p>Speltid: {{movie.Runtime}}</p>
+        <p>Betyg: {{movie.imdbRating}}/10</p>
+        <p>Handling: "{{movie.Plot}}"</p>
+    </mat-card-content>
+</mat-card>
