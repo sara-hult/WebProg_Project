@@ -1,9 +1,10 @@
-<mat-card class="dish-card">
+<mat-card class="example-card">
     <mat-card-title>{{drink.name}}</mat-card-title>
     <mat-card-content>
         <!--<li *ngfor></li>--->
         <p>Ingredienser: {{drink.ingredients}}</p>
         <p>{{drink.measurements}}</p>
     </mat-card-content>
-    <img mat-card-image src={{drink.img_url}}>
+    <img class="image" mat-card-image src={{drink.img_url}}>
 </mat-card>
+
