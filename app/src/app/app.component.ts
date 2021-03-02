@@ -6,6 +6,7 @@ import { Subscription } from 'rxjs';
 import { Drink } from '../util/drink';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
+import { DrinkService } from './drink.service';
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,7 @@ export class AppComponent{
   url:string = "/";
 
   drink_url: string = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
-  drinkNames = {
+  drinkNames: Object = {
     italian: ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'],
     american: ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots', 'kentucky b and b', 'kentucky colonel'],
     scottish: ['afternoon','baby guinness', 'balmoral', 'black and brown','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite']
@@ -28,7 +29,7 @@ export class AppComponent{
  
   allDrinks: Drink[] = [];
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private http: HttpClient) {
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private http: HttpClient , private drinkService : DrinkService) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -41,51 +42,57 @@ export class AppComponent{
       }
     })
   }
+
   setCountry(country: Countries): void {
     this.correctCountry = country;
-    this.generateDrinks(() =>{
-      this._router.navigate(["drinks/", JSON.stringify(this.allDrinks)]);
+    this.generateDrinks((drinks: Drink[]) =>{
+
+      console.log(drinks);
+      localStorage.setItem("drinks", JSON.stringify(drinks));
+      this._router.navigate(["overview/", country]);
     })
-    //this._router.navigate(["overview/", country]);
   }
 
   atLanding():boolean{
     return this.url==="/"
   }
 
-  generateDrinks(callback:Function = () => {}) {
-  //  this.drinkNames = this.getCountryList(country);
-    this.fetchDrinksFromNames(this.drinkNames[this.correctCountry], (drinks:Drink[]) => {
-      this.allDrinks = drinks;
-      callback();
-    });
+  generateDrinks(callback:Function = () => {}) { 
+    this.drinkService.generateDrinks(this.correctCountry, callback);
   }
-
-  fetchDrinksFromNames(drinkNames: string[], callback: Function = () => {}){
+ /*
+  fetchDrinksFromNames(drinkNames: Object, callback: Function = () => {}){
     let drinkArray: Drink[] = [];
-    drinkNames.forEach(drink => {
-      this.http.get<Object>(this.drink_url + drink)
-        .pipe(map(res => JSON.parse(JSON.stringify(res))))
-        .subscribe(
-          (data) => {
-            this.extractDrink(data, (extractedDrink:Drink) => {
-              //console.log(extractedDrink);
-              drinkArray.push(extractedDrink);
-              //Här kan fler exctractmetoder läggas till
-            })
+
+    
+    Object.entries(drinkNames).forEach(
+      ([key, list]) => {
+        Object.entries(list).forEach(
+          ([key, value]) => {
+
+            this.http.get<Object>(this.drink_url + value)
+              .pipe(map(res => JSON.parse(JSON.stringify(res))))
+                .subscribe(
+                  (data) => {
+                    this.extractDrink(data, (extractedDrink:Drink) => {
+                         //console.log(extractedDrink);
+                         console.log(extractedDrink);
+                         drinkArray.push(extractedDrink);
+                        //Här kan fler exctractmetoder läggas till
+                    })
             
-          },
-          (error) => {
-            alert("nope");
-            console.error("Request failed with error")
-          },
-          () => {
-            if(drinkArray.length === drinkNames.length){
-              callback(drinkArray)
-            }
+                  },
+                  (error) => {
+                    alert("nope");
+                    console.error("Request failed with error")
+                  }
+                ); 
+
           }
-        );
-    })
+        );    
+            
+    });
+     callback(drinkArray);
   }
 
   extractDrink(response: Object, callback: Function = () => {}){
@@ -124,4 +131,6 @@ export class AppComponent{
     })
     return specList;
   }
+  */
 }
+ 

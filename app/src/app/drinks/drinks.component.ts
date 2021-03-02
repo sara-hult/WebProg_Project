@@ -43,32 +43,57 @@ export class DrinksComponent implements OnInit {
   constructor(private http: HttpClient, private route: ActivatedRoute) {
     this.mainDrink = this.unspecifiedDrink;
     this.dispDrinkAlt = [this.unspecifiedDrink, this.unspecifiedDrink, this.unspecifiedDrink];
+
   }
 
   ngOnInit(){
+    this.setFromLocalStorage();
+    /*
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.getDrink(params.get('country'), (drinks:Drink[]) => {
         console.log(drinks);
       });
+      
       //this.inputDrinks = params.get('drink');
       //this.getDrink(params.get('drink'));
-    });
+    });*/
   }
+  
+  setFromLocalStorage()  {
+    let temp: string | null = localStorage.getItem("drinks");
+    temp? temp = JSON.parse(temp):  '';
+
+    let drinkArray: Drink[] = [];
+    let theDrink:Drink = this.unspecifiedDrink;
+    
+    if(temp) {
+      //console.log(temp[3].split(","));
+      let i: number = 0;
+      for(i = 0 ; i < temp.length ; i++) {
+        //let splittedDrink : string[] = temp[3].split(",")
+        //console.log(splittedDrink);
+      }
+    }
+   
+
+  }
+
   getDrink(inputDrinks:any, callback:Function = () => {}){
     let temp: Drink[] = JSON.parse(inputDrinks);
     let drinkArray: Drink[] = [];
-    let drink:Drink = this.unspecifiedDrink;
+    let theDrink:Drink = this.unspecifiedDrink;
+    console.log(typeof temp);
 
     temp.forEach(element => {
-      console.log("hejsan");
-      drink.ingredients = element.ingredients;
-      drink.name = element.name;
-      drink.measurements = element.measurements;
-      drink.instruction = element.instruction;
-      drink.img_url = element.img_url;
-      drinkArray.push(drink);
+      theDrink.ingredients = element.ingredients;
+      theDrink.name = element.name;
+      theDrink.measurements = element.measurements;
+      theDrink.instruction = element.instruction;
+      theDrink.img_url = element.img_url;
+      console.log(typeof theDrink);
+      drinkArray.push(theDrink);
     })
-    console.log("hej");
+    console.log(this.drinkList);
     callback(drinkArray);
   }
 
