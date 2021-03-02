@@ -42,8 +42,8 @@ export class AppComponent{
     this.generateDishes((dishes: Dish[])=>{
       localStorage.setItem("dishes", JSON.stringify(dishes))
       localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
+      this._router.navigate(["overview/", country]);
     });
-    this._router.navigate(["overview/", country]);
   }
 
   atLanding():boolean{
