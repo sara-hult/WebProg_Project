@@ -31,6 +31,7 @@ export class AppComponent{
   }
   setCountry(country: Countries): void {
     this.correctCountry = country;
+    //this.getHttpDrink();
     this._router.navigate(["overview/", country]);
   }
 

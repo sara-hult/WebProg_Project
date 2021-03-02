@@ -153,9 +153,9 @@ export class DrinksComponent implements OnInit {
   
     Object.entries(response).forEach(
       ([key, value]) => {
-        drink.ingredients = this.extractIngredients(response);
+        drink.ingredients = this.extractSpec(response, "strIngredient");
         drink.name = value[0].strDrink;
-        drink.measurements = this.extractMeasurement(response);
+        drink.measurements = this.extractSpec(response, "strMeasure");
         drink.instruction = value[0].strInstructions;
         drink.img_url = value[0].strDrinkThumb;
       }
@@ -165,72 +165,21 @@ export class DrinksComponent implements OnInit {
     callback(drink);
   }
 
-  extractSpec(value:Object, spec:string): string[]{
-    let specList: string[];
+  extractSpec(response:Object, spec:string): string[]{
+    let specList: string[] = [];
     let index: number = 1;
     let specName: string;
-    if(spec === "strIngredient") {
-      specName = spec + index;
-      //while()
-      
-    }
-    return [];
-  }
-
-
-  extractIngredients(response: Object): string[] {   
-    let ingredientList: string[] = [];
-    let ing: string = "strIngredient";
-    let i: number = 1;
-    let ingName:string="";
     Object.entries(response).forEach(
-      ([key, value]) => {
-        ingName=value[0][ing+i];
-        while(ingName !== null){
-          console.log(ingName);
-          i++;
-          ingName=value[0][ing+i];
+      ([key, value]) =>{
+        specName = value[0][spec + index];
+        while(specName !== null) {
+        specList.push(specName);
+          index++;
+          specName = value[0][spec + index];
         }
-      }
-    )
-    ingredientList = ingredientList.filter(v => v !== null);
-    //console.log(ingredientList);
-    return ingredientList;
+    })
+    return specList;
   }
-          /*
-        ingredientList.push((value[0].strIngredient1));
-        ingredientList.push((value[0].strIngredient2));
-        ingredientList.push((value[0].strIngredient3));
-        ingredientList.push((value[0].strIngredient4));
-        ingredientList.push((value[0].strIngredient5));
-        ingredientList.push((value[0].strIngredient6));
-        ingredientList.push((value[0].strIngredient7));
-        ingredientList.push((value[0].strIngredient8));
-        ingredientList.push((value[0].strIngredient9));
-        ingredientList.push((value[0].strIngredient10));
-        */
-
-  extractMeasurement(response: Object): string[] {
-    let measurementList : string[] = [];
-     
-    Object.entries(response).forEach(
-      ([key, value]) => {
-        measurementList.push((value[0].strMeasure1));
-        measurementList.push((value[0].strMeasure2));
-        measurementList.push((value[0].strMeasure3));
-        measurementList.push((value[0].strMeasure4));
-        measurementList.push((value[0].strMeasure5));
-        measurementList.push((value[0].strMeasure6));
-        measurementList.push((value[0].strMeasure7));
-        measurementList.push((value[0].strMeasure8));
-        measurementList.push((value[0].strMeasure9));
-        measurementList.push((value[0].strMeasure10));
-      }
-    )
-    measurementList = measurementList.filter(v => v !== null);
-    return measurementList;
-  }
-  
 
   getRandomDrink(drinks: Drink[]){
     this.mainDrink = this.randomChoiceFromArray<Drink>(drinks)
@@ -270,166 +219,8 @@ export class DrinksComponent implements OnInit {
     this.getRandomDrink(this.drinkList);
   }
 
+  setDrink(): void {
+    localStorage.setItem("drink", JSON.stringify(this.mainDrink));
+  }
+
 }
-
-  /*
-  fetchDrinks(drink: string): Observable<any>{
-    //console.log("fetchDrinks")
-    //console.log(drink);
-    return  this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drink);
-  }
-  
-  getFromFetch(){
-    this.italyList.forEach(element => {
-      this.fetchDrinks(element).subscribe(
-        res => {
-          let tempDrink: Drink ={
-            name: "",
-            ingredients: [],
-            measurements: [],
-            instruction: ""
-          };
-          //console.log("fetch");
-          //console.log(res.drinks[0]);
-          tempDrink.name = res.drinks[0].strDrink;
-          tempDrink.instruction = res.drinks[0].strInstructions;
-          tempDrink.ingredients[0] = res.drinks[0].strIngredient1;
-          tempDrink.measurements[0] = res.drinks[0].strMeasure1;
-          this.drinkList.push(tempDrink);
-        }
-      );
-    })
-  }
-  addDrinks() {
-    this.getFromFetch();
-    //console.log(this.drinkList);
-
-*/
-/*
-    console.log(tempList[0]);
-    tempList.map(element => {
-      console.log(JSON.stringify(element));
-    })
-  
-  }
-
-
-  setMainDrink(){
-    //console.log(this.drinkList);
-    this.mainDrink = this.getNewRandomDrink();
-  }
-
-  getNewRandomDrink():Drink{
-    let drink: Drink = this.randomChoiceFromArray(this.drinkList);
-    /*
-    if(drink.name !== this.mainDrink.name) {
-      return drink;
-    }else{
-      return this.getNewRandomDrink();
-    }
-    
-   return drink;
-  }
-  randomChoiceFromArray(array:Drink[]):Drink {
-    //console.log(array);
-    //console.log(this.drinkList[0]);
-    return array[this.getRandomInt(array.length)];
-  }
-
-  getRandomInt(max:number) {
-   return Math.floor(Math.random() * Math.floor(max));
-  }
-
-  setDispDrinkAlt(){
-    let drink: Drink
-  }
-
-  setDummyDrinks() {
-    let dummyDrink: Drink = {
-      name: "",
-      ingredients: [],
-      measurements: [],
-      instruction: ""
-    }
-    this.mainDrink = dummyDrink;
-    this.dispDrinkAlt = [dummyDrink, dummyDrink, dummyDrink];
-  }
-}
-*/
-/*
-  fetchDrinkJSONs(fetchList: String[]) {
-    let JSONList:any[] = [];
-    let tempDrink: Drink;
-    let tempData: any;
-    fetchList.map(element => {
-      this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + element)
-      .subscribe(data => {
-
-      })
-    })
-    //console.log(JSONList);
-    this.addDrinks(JSONList);
-  }
-
-  addDrinks(JSONList: any[]) {
-    console.log("addDrinks List");
-    console.log(JSONList);
-    let tempDrink: Drink;
-    JSONList.forEach(element => {
-      console.log("inside ForEach");
-      console.log(element);
-      
-      tempDrink.name = element.strDrink;
-      tempDrink.ingredients[0] = element.strIngredient1;
-      tempDrink.measurements[0] = element.strMeasure1;
-      tempDrink.instruction = element.strInstructions;
-      this.drinkList.push(tempDrink);
-      
-    })
-  }
-  */
-
-/*
-      this.cocktail.name = data.drinks[0].strDrink;
-      this.cocktail.ingredients[0] = data.drinks[0].strIngredient1;
-      this.cocktail.measurements[0] = data.drinks[0].strMeasure1;
-      this.cocktail.instruction = data.drinks[0].strInstructions;
-      console.log("-------Skriver ut cocktailobjektet i ngOninit------");
-      console.log(this.cocktail);
-      console.log("------------------------------");
-*/
-
-//document.getElementsByClassName("css-1wo4jfn")[0].outerText För att få dryckesinfo från systembolaget hejehjejehejehejeheh
-
-
-    // Simple GET request with response type <any> som används som temporärt test.
-    /*
-    let drinkName = "campari beer";
-    this.http.get<any>('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=' + drinkName).subscribe(data => {
-      this.drink.name = data.drinks[0].strDrink;
-      this.drink.ingredients[0] = data.drinks[0].strIngredient1;
-      this.drink.measurements[0] = data.drinks[0].strMeasure1;
-      this.drink.instruction = data.drinks[0].strInstructions;
-    })
-    */
-
-      /*
-
-        let ingredientList: string[] = [];
-    let ing: string;
-    let i: number = 1;
-    let isNull: boolean = false;
-    while(!isNull && i < 16){
-      ing = "strIngredient" +i;
-      Object.entries(response).forEach(
-        ([key, value]) => {
-        
-          // if(value[0].ing) {
-           console.log(JSON.parse(ing)); 
-        //  }
-        }
-      )      
-
-      i++;
-    }
-    */
