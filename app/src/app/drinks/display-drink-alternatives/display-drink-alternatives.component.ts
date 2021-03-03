@@ -1,4 +1,5 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
+
 import { Drink } from './../../../util/drink';
 
 @Component({
@@ -8,6 +9,13 @@ import { Drink } from './../../../util/drink';
 })
 export class DisplayDrinkAlternativesComponent implements OnInit {
   @Input() alternatives!: Drink[];
+  @Output() newDrinkEvent = new EventEmitter<string>();
+
+  switchMainDrink(name : string){
+    console.log(name);
+    this.newDrinkEvent.emit(name);
+  }
+
   constructor() { }
 
   ngOnInit(): void {
