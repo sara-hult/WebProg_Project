@@ -3,6 +3,7 @@ import { Countries } from './../../util/countries';
 import { Component, Input, OnInit } from '@angular/core';
 import { Dish } from '../../util/dish';
 import { Drink } from '../../util/drink';
+import { Movie } from '../../util/movie';
 
 @Component({
   selector: 'app-overview',
@@ -31,8 +32,20 @@ export class OverviewComponent implements OnInit {
     img_url: ''
   };
 
+  placeholderMovie:Movie = {
+    Poster:"Placeholder",
+    Title:"Placeholder",
+    Year:"Placeholder",
+    imdbRating:"Placeholder",
+    Director:"Placeholder",
+    Plot:"Placeholder",
+    imdbID:"Placeholder",
+    Runtime:"Placeholder"
+  };
+
   chosenDish: Dish = this.initDish;
   mainDrink : Drink = this.initDrink;
+  chosenMovie: Movie = this.placeholderMovie;
 
 
   constructor(private route: ActivatedRoute) {
@@ -42,6 +55,7 @@ export class OverviewComponent implements OnInit {
   ngOnInit(): void {
     this.chosenDish = this.fetchChosenDish();
     this.mainDrink = this.fetchMainDrink();
+    this.chosenMovie = this.fetchChosenMovie();
     this.route.paramMap.subscribe((params: ParamMap) => {
         this.setCountry(this.getCountryFromParams(params.get('country')));
     });
@@ -62,6 +76,15 @@ export class OverviewComponent implements OnInit {
       return JSON.parse(firstDrink);
     }else{
       throw new Error("Could not find drink in local storage")
+    }
+  }
+
+  fetchChosenMovie(): Movie{
+    let movie: string|null = localStorage.getItem("chosenMovie");
+    if(movie){
+      return JSON.parse(movie)
+    } else {
+      throw new Error("Could not find chosen movie in local storage")
     }
   }
 
