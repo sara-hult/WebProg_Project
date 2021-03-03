@@ -41,25 +41,25 @@ export class AppComponent{
     })
   }
 
-  setCountry(country: Countries): void {
-    this.correctCountry = country;
-    this.generateAll(() => {
-      this._router.navigate(["overview/", country]);
-    } )
-  }
+setCountry(country: Countries): void {
+  this.correctCountry = country;
+  this.generateAll(() => {
+    this._router.navigate(["overview/", this.correctCountry])
+  });
+}
 
-  generateAll(callback : Function = () => {}) {
-    this.generateDishes((dishes: Dish[])=>{
-      localStorage.setItem("dishes", JSON.stringify(dishes))
-      localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
-    }),
+generateAll(callback : Function = () => {}) {
+  this.generateDishes((dishes: Dish[])=>{
+    localStorage.setItem("dishes", JSON.stringify(dishes))
+    localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
     this.generateDrinks((drinks: Drink[]) =>{
       localStorage.setItem("drinks", JSON.stringify(drinks));
       localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
-    }),
+      callback();
+    });
+  });
+}
 
-    callback();
-  }
 
   atLanding():boolean{
     return this.url==="/"
