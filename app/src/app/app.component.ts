@@ -3,11 +3,14 @@ import { NavigationEnd, Router } from '@angular/router';
 import { Countries } from './../util/countries';
 import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
+import { Drink } from '../util/drink';
+import { DrinkService } from './drink.service';
 import { Dish } from 'src/util/dish';
 import { SpoonacularService } from './food/spoonacular.service';
 import { runMode } from 'src/util/runMode';
 import { FoodCacheReader } from '../util/foodCacheReader';
 import { FoodCreationService } from './food-creation.service';
+
 
 @Component({
   selector: 'app-root',
@@ -24,7 +27,7 @@ export class AppComponent{
   runMode: runMode = runMode.Offline;
   dishes: Dish[] = [];
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService) {
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -37,13 +40,25 @@ export class AppComponent{
       }
     })
   }
+
   setCountry(country: Countries): void {
     this.correctCountry = country;
+    this.generateAll(() => {
+      this._router.navigate(["overview/", country]);
+    } )
+  }
+
+  generateAll(callback : Function = () => {}) {
     this.generateDishes((dishes: Dish[])=>{
       localStorage.setItem("dishes", JSON.stringify(dishes))
       localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
-      this._router.navigate(["overview/", country]);
-    });
+    }),
+    this.generateDrinks((drinks: Drink[]) =>{
+      localStorage.setItem("drinks", JSON.stringify(drinks));
+      localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
+    }),
+
+    callback();
   }
 
   atLanding():boolean{
@@ -60,6 +75,13 @@ export class AppComponent{
     //(Conditional (ternary)):  boolean?  <om true>:<om false>
     this.runMode? this.foodCreationService.generateDishesAPI(this.correctCountry, callback): this.foodCreationService.generateDishesCache(this.correctCountry, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
+ 
+  /* 
+  Generar alla drinkar från det givan landet.
+  */
+  generateDrinks(callback:Function = () => {}) { 
+    this.drinkService.generateDrinks(this.correctCountry, callback);
+  }
 
   /*
   Returnerar ett objekt från den givna vektorn
@@ -73,3 +95,4 @@ export class AppComponent{
   }
 
 }
+ 
