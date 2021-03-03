@@ -1,58 +1,55 @@
 import { Injectable } from '@angular/core';
-import { count } from 'rxjs/operators';
 import { Countries } from 'src/util/countries';
 import { Drink } from 'src/util/drink';
+import { HttpClient } from '@angular/common/http';
+import { map } from 'rxjs/operators';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class DrinkService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+  
+  drink_url: string = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+  drinkNames: any = {
+    italian: ['aperol spritz', 'bellini', 'bellini martini', 'campari beer', 'negroni', 'espresso rumtini', 'espresso martini', 'gagliardo', 'garibaldi negroni', 'paloma', 'Spritz Veneziano'],
+    american: ['a piece of ass', 'a splash of nash', 'alaska cocktail', 'americano ', 'apple cider punch', 'apple slammer', 'arizona stingers', 'arizona twister', 'army special', 'artillery punch', 'atlantic sun', 'boston sour', 'Bourbon sling', 'bourbon sour','brooklyn', 'california lemonade', 'california root beer', 'chicago fizz', 'fahrenheit 5000', 'godfather',  'iced coffee', 'jello shots', 'kentucky b and b', 'kentucky colonel'],
+    scottish: ['afternoon','baby guinness', 'balmoral', 'black and brown','flying scotchman','Sherry Eggnog', 'Scotch Sour','Scottish Highland Liqueur','Snake Bite']
+  };
    
-  
   public generateDrinks(country: Countries,callback: Function = () => {} ) {
-    this.fetchDrinksFromNames(this.drinkNames, (drinks:Drink[]) => {
-      //this.allDrinks = drinks;
+    this.fetchDrinksFromNames(this.drinkNames[country], (drinks:Drink[]) => {
       callback(drinks);
-    });
+    }); 
   }
-/*
-  fetchDrinksFromNames(drinkNames: Object, callback: Function = () => {}){
+
+  fetchDrinksFromNames(drinkNames: string[], callback: Function = () => {}){
     let drinkArray: Drink[] = [];
-
     
-    Object.entries(drinkNames).forEach(
-      ([key, list]) => {
-        Object.entries(list).forEach(
-          ([key, value]) => {
-
-            this.http.get<Object>(this.drink_url + value)
-              .pipe(map(res => JSON.parse(JSON.stringify(res))))
-                .subscribe(
-                  (data) => {
-                    this.extractDrink(data, (extractedDrink:Drink) => {
-                         //console.log(extractedDrink);
-                         console.log(extractedDrink);
-                         drinkArray.push(extractedDrink);
-                        //Här kan fler exctractmetoder läggas till
-                    })
+    drinkNames.forEach( element => {
+        this.http.get<Object>(this.drink_url + element)
+          .pipe(map(res => JSON.parse(JSON.stringify(res))))
+            .subscribe(
+              (data) => {
+                this.extractDrink(data, (extractedDrink:Drink) => {
+                  drinkArray.push(extractedDrink);
+                })
             
-                  },
-                  (error) => {
-                    alert("nope");
-                    console.error("Request failed with error")
-                  }
-                ); 
-
-          }
+                },
+               (error) => {
+                 console.error("Request failed with error")
+               }, () => {
+                 if(drinkArray.length === drinkNames.length) {
+                   callback(drinkArray);
+                 }
+               }
+           ); 
+          },
         );    
-            
-    });
-     callback(drinkArray);
   }
   
-
   extractDrink(response: Object, callback: Function = () => {}){
     let drink:Drink = {
       name: '',
@@ -89,6 +86,6 @@ export class DrinkService {
     })
     return specList;
   }
-  */
+  
 }
 
