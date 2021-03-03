@@ -43,17 +43,22 @@ export class AppComponent{
 
   setCountry(country: Countries): void {
     this.correctCountry = country;
+    this.generateAll(() => {
+      this._router.navigate(["overview/", country]);
+    } )
+  }
 
+  generateAll(callback : Function = () => {}) {
     this.generateDishes((dishes: Dish[])=>{
       localStorage.setItem("dishes", JSON.stringify(dishes))
       localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
-      this._router.navigate(["overview/", country]);
-    });
+    }),
     this.generateDrinks((drinks: Drink[]) =>{
       localStorage.setItem("drinks", JSON.stringify(drinks));
       localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
-    //  this._router.navigate(["overview/", country]); Var bör vi lägg denna??
-    })
+    }),
+
+    callback();
   }
 
   atLanding():boolean{
