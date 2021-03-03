@@ -5,6 +5,12 @@ import { Component } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { Drink } from '../util/drink';
 import { DrinkService } from './drink.service';
+import { Dish } from 'src/util/dish';
+import { SpoonacularService } from './food/spoonacular.service';
+import { runMode } from 'src/util/runMode';
+import { FoodCacheReader } from '../util/foodCacheReader';
+import { FoodCreationService } from './food-creation.service';
+
 
 @Component({
   selector: 'app-root',
@@ -18,7 +24,10 @@ export class AppComponent{
   newCountrySubscription: Subscription;
   url:string = "/";
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private drinkService : DrinkService) {
+  runMode: runMode = runMode.Offline;
+  dishes: Dish[] = [];
+
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -34,10 +43,16 @@ export class AppComponent{
 
   setCountry(country: Countries): void {
     this.correctCountry = country;
+
+    this.generateDishes((dishes: Dish[])=>{
+      localStorage.setItem("dishes", JSON.stringify(dishes))
+      localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
+      this._router.navigate(["overview/", country]);
+    });
     this.generateDrinks((drinks: Drink[]) =>{
       localStorage.setItem("drinks", JSON.stringify(drinks));
       localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
-      this._router.navigate(["overview/", country]);
+    //  this._router.navigate(["overview/", country]); Var bör vi lägg denna??
     })
   }
 
@@ -45,16 +60,33 @@ export class AppComponent{
     return this.url==="/"
   }
 
+   /*
+  Hämtar alla rätter som tillhör det givna landet.
+  Källan bestäms av mode som antingen är "online" eller "offline"
+  De inre metoderna ändrar objektets attribut
+  Callback gör så att vi kan slumpa maträtterna efter att alla rätter har laddats in
+  */
+  generateDishes(callback:Function = ()=>{}){
+    //(Conditional (ternary)):  boolean?  <om true>:<om false>
+    this.runMode? this.foodCreationService.generateDishesAPI(this.correctCountry, callback): this.foodCreationService.generateDishesCache(this.correctCountry, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
+  }
+ 
+  /* 
+  Generar alla drinkar från det givan landet.
+  */
   generateDrinks(callback:Function = () => {}) { 
     this.drinkService.generateDrinks(this.correctCountry, callback);
   }
 
-  randomChoiceFromArray<T>(array:T[]):T {
-    return array[this.getRandomInt(array.length)];
+  /*
+  Returnerar ett objekt från den givna vektorn
+  */
+  randomChoiceFromArray(array:any[]):any {
+    return array[this.getRandomInt(array.length)]
   }
 
-  getRandomInt(max:number): number {
-   return Math.floor(Math.random() * Math.floor(max));
+  getRandomInt(max:number):number {
+    return Math.floor(Math.random() * Math.floor(max));
   }
 
 }

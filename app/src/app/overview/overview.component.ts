@@ -1,6 +1,7 @@
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Countries } from './../../util/countries';
 import { Component, Input, OnInit } from '@angular/core';
+import { Dish } from '../../util/dish';
 
 @Component({
   selector: 'app-overview',
@@ -11,15 +12,39 @@ export class OverviewComponent implements OnInit {
   @Input() country !: Countries
   countryDisplay: string;
 
+  initDish: Dish = {
+    title: "Randomizing",
+    readyInMinutes: 0,
+    spoonacularScore: 0,
+    pricePerServing: 0,
+    image: "string",
+    id: -1,
+    sourceUrl: ""
+  };
+
+  chosenDish: Dish = this.initDish;
+
+
   constructor(private route: ActivatedRoute) {
     this.countryDisplay = this.getCountryDisplayName(this.country)
+
    }
 
   ngOnInit(): void {
+    this.chosenDish = this.fetchChosenDish();
     this.route.paramMap.subscribe((params: ParamMap) => {
         this.setCountry(this.getCountryFromParams(params.get('country')));
     });
   };
+
+  fetchChosenDish(): Dish{
+    let dish: string|null = localStorage.getItem("chosenDish");
+    if(dish){
+      return JSON.parse(dish);
+    }else{
+      throw new Error("Could not find dish in local storage")
+    }
+  }
 
   setCountry(country:Countries):void{
     this.country = country;

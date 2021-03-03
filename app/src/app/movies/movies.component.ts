@@ -21,12 +21,13 @@ export class MoviesComponent implements OnInit {
   // nostalgia, roma, gudfadern 2, livetär underbart
   italianMovieIds = ["tt0086022", "tt0069191", "tt0071562", "tt0118799"]
   // Braveheart, Trainspotting, last king of scotland, highlander
-  scottishMovieIds = ["tt0112573", "tt0117951", "tt0455590", "tt0091203"] 
+  scottishMovieIds = ["tt0112573", "tt0117951", "tt0455590", "tt0091203"]
   movies: Movie[] = [];
   chosenID!: string;
   alternativeIDs: string[] = [];
   chosenMovie: Movie;
   chosenAlternatives: Movie[] = [];
+  changedCountry: boolean = false;
 
   placeholderMovie:Movie = {
     Poster:"Placeholder",
@@ -49,7 +50,11 @@ export class MoviesComponent implements OnInit {
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.country = this.getCountry(params.get('country'));
       this.generateMovies(this.country, ()=>{
-        this.randomiseMovie(this.movies);
+        if(this.changedCountry){
+          this.randomiseMovie(this.movies);
+        } else {
+          this.chosenMovie = JSON.parse(window.localStorage.getItem("movie")!);
+        }
         this.randomiseAlternatives(3);
       });
     });
@@ -57,6 +62,7 @@ export class MoviesComponent implements OnInit {
 
   getCountry(country: string | null): Countries {
     if(country !== null){
+      this.changedCountry = (country !== window.localStorage.getItem("country"));
       switch(country){
         case "american":
           return Countries.USA;
@@ -65,12 +71,12 @@ export class MoviesComponent implements OnInit {
         case "scottish":
           return Countries.Scotland
         default:
-          throw new Error('404 Country not implemented') 
+          throw new Error('404 Country not implemented')
       }
     }else{
         throw new Error('404 Ett land måste anges ex: american');
       }
-    }  
+    }
 
     /*
   Laddar in alla filmer som tillhär landet från cachen
@@ -131,6 +137,7 @@ export class MoviesComponent implements OnInit {
   */
   randomiseMovie(movies:Movie[]) {
     this.chosenMovie = this.randomChoiceFromArray<Movie>(this.movies);
+    window.localStorage.setItem("movie", JSON.stringify(this.chosenMovie));
   }
 
   /*
@@ -144,7 +151,7 @@ export class MoviesComponent implements OnInit {
 
     for (let i = 0; i < k; i++) {
       movie = this.randomChoiceFromArray(candidates);
-      candidates = candidates.filter(obj => obj !== movie); 
+      candidates = candidates.filter(obj => obj !== movie);
       this.chosenAlternatives.push(movie);
     }
   }
@@ -158,6 +165,10 @@ export class MoviesComponent implements OnInit {
 
   getRandomInt(max:number):number {
     return Math.floor(Math.random() * Math.floor(max));
+  }
+
+  getRandomMovie() {
+    this.randomiseMovie(this.movies);
   }
 }
 
