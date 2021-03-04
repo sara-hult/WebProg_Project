@@ -26,7 +26,7 @@ export class AppComponent{
   newCountrySubscription: Subscription;
   url:string = "/";
 
-  runMode: runMode = runMode.Offline;
+  runMode: runMode = runMode.Offline; // Ändra denna variabel för att hämta mat-data direkt från APIn
   dishes: Dish[] = [];
 
   constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService, private movieService: MovieCreationService) {
@@ -45,8 +45,9 @@ export class AppComponent{
 
 setCountry(country: Countries): void {
   this.correctCountry = country;
+  localStorage.setItem("country", country);
   this.generateAll(() => {
-    this._router.navigate(["overview/", this.correctCountry])
+    this._router.navigate(["overview"])
   });
 }
 
@@ -82,11 +83,11 @@ generateAll(callback : Function = () => {}) {
     //(Conditional (ternary)):  boolean?  <om true>:<om false>
     this.runMode? this.foodCreationService.generateDishesAPI(this.correctCountry, callback): this.foodCreationService.generateDishesCache(this.correctCountry, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
- 
-  /* 
+
+  /*
   Generar alla drinkar från det givan landet.
   */
-  generateDrinks(callback:Function = () => {}) { 
+  generateDrinks(callback:Function = () => {}) {
     this.drinkService.generateDrinks(this.correctCountry, callback);
   }
 
@@ -106,4 +107,3 @@ generateAll(callback : Function = () => {}) {
   }
 
 }
- 
