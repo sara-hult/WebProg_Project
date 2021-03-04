@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Movie } from '../../../util/movie';
 
 @Component({
@@ -8,8 +8,13 @@ import { Movie } from '../../../util/movie';
 })
 export class DisplayMovieAlternativesComponent implements OnInit {
   @Input() alternatives!: Movie[];
+  @Output() newMovieEvent = new EventEmitter<string>();
 
   constructor() { }
+
+  switchSelectedMovie(id : string){
+    this.newMovieEvent.emit(id);
+  }
 
   ngOnInit(): void {
   }

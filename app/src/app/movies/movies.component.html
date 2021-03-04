@@ -1,15 +1,16 @@
 
-<div style="background-color: gray;">
-    <p>Movies Component</p>
-    <div>
-        <p>Vald film: </p>
-        <button mat-stroked-button (click)='getRandomMovie()'> Slumpa om film </button>
-        <DisplaySelectedMovie [movie]="chosenMovie" style="display: block;margin-left: auto;margin-right: auto;width: 50%;"></DisplaySelectedMovie>
+<div>
+    <div align="center">
+        <h2>Here is your selected movie of the evening: </h2>
+        <DisplaySelectedMovie [movie]="chosenMovie" style="display: block;width: 50%;"></DisplaySelectedMovie>
+        <button mat-stroked-button (click)='getRandomMovie()'> Generate another random movie </button>
     </div>
-    
-    <div>
-        <p>Alternativ</p>
-        <button mat-stroked-button (click)='randomiseAlternatives(3)'> Slumpa nya alternativ </button>
-        <DisplayMovieAlternatives [alternatives]="chosenAlternatives"></DisplayMovieAlternatives>
+    <br>
+    <div align="center">
+        <h2>...Or you might want to try one of these alternatives instead?</h2>
+        <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise new alternatives </button>
+    </div>
+    <div align="center">
+        <DisplayMovieAlternatives [alternatives]="chosenAlternatives" (newMovieEvent)=switchSelectedMovie($event)></DisplayMovieAlternatives>
     </div>
 </div>

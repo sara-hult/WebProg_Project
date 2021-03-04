@@ -58,13 +58,19 @@ export class MoviesComponent implements OnInit {
         this.randomiseAlternatives(3);
       });
     });*/
-    this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
+    /*this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
+    this.movies = JSON.parse(localStorage.getItem("movie")!);
     this.route.paramMap.subscribe((params: ParamMap) => {
       this.country = this.getCountry(params.get('country'));
       this.generateMovies(this.country, ()=>{
         this.randomiseAlternatives(3);
       });
     });
+    console.log("movies i init")
+    console.log(this.movies)*/
+    this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
+    this.movies = JSON.parse(localStorage.getItem("movies")!);
+    this.randomiseAlternatives(3);
     }
 
   getCountry(country: string | null): Countries {
@@ -176,6 +182,25 @@ export class MoviesComponent implements OnInit {
 
   getRandomMovie() {
     this.randomiseMovie(this.movies);
+  }
+
+  setMovie(): void {
+    localStorage.setItem("chosenMovie", JSON.stringify(this.chosenMovie));
+  }
+
+  switchSelectedMovie(id:string) {
+    this.chosenMovie = this.getMovieFromArray(id, this.chosenAlternatives);
+    this.setMovie();
+    //this.randomiseAlternatives(3);
+  }
+
+  getMovieFromArray(movieID: string, movies: Movie[]): Movie{
+    let movie: Movie;
+    movie = movies.filter((tempMovie) => tempMovie.imdbID === movieID)[0];
+    if(movie === undefined) {
+      throw new Error("Movie not found in array");
+    }
+    return movie;
   }
 }
 
