@@ -37,26 +37,46 @@ Styling för mat-cards
 */
 
 .display-card {
+    
     max-width: 400px;
-    max-height: 450px;
+    max-height: 500px;
     min-width: 400px;
-    min-height: 450px;
-    box-sizing: border-box;
+    min-height: 500px;
+    background: #dd1468;
 
 }
 
 .display-card img {
-    max-height: 350px;
-    min-height: 350px;
+    max-width: 350px;
+    display: flex;
     object-fit: contain;
-    /*align-items: center; */
-
+    align-items: center;
+    /*max-height: 300px;
+    min-height: 300px; */
+    background: #a5242f;
 }
+
 
 .alternative-div button {
     display: flex;
     justify-content: center;
-    margin-top: 20px;
+    margin-top: 30px;
 }
 
+.grid-tile-mini{
+    display: flex;
+      
+    background: #a19f2c;
+}
 
+.grid-list-2{
+    max-height: 100px;
+    min-height: 100px;
+    object-fit: contain;
+    background: #164e29;
+
+}
+
+.ruta{
+    background: black;
+}

@@ -1,9 +1,9 @@
 <mat-card class="display-card">
     <mat-card-title>{{drink.name}}</mat-card-title>
-    <mat-card-content >
+    <mat-card-content class="grid-list-2">
         <mat-grid-list cols="2" rowHeight="20px" >
             <div *ngFor="let ing of drink.ingredients; let i = index;">
-                <mat-grid-tile style="text-align:left">
+                <mat-grid-tile class="grid-tile-mini">
                     {{ drink.measurements[i] }} {{ ing }}
                 </mat-grid-tile>      
             </div>
