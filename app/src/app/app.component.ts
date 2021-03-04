@@ -33,7 +33,6 @@ export class AppComponent{
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
-      console.log(newCountry);
       this.setCountry(newCountry);
     })
     _router.events.subscribe((val)=>{
@@ -61,7 +60,6 @@ generateAll(callback : Function = () => {}) {
       this.generateMovies((movies: Movie[])=>{
         localStorage.setItem("movies", JSON.stringify(movies));
         localStorage.setItem("chosenMovie",JSON.stringify(this.randomChoiceFromArray(movies)));
-        console.log(localStorage.getItem("chosenMovie"));
         callback();
       })
     });
