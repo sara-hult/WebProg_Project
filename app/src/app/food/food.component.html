@@ -4,12 +4,12 @@
     </div>
 
     <div style="padding-top:20px">
-        <button mat-stroked-button (click)='randomizeDish()'> Slumpa om maträtt </button>
+        <button mat-stroked-button (click)='randomizeDish()'> Randomise dish</button>
     </div>
 
 </div>
 <div>
-    <p>Alternativ</p>
-    <button mat-stroked-button (click)='randomiseAlternatives(3)'> Slumpa om alternativ </button>
+    <h1>Alternatives:</h1>
+    <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise alternatives </button>
     <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
 </div>
