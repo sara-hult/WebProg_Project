@@ -33,6 +33,10 @@ ul li {
   padding: 2%;
 }
 
+.alternative-div button {
+  margin-top: 25px;
+}
+
 body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
