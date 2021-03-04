@@ -6,11 +6,8 @@
         <DisplayDrinkComponent [drink]="mainDrink"></DisplayDrinkComponent>
     </div>
     <div>
-        <mat-card>
-                <mat-card-title>Alternativ</mat-card-title>
-                <button mat-stroked-button (click)='getRandomAlternativies(3)'> Slumpa nya alternativ </button>
-                <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt" (newDrinkEvent)=switchMainDrink($event)></DisplayDrinkAlternatives>
-        </mat-card>
-            
+        <p>Alternativ</p>
+        <button mat-stroked-button (click)='getRandomAlternativies(3)'> Slumpa nya alternativ </button>
+        <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt" (newDrinkEvent)=switchMainDrink($event)></DisplayDrinkAlternatives>
     </div>
 </div>
