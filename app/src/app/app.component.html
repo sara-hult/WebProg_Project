@@ -30,16 +30,16 @@
                     <a mat-stroked-button [routerLink]="['']">Home (reset)</a>
                 </li>
                 <li>
-                    <a mat-stroked-button [routerLink]="['/overview', correctCountry]">Overview</a>
+                    <a mat-stroked-button [routerLink]="['/overview']">Overview</a>
                 </li>
                 <li>
-                    <a mat-stroked-button [routerLink]="['/food', correctCountry]">Food</a>
+                    <a mat-stroked-button [routerLink]="['/food']">Food</a>
                 </li>
                 <li>
-                    <a mat-stroked-button [routerLink]="['/drinks', correctCountry]">Drinks</a>
+                    <a mat-stroked-button [routerLink]="['/drinks']">Drinks</a>
                 </li>
                 <li>
-                    <a mat-stroked-button [routerLink]="['/movies', correctCountry]">Movies</a>
+                    <a mat-stroked-button [routerLink]="['/movies']">Movies</a>
                 </li>
             </ul>
 
@@ -48,7 +48,8 @@
     </mat-toolbar>
 
 
-
-    <router-outlet></router-outlet>
+    <div class="router">
+      <router-outlet></router-outlet>
+    </div>
     <!--<FoodComponent [cuisine]="correctCountry"></FoodComponent> -->
 </mat-sidenav-container>

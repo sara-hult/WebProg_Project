@@ -2,8 +2,48 @@
     <ul>
         <li *ngFor="let item of alternatives; let i = index">
             <mat-grid-tile>
-                <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
-                <button mat-stroked-button style="margin-top: 25px;" (click)='switchMainDrink(item.name)'>Byt till alternativ</button>
+
+                <mat-card class="example-card">
+
+                    <!-- TITLE -->
+                    <mat-card-title>{{item.name}}</mat-card-title>
+
+                    <!-- CONTENT -->
+                        <mat-card-content class="text-ing">
+                            <mat-grid-list cols="2" rowHeight="25px">
+                                <div *ngFor="let ing of item.ingredients; let i = index;">
+                                    <mat-grid-tile>{{item.measurements[i]}} {{ing}}</mat-grid-tile>
+                                </div>
+                            </mat-grid-list>
+                        </mat-card-content>
+
+                    
+                    <!-- IMAGE -->
+                    <div class="image-pos">
+                        <img class="image" mat-card-image src={{item.img_url}}>
+                    </div>
+
+                    <!-- BUTTON -->
+                    <div class="button-pos">
+                        <button mat-stroked-button (click)='switchMainDrink(item.name)'>Byt till alternativ</button>
+                    </div>
+
+                </mat-card>
             </mat-grid-tile>
         </li>
     </ul>
+</mat-grid-list>
+
+
+<!--
+<mat-grid-list cols="3" rowHeight="3:4">
+    <ul>
+        <li *ngFor="let item of alternatives; let i = index">
+            <mat-grid-tile>
+                <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
+                
+            </mat-grid-tile>
+        </li>
+    </ul>
+</mat-grid-list>
+-->

@@ -10,6 +10,8 @@ import { SpoonacularService } from './food/spoonacular.service';
 import { runMode } from 'src/util/runMode';
 import { FoodCacheReader } from '../util/foodCacheReader';
 import { FoodCreationService } from './food-creation.service';
+import { Movie } from '../util/movie';
+import { MovieCreationService } from './movie-creation.service';
 
 
 @Component({
@@ -24,10 +26,10 @@ export class AppComponent{
   newCountrySubscription: Subscription;
   url:string = "/";
 
-  runMode: runMode = runMode.Offline;
+  runMode: runMode = runMode.Offline; // Ändra denna variabel för att hämta mat-data direkt från APIn
   dishes: Dish[] = [];
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService) {
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService, private movieService: MovieCreationService) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -43,8 +45,9 @@ export class AppComponent{
 
 setCountry(country: Countries): void {
   this.correctCountry = country;
+  localStorage.setItem("country", country);
   this.generateAll(() => {
-    this._router.navigate(["overview/", this.correctCountry])
+    this._router.navigate(["overview"])
   });
 }
 
@@ -55,7 +58,12 @@ generateAll(callback : Function = () => {}) {
     this.generateDrinks((drinks: Drink[]) =>{
       localStorage.setItem("drinks", JSON.stringify(drinks));
       localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
-      callback();
+      this.generateMovies((movies: Movie[])=>{
+        localStorage.setItem("movies", JSON.stringify(movies));
+        localStorage.setItem("chosenMovie",JSON.stringify(this.randomChoiceFromArray(movies)));
+        console.log(localStorage.getItem("chosenMovie"));
+        callback();
+      })
     });
   });
 }
@@ -75,13 +83,17 @@ generateAll(callback : Function = () => {}) {
     //(Conditional (ternary)):  boolean?  <om true>:<om false>
     this.runMode? this.foodCreationService.generateDishesAPI(this.correctCountry, callback): this.foodCreationService.generateDishesCache(this.correctCountry, callback); // Generar tillgängliga rätter baserat på läget applikationen körs i
   }
- 
-  /* 
+
+  /*
   Generar alla drinkar från det givan landet.
   */
-  generateDrinks(callback:Function = () => {}) { 
+  generateDrinks(callback:Function = () => {}) {
     this.drinkService.generateDrinks(this.correctCountry, callback);
   }
+
+  generateMovies(callback:Function = ()=>{}){
+    this.movieService.generateMovies(this.correctCountry, callback);
+   }
 
   /*
   Returnerar ett objekt från den givna vektorn
@@ -95,4 +107,3 @@ generateAll(callback : Function = () => {}) {
   }
 
 }
- 

@@ -3,6 +3,7 @@ import { Countries } from './../../util/countries';
 import { Component, Input, OnInit } from '@angular/core';
 import { Dish } from '../../util/dish';
 import { Drink } from '../../util/drink';
+import { Movie } from '../../util/movie';
 
 @Component({
   selector: 'app-overview',
@@ -31,21 +32,44 @@ export class OverviewComponent implements OnInit {
     img_url: ''
   };
 
+  placeholderMovie:Movie = {
+    Poster:"Placeholder",
+    Title:"Placeholder",
+    Year:"Placeholder",
+    imdbRating:"Placeholder",
+    Director:"Placeholder",
+    Plot:"Placeholder",
+    imdbID:"Placeholder",
+    Runtime:"Placeholder"
+  };
+
   chosenDish: Dish = this.initDish;
   mainDrink : Drink = this.initDrink;
+  chosenMovie: Movie = this.placeholderMovie;
 
 
   constructor(private route: ActivatedRoute) {
-    this.countryDisplay = this.getCountryDisplayName(this.country)
+    this.countryDisplay = this.fetchCountry();
    }
 
   ngOnInit(): void {
     this.chosenDish = this.fetchChosenDish();
     this.mainDrink = this.fetchMainDrink();
-    this.route.paramMap.subscribe((params: ParamMap) => {
-        this.setCountry(this.getCountryFromParams(params.get('country')));
-    });
+    this.chosenMovie = this.fetchChosenMovie();
   };
+
+  fetchCountry():string {
+    let country = localStorage.getItem("country");
+    if(country){
+      return this.getCountryDisplayName(country);
+    }else{
+      throw new Error("No country in localstorage!")
+    }
+  }
+
+  capitalizeFirstLetter(s:string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
 
   fetchChosenDish(): Dish{
     let dish: string|null = localStorage.getItem("chosenDish");
@@ -65,38 +89,30 @@ export class OverviewComponent implements OnInit {
     }
   }
 
+  fetchChosenMovie(): Movie{
+    let movie: string|null = localStorage.getItem("chosenMovie");
+    if(movie){
+      return JSON.parse(movie)
+    } else {
+      throw new Error("Could not find chosen movie in local storage")
+    }
+  }
+
   setCountry(country:Countries):void{
     this.country = country;
     this.countryDisplay = this.getCountryDisplayName(country);
   }
 
-  getCountryDisplayName(country:Countries):string{
+  getCountryDisplayName(country:string):string{
     switch(country){
-      case Countries.USA:
+      case "american":
         return "USA";
-      case Countries.Italy:
-        return "Italien";
-      case Countries.Scotland:
-        return "Skottland";
+      case "italian":
+        return "Italy";
+      case "scottish":
+        return "Scotland";
+      default:
+        throw new Error("Could not find Displayname!")
     }
   }
-
-  getCountryFromParams(country: string | null): Countries {
-    if(country !== null){
-        switch(country.toLowerCase()){
-          case "american":
-            return Countries.USA;
-          case "italian":
-            return Countries.Italy;
-          case "scottish":
-            return Countries.Scotland;
-          default:
-            throw new Error('404 Country not implemented')
-
-        }
-      }else{
-        throw new Error('404 Ett land måste anges ex: american');
-      }
-  }
-
 }
