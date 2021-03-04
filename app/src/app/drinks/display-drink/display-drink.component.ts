@@ -9,9 +9,11 @@ import { Drink } from './../../../util/drink';
 })
 export class DisplayDrinkComponent implements OnInit {
   @Input() drink!: Drink;
+
   constructor() { }
 
   ngOnInit(): void {
   }
+
 
 }

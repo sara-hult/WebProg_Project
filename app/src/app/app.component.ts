@@ -10,6 +10,8 @@ import { SpoonacularService } from './food/spoonacular.service';
 import { runMode } from 'src/util/runMode';
 import { FoodCacheReader } from '../util/foodCacheReader';
 import { FoodCreationService } from './food-creation.service';
+import { Movie } from '../util/movie';
+import { MovieCreationService } from './movie-creation.service';
 
 
 @Component({
@@ -27,7 +29,7 @@ export class AppComponent{
   runMode: runMode = runMode.Offline;
   dishes: Dish[] = [];
 
-  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService) {
+  constructor(private _router: Router, private chooseCountryService: ChooseCountryService, private foodCreationService: FoodCreationService,  private drinkService : DrinkService, private movieService: MovieCreationService) {
     this.country = "Japan";
     this.correctCountry = Countries.USA;
     this.newCountrySubscription = chooseCountryService.countryChanged$.subscribe((newCountry)=>{
@@ -41,25 +43,30 @@ export class AppComponent{
     })
   }
 
-  setCountry(country: Countries): void {
-    this.correctCountry = country;
-    this.generateAll(() => {
-      this._router.navigate(["overview/", country]);
-    } )
-  }
+setCountry(country: Countries): void {
+  this.correctCountry = country;
+  this.generateAll(() => {
+    this._router.navigate(["overview/", this.correctCountry])
+  });
+}
 
-  generateAll(callback : Function = () => {}) {
-    this.generateDishes((dishes: Dish[])=>{
-      localStorage.setItem("dishes", JSON.stringify(dishes))
-      localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
-    }),
+generateAll(callback : Function = () => {}) {
+  this.generateDishes((dishes: Dish[])=>{
+    localStorage.setItem("dishes", JSON.stringify(dishes))
+    localStorage.setItem("chosenDish", JSON.stringify(this.randomChoiceFromArray(dishes)))
     this.generateDrinks((drinks: Drink[]) =>{
       localStorage.setItem("drinks", JSON.stringify(drinks));
       localStorage.setItem("mainDrink", JSON.stringify(this.randomChoiceFromArray(drinks)));
-    }),
+      this.generateMovies((movies: Movie[])=>{
+        localStorage.setItem("movies", JSON.stringify(movies));
+        localStorage.setItem("chosenMovie",JSON.stringify(this.randomChoiceFromArray(movies)));
+        console.log(localStorage.getItem("chosenMovie"));
+        callback();
+      })
+    });
+  });
+}
 
-    callback();
-  }
 
   atLanding():boolean{
     return this.url==="/"
@@ -82,6 +89,10 @@ export class AppComponent{
   generateDrinks(callback:Function = () => {}) { 
     this.drinkService.generateDrinks(this.correctCountry, callback);
   }
+
+  generateMovies(callback:Function = ()=>{}){
+    this.movieService.generateMovies(this.correctCountry, callback);
+   }
 
   /*
   Returnerar ett objekt från den givna vektorn
