@@ -34,20 +34,27 @@ body {
 
 /*
 Styling för mat-cards
-*/
-
-.display-card {
     max-width: 400px;
     max-height: 450px;
     min-width: 400px;
     min-height: 450px;
-    box-sizing: border-box;
+*/
+
+.display-card {
+
+    max-width: 400px;
+    max-height: 450px;
+    min-width: 400px;
+    min-height: 450px;
+    padding:0px;
+    justify-content: center;
 
 }
 
 .display-card img {
     max-height: 350px;
     min-height: 350px;
+    max-width:300;
     object-fit: contain;
     /*align-items: center; */
 
@@ -57,6 +64,16 @@ Styling för mat-cards
     display: flex;
     justify-content: center;
     margin-top: 20px;
+    margin-bottom: 50px;
+}
+
+.div button {
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.mat-grid-tile .mat-figure {
+    align-items: unset;    
 }
 
 
