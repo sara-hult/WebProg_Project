@@ -1,9 +1,9 @@
 <div>
     <ul>
         <li *ngFor="let item of alternatives" style="display: inline-block;">
-            <div style="margin: 10px;">
+            <div class="alternative-div">
                 <DisplayDish [dish]="item"></DisplayDish>
-                <button mat-stroked-button style="margin-top: 25px;" (click)='switchChosenDish(item.id)'>Byt till alternativ</button>
+                <button mat-stroked-button style="margin-top: 25px;" (click)='switchChosenDish(item.id)'>Switch to alternative</button>
             </div>
 
         </li>

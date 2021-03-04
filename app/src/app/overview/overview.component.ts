@@ -49,17 +49,27 @@ export class OverviewComponent implements OnInit {
 
 
   constructor(private route: ActivatedRoute) {
-    this.countryDisplay = this.getCountryDisplayName(this.country)
+    this.countryDisplay = this.fetchCountry();
    }
 
   ngOnInit(): void {
     this.chosenDish = this.fetchChosenDish();
     this.mainDrink = this.fetchMainDrink();
     this.chosenMovie = this.fetchChosenMovie();
-    this.route.paramMap.subscribe((params: ParamMap) => {
-        this.setCountry(this.getCountryFromParams(params.get('country')));
-    });
   };
+
+  fetchCountry():string {
+    let country = localStorage.getItem("country");
+    if(country){
+      return this.getCountryDisplayName(country);
+    }else{
+      throw new Error("No country in localstorage!")
+    }
+  }
+
+  capitalizeFirstLetter(s:string) {
+    return s.charAt(0).toUpperCase() + s.slice(1);
+  }
 
   fetchChosenDish(): Dish{
     let dish: string|null = localStorage.getItem("chosenDish");
@@ -93,18 +103,20 @@ export class OverviewComponent implements OnInit {
     this.countryDisplay = this.getCountryDisplayName(country);
   }
 
-  getCountryDisplayName(country:Countries):string{
+  getCountryDisplayName(country:string):string{
     switch(country){
-      case Countries.USA:
+      case "american":
         return "USA";
-      case Countries.Italy:
-        return "Italien";
-      case Countries.Scotland:
-        return "Skottland";
+      case "italian":
+        return "Italy";
+      case "scottish":
+        return "Scotland";
+      default:
+        throw new Error("Could not find Displayname!")
     }
   }
 
-  getCountryFromParams(country: string | null): Countries {
+  /* getCountryFromParams(country: string | null): Countries {
     if(country !== null){
         switch(country.toLowerCase()){
           case "american":
@@ -120,6 +132,6 @@ export class OverviewComponent implements OnInit {
       }else{
         throw new Error('404 Ett land måste anges ex: american');
       }
-  }
+  } */
 
 }
