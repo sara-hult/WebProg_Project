@@ -1,0 +1,24 @@
+.image{
+    height: 350px;  
+    object-fit: contain;
+  }
+
+.mat-card{
+    height: 600px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.example-card {
+    max-width: 400px;
+    height: 600px;
+    /*max-height: 500px;
+    min-width: 100px;
+    min-height: 100px;*/
+    margin-bottom: 50px;
+    margin-top: 50px;
+    margin-left: 25px;
+    margin-right: 25px;
+    box-sizing: border-box;
+    
+}

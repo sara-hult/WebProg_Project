@@ -177,6 +177,25 @@ export class MoviesComponent implements OnInit {
   getRandomMovie() {
     this.randomiseMovie(this.movies);
   }
+
+  setMovie(): void {
+    localStorage.setItem("chosenMovie", JSON.stringify(this.chosenMovie));
+  }
+
+  switchSelectedMovie(id:string) {
+    this.chosenMovie = this.getMovieFromArray(id, this.chosenAlternatives);
+    this.setMovie();
+    //this.randomiseAlternatives(3);
+  }
+
+  getMovieFromArray(movieID: string, movies: Movie[]): Movie{
+    let movie: Movie;
+    movie = movies.filter((tempMovie) => tempMovie.imdbID === movieID)[0];
+    if(movie === undefined) {
+      throw new Error("Movie not found in array");
+    }
+    return movie;
+  }
 }
 
 // this.http.get('/api').subscribe(j => console.log(j));
