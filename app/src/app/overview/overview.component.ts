@@ -115,23 +115,4 @@ export class OverviewComponent implements OnInit {
         throw new Error("Could not find Displayname!")
     }
   }
-
-  /* getCountryFromParams(country: string | null): Countries {
-    if(country !== null){
-        switch(country.toLowerCase()){
-          case "american":
-            return Countries.USA;
-          case "italian":
-            return Countries.Italy;
-          case "scottish":
-            return Countries.Scotland;
-          default:
-            throw new Error('404 Country not implemented')
-
-        }
-      }else{
-        throw new Error('404 Ett land måste anges ex: american');
-      }
-  } */
-
 }
