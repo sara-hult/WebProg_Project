@@ -93,4 +93,10 @@ export class DrinksComponent implements OnInit {
   setDrink(): void {
     localStorage.setItem("mainDrink", JSON.stringify(this.mainDrink));
   }
+
+  switchMainDrink(name:string) {
+    this.mainDrink = this.getDrinkFromArray(name, this.dispDrinkAlt);
+    this.setDrink();
+    this.getRandomAlternativies(3);
+  }
 }
