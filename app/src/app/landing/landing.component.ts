@@ -22,6 +22,7 @@ export class LandingComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
   submitCountry(){
     this.chooseCountryService.changeCountry(this.getCountryFromName(this.chosenCountryString) || Countries.USA);
   }

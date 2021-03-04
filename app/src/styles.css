@@ -22,11 +22,15 @@ ul li {
     margin-right: 2em;
 }
 
-.dish-card {
+.display-card {
     max-width: 400px;
-    max-height: 400px;
+    max-height: 450px;
     min-width: 400px;
-    min-height: 400px;
+    min-height: 450px;
+}
+
+.router {
+  padding: 2%;
 }
 
 body {

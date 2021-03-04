@@ -64,10 +64,10 @@ import { DisplayDishModule } from './food/display-dish/display-dish.module';
 
     RouterModule.forRoot([
       {path: '', component: LandingComponent},
-      {path: 'overview/:country', component: OverviewComponent},
-      {path: 'food/:cuisine', component: FoodComponent},
-      {path: 'drinks/:country', component: DrinksComponent},
-      {path: 'movies/:country', component: MoviesComponent}
+      {path: 'overview', component: OverviewComponent},
+      {path: 'food', component: FoodComponent},
+      {path: 'drinks', component: DrinksComponent},
+      {path: 'movies', component: MoviesComponent}
     ]),
     BrowserAnimationsModule
   ],
