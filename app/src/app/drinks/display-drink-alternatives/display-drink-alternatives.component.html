@@ -3,7 +3,7 @@
         <mat-grid-tile *ngFor="let item of alternatives; " style="display: inline-block; align-items: unset;">      
             <div class="alternative-div">   
                 <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
-                <button mat-stroked-button  (click)='switchMainDrink(item.name)'>Switch to alternative</button>
+                <button mat-stroked-button  (click)='switchMainDrink(item.name)'>Select this drink</button>
             </div>
         </mat-grid-tile>
     </mat-grid-list>

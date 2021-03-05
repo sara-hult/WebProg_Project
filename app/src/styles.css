@@ -34,67 +34,34 @@ body {
 
 /*
 Styling för mat-cards
-    max-width: 400px;
-    max-height: 450px;
-    min-width: 400px;
-    min-height: 450px;
 */
 
-.display-card  {
-    max-width: 350px;
-    max-height: max-content;
-    min-width: 350px;
-    min-height: max-content;
-    justify-content: center;
-    margin: 10px;
+.display-card {
+    max-width: 380px;
+    height: 600px;
+    /*max-height: 500px;
+    min-width: 100px;
+    min-height: 100px;*/
+    margin-bottom: 25px;
+    margin-top: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+    box-sizing: border-box;
+
 }
 
 .display-card img {
-    display: flex;
     max-height: 350px;
     min-height: 350px;
-    max-width:300;
-    min-width: 300;
     object-fit: contain;
+    /*align-items: center; */
+
 }
 
 .alternative-div button {
     display: flex;
     justify-content: center;
     margin-top: 20px;
-    margin-bottom: 50px;
 }
-
-.mat-figure{
-    align-items: unset;
-    justify-content: center;
-}
-
-.div button {
-    margin-top: 10px;
-    margin-bottom: 20px;
-}
-
-.list-of-ingredient{
-    max-height: 90px;
-    min-height: 90px;
-    display: flex;
-}
-
-.title-styling{
-    max-height: 30px;
-    min-height: 30px;
-    padding-bottom: 7px;
-}
-
-.center-text{
-    align-content: center;
-}
-.text-inside-grid {
-    position: absolute;
-    left: 5px;
-  }
-
-
 
 

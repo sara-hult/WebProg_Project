@@ -3,14 +3,14 @@
     <h1>Your amazing night for {{countryDisplay}} will contain of:</h1>
 </div>
 
-<mat-grid-list cols="3" >
-    <mat-grid-tile>      
+<mat-grid-list cols="3" align="center">
+    <mat-grid-tile class="display-card">      
         <DisplayDish [dish] = "chosenDish" style="display: inline-block;"> </DisplayDish>        
     </mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile class="display-card">
         <DisplayDrinkComponent [drink] = "mainDrink" style="display: inline-block;"> </DisplayDrinkComponent>
     </mat-grid-tile>
-    <mat-grid-tile>
+    <mat-grid-tile class="display-card">
         <DisplaySelectedMovie [movie] = "chosenMovie" style="display: inline-block;"> </DisplaySelectedMovie>
     </mat-grid-tile>
 </mat-grid-list>

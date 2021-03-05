@@ -1,7 +1,7 @@
 <mat-card class="display-card">
     <mat-card-title  class="title-styling">{{drink.name}}</mat-card-title>
     <mat-card-content class="list-of-ingredient">
-        <mat-grid-list cols="2" rowHeight="20px" >
+        <mat-grid-list cols="2" rowHeight="32px" >
             <div class=”text-inside-grid” *ngFor="let ing of drink.ingredients; let i = index;">
                 <mat-grid-tile>
                     {{ drink.measurements[i] }} {{ ing }}
@@ -10,4 +10,7 @@
         </mat-grid-list>
     </mat-card-content>
     <img mat-card-image src={{drink.img_url}}>
+    <mat-card-footer>
+        <!---<p>{{drink.instruction}}</p>--->
+    </mat-card-footer>
 </mat-card>
