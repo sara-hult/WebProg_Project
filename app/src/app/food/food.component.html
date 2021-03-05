@@ -1,16 +1,18 @@
 <div>
-    <div>
+    <div align="center" class="alternative-div">
+        <h2>Here is your selected recipe of the evening: </h2>
+        <button mat-stroked-button (click)='randomizeDish()'>  Generate another random recipe </button>
         <DisplayDish [dish]="chosenDish"></DisplayDish>
     </div>
 
-   <!--- <div style="padding-top:20px"> -->
-    <div class="alternative-div">
-        <button mat-stroked-button (click)='randomizeDish()'> Randomise dish</button>
+    <div align="center">
+        <h2>...Or you might want to try one of these alternatives instead?</h2>
+        <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise alternatives </button>
     </div>
 
+    <div class="alternative-div" align="center">
+        <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
+    </div>
 </div>
-<div>
-    <h1>Alternatives:</h1>
-    <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise alternatives </button>
-    <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
-</div>
+
+

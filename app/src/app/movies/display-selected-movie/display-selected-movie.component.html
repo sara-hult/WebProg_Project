@@ -1,7 +1,7 @@
-<mat-card class="example-card">
-    <img class="image" mat-card-image src={{movie.Poster}} style="max-width: '300px';">
-    <mat-card-title style="margin-left: auto;margin-right: auto;">{{movie.Title}} ({{movie.Year}})</mat-card-title>
-    <mat-card-content>
+<mat-card class="display-card">
+    <img mat-card-image src={{movie.Poster}}>
+    <mat-card-title class="title-styling">{{movie.Title}} ({{movie.Year}})</mat-card-title>
+    <mat-card-content class="list-of-ingredient" >
         <p>Director: {{movie.Director}}</p>
         <p>Runtime: {{movie.Runtime}}</p>
         <p>IMDB-rating: {{movie.imdbRating}}/10</p>

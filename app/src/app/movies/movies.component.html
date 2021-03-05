@@ -1,16 +1,16 @@
 
 <div>
-    <div align="center">
+    <div align="center" class="alternative-div">
         <h2>Here is your selected movie of the evening: </h2>
         <button mat-stroked-button (click)='getRandomMovie()'> Generate another random movie </button>
         <DisplaySelectedMovie [movie]="chosenMovie" style="display: block;width: 50%;"></DisplaySelectedMovie>
     </div>
-    <br>
+    
     <div align="center">
         <h2>...Or you might want to try one of these alternatives instead?</h2>
         <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise new alternatives </button>
     </div>
-    <div align="center">
+    <div class="alternative-div" align="center">
         <DisplayMovieAlternatives [alternatives]="chosenAlternatives" (newMovieEvent)=switchSelectedMovie($event)></DisplayMovieAlternatives>
     </div>
 </div>
