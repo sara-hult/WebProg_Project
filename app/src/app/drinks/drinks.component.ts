@@ -9,7 +9,7 @@ import { Router, ActivatedRoute, ParamMap } from '@angular/router';
 
 })
 export class DrinksComponent implements OnInit {
- // @Input() inputDrinks!: Drink[];
+ @Input() drink!: Drink;
 
   unspecifiedDrink: Drink = {
     name: "",
