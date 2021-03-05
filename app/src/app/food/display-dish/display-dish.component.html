@@ -1,6 +1,6 @@
 <mat-card class="display-card">
-    <mat-card-title>{{dish.title}}</mat-card-title>
-    <mat-card-content>
+    <mat-card-title class="title-styling">{{dish.title}}</mat-card-title>
+    <mat-card-content class="list-of-ingredient" >
         <p>Rating: {{dish.spoonacularScore}}/100</p>
         <p>Time: {{dish.readyInMinutes}} minutes</p>
         <a mat-stroked-button href={{dish.sourceUrl}} target=" '_blank' ">View recipe</a>

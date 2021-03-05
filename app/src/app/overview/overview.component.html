@@ -1,5 +1,22 @@
-<p>Suggestions for {{countryDisplay}}</p>
 
-<DisplayDish [dish] = "chosenDish" style="display: inline-block;"> </DisplayDish>
-<DisplayDrinkComponent [drink] = "mainDrink" style="display: inline-block;"> </DisplayDrinkComponent>
-<DisplaySelectedMovie [movie] = "chosenMovie" style="display: inline-block;"> </DisplaySelectedMovie>
+<div align="center" style="padding-bottom: 30px;">
+    <h1>Your amazing night for {{countryDisplay}} will contain of:</h1>
+</div>
+
+<mat-grid-list cols="3" >
+    <mat-grid-tile>      
+        <DisplayDish [dish] = "chosenDish" style="display: inline-block;"> </DisplayDish>        
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <DisplayDrinkComponent [drink] = "mainDrink" style="display: inline-block;"> </DisplayDrinkComponent>
+    </mat-grid-tile>
+    <mat-grid-tile>
+        <DisplaySelectedMovie [movie] = "chosenMovie" style="display: inline-block;"> </DisplaySelectedMovie>
+    </mat-grid-tile>
+</mat-grid-list>
+
+<div align="center" style="padding-top: 30px;">
+    <h1>Enjoy!</h1>
+</div>
+
+    
