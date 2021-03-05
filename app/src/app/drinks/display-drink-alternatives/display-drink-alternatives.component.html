@@ -1,5 +1,19 @@
 <div>
-    <ul>
+    <mat-grid-list cols="3" >
+        <mat-grid-tile *ngFor="let item of alternatives; " style="display: inline-block; align-items: unset;">      
+            <div class="alternative-div">   
+                <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
+                <button mat-stroked-button  (click)='switchMainDrink(item.name)'>Switch to alternative</button>
+            </div>
+        </mat-grid-tile>
+    </mat-grid-list>
+</div>
+
+
+
+<!--
+
+<ul>
         <li *ngFor="let item of alternatives; " style="display: inline-block; align-items: unset;">
             <div class="alternative-div">   
                 <DisplayDrinkComponent [drink]="item"></DisplayDrinkComponent>
@@ -7,12 +21,9 @@
             </div>
         </li>
     </ul>
-    
-</div>
 
 
 
-<!--
 style="margin-top: 25px;"
 <mat-grid-list cols="3">
         <mat-grid-tile *ngFor="let item of alternatives; " style="display: inline-block; align-items: unset;">      

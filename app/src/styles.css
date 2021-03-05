@@ -45,8 +45,8 @@ Styling för mat-cards
     max-height: max-content;
     min-width: 300px;
     min-height: max-content;
-    padding: 0px;
     justify-content: center;
+    margin: 10px;
 
 }
 
