@@ -1,13 +1,17 @@
 <div>
-    <p>Drink Component</p>
-    <div align="center">
-        <p>Kvällens Dryckförslag: </p>
-        <button mat-stroked-button (click)='randomizeDrink()'> Slumpa om dryck </button>
+    <div>
         <DisplayDrinkComponent [drink]="mainDrink"></DisplayDrinkComponent>
     </div>
-    <div>
-        <p>Alternativ</p>
-        <button mat-stroked-button (click)='getRandomAlternativies(3)'> Slumpa nya alternativ </button>
-        <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt" (newDrinkEvent)=switchMainDrink($event)></DisplayDrinkAlternatives>
+
+    <div class="alternative-div"> 
+        <button mat-stroked-button (click)='randomizeDrink()'> Randomise </button>
     </div>
+
 </div>
+<div>
+    <h1>Alternativ</h1>
+    <button mat-stroked-button (click)='getRandomAlternativies(3)'> Randomise alternatives </button>
+    <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt" (newDrinkEvent)=switchMainDrink($event)></DisplayDrinkAlternatives>
+</div>
+
+<!--       <div align="center">   -->

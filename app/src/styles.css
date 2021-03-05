@@ -22,12 +22,6 @@ ul li {
     margin-right: 2em;
 }
 
-.display-card {
-    max-width: 400px;
-    max-height: 450px;
-    min-width: 400px;
-    min-height: 450px;
-}
 
 .router {
   padding: 2%;
@@ -37,3 +31,32 @@ body {
     margin: 0;
     font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+/*
+Styling för mat-cards
+*/
+
+.display-card {
+    max-width: 400px;
+    max-height: 450px;
+    min-width: 400px;
+    min-height: 450px;
+    box-sizing: border-box;
+
+}
+
+.display-card img {
+    max-height: 350px;
+    min-height: 350px;
+    object-fit: contain;
+    /*align-items: center; */
+
+}
+
+.alternative-div button {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+
