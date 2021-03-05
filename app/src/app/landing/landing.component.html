@@ -1,7 +1,7 @@
 <div align="center">
     <p>Choose a country:</p>
     <mat-form-field appearance="fill">
-        <mat-label>Land</mat-label>
+        <mat-label>Country</mat-label>
         <mat-select [(ngModel)]="chosenCountryString" name="country">
             <mat-option *ngFor="let country of availableCountries" [value]="country">
                 {{country}}
