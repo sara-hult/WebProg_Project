@@ -1,5 +1,5 @@
 <div>
-    <div>
+    <div align="center">
         <DisplayDrinkComponent [drink]="mainDrink"></DisplayDrinkComponent>
     </div>
 
@@ -8,7 +8,7 @@
     </div>
 
 </div>
-<div class="alternative-div">
+<div class="alternative-div" >
     <h1>Alternativ</h1>
     <button mat-stroked-button (click)='getRandomAlternativies(3)'> Randomise alternatives </button>
     <DisplayDrinkAlternatives [alternatives]="dispDrinkAlt" (newDrinkEvent)=switchMainDrink($event)></DisplayDrinkAlternatives>

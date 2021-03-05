@@ -1,4 +1,4 @@
-<mat-card class="display-card">
+<!--<mat-card class="display-card">
     <mat-card-title>{{drink.name}}</mat-card-title>
     <mat-card-content >
         <mat-grid-list cols="2" rowHeight="20px" >
@@ -10,4 +10,18 @@
         </mat-grid-list>
     </mat-card-content>
     <img mat-card-image src={{drink.img_url}}>
+</mat-card>-->
+
+<mat-card class="isak-card">
+    <mat-card-title style="text-align: center;">{{drink.name}}</mat-card-title>
+    <mat-card-content>
+        <mat-grid-list cols="2" rowHeight="25px">
+            <div *ngFor="let ing of drink.ingredients; let i = index;">
+                <mat-grid-tile style="text-align:left">
+                    {{ drink.measurements[i] }} {{ ing }}
+                </mat-grid-tile> 
+            </div>
+        </mat-grid-list>
+    </mat-card-content>
+    <img mat-card-image style="align-content: center;" src={{drink.img_url}}>
 </mat-card>

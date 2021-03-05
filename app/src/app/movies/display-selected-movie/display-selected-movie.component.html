@@ -1,4 +1,5 @@
-<mat-card class="example-card">
+<!--
+    <mat-card class="example-card">
     <img class="image" mat-card-image src={{movie.Poster}} style="max-width: '300px';">
     <mat-card-title style="margin-left: auto;margin-right: auto;">{{movie.Title}} ({{movie.Year}})</mat-card-title>
     <mat-card-content>
@@ -6,5 +7,27 @@
         <p>Runtime: {{movie.Runtime}}</p>
         <p>IMDB-rating: {{movie.imdbRating}}/10</p>
         <p><em>"{{movie.Plot}}"</em></p>
+    </mat-card-content>
+</mat-card>
+-->
+
+<mat-card class="isak-card" style="min-height: 600px;">
+    <img mat-card-image src={{movie.Poster}} style="max-width: '300px';">
+    <mat-card-title style="text-align: center;">{{movie.Title}} ({{movie.Year}})</mat-card-title>
+    <mat-card-content>
+        <mat-grid-list cols="1"rowHeight="25px" overflow="visible" >
+                <mat-grid-tile style="text-align:left">
+                    Director: {{movie.Director}}
+                </mat-grid-tile> 
+                <mat-grid-tile style="text-align:left">
+                    Runtime: {{movie.Runtime}}
+                </mat-grid-tile> 
+                <mat-grid-tile>
+                    IMDB-rating: {{movie.imdbRating}}/10
+                </mat-grid-tile>
+        </mat-grid-list>
+        <p>
+            <em>"{{movie.Plot}}</em>
+        </p>
     </mat-card-content>
 </mat-card>

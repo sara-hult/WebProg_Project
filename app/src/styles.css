@@ -40,24 +40,17 @@ Styling för mat-cards
     min-height: 450px;
 */
 
-.display-card  {
-    max-width: 300px;
-    max-height: max-content;
-    min-width: 300px;
-    min-height: max-content;
-    justify-content: center;
-    margin: 10px;
-
+.isak-card  {
+    min-width: 400px;
+    max-width: 400px;
+    min-height: 460px;
+    max-height: 520px;
 }
 
-.display-card img {
-    display: flex;
+.isak-card img {
+    max-width: 350px;
     max-height: 350px;
-    min-height: 350px;
-    max-width:300;
-    object-fit: contain;
-    /*align-items: center; */
-
+    
 }
 
 .alternative-div button {
@@ -70,6 +63,7 @@ Styling för mat-cards
 .mat-figure{
     align-items: unset;
     justify-content: center;
+    height: auto;
 }
 
 .div button {
