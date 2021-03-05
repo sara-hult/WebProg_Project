@@ -10,7 +10,7 @@
         <button mat-stroked-button (click)='randomiseAlternatives(3)'> Randomise alternatives </button>
     </div>
 
-    <div class="alternative-div">
+    <div class="alternative-div" align="center">
         <DisplayAlternatives [alternatives]="chosenAlternatives" (switchDishEvent)='switchToAlternative($event)'></DisplayAlternatives>
     </div>
 </div>
