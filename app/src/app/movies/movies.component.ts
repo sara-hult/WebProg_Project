@@ -47,27 +47,6 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit(): void{
-    /*this.route.paramMap.subscribe((params: ParamMap) => {
-      this.country = this.getCountry(params.get('country'));
-      this.generateMovies(this.country, ()=>{
-        if(this.changedCountry){
-          this.randomiseMovie(this.movies);
-        } else {
-          this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
-        }
-        this.randomiseAlternatives(3);
-      });
-    });*/
-    /*this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
-    this.movies = JSON.parse(localStorage.getItem("movie")!);
-    this.route.paramMap.subscribe((params: ParamMap) => {
-      this.country = this.getCountry(params.get('country'));
-      this.generateMovies(this.country, ()=>{
-        this.randomiseAlternatives(3);
-      });
-    });
-    console.log("movies i init")
-    console.log(this.movies)*/
     this.chosenMovie = JSON.parse(localStorage.getItem("chosenMovie")!);
     this.movies = JSON.parse(localStorage.getItem("movies")!);
     this.randomiseAlternatives(3);
